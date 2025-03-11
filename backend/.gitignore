@@ -1,0 +1,94 @@
+# Python bilan bog‘liq fayllar
+__pycache__/
+*.py[cod]
+*.so
+*.log
+*.sqlite3
+*.db
+*.pyo
+.Python
+
+# Virtual environment
+venv/
+.env
+.venv
+.envrc
+.pdm.toml
+.pdm.lock
+
+# Poetry
+poetry.lock
+
+# Pip cache
+pip-wheel-metadata/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# MyPy va Type Checking
+.mypy_cache/
+.dmypy.json
+pyrightconfig.json
+
+# VS Code sozlamalari
+.vscode/
+*.code-workspace
+
+# IDE (PyCharm, JetBrains, dll.)
+.idea/
+*.iml
+*.swp
+*.swo
+*.sublime-*
+
+# Log va kesh fayllari
+*.log
+logs/
+debug.log
+nohup.out
+*.pid
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+**/docker_volumes/
+
+# Alembic migratsiya cache
+alembic/versions/*.pyc
+alembic/versions/*.pyo
+alembic/versions/*.pyd
+
+# FastAPI static/media files
+staticfiles/
+media/
+
+# Gunicorn va PM2 loglari
+gunicorn.log
+gunicorn.error.log
+pm2.log
+
+# Build natijalari
+dist/
+build/
+site/
+.coverage
+.coverage.*
+htmlcov/
+
+# Pytest cache
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+
+# Celery task va cache
+celerybeat-schedule
+celerybeat.pid
+
+# Jupyter va ipynb fayllari
+.ipynb_checkpoints/
+
+# Secrets va API kalitlari
+config.yaml
+config.json
+secrets.json
+secrets.yaml
