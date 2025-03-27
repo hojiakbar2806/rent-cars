@@ -1,4 +1,4 @@
-import RentCars from "@/components/shared/cars/CarsSection";
+import CarsSection from "@/components/shared/carCard/CarsSection";
 import { CarItem } from "@/types/cars";
 import { FC } from "react";
 
@@ -9,7 +9,7 @@ type Props = {
 const PopularCars: FC<Props> = async ({ data }) => {
   return (
     <div className="w-full flex flex-col">
-      <RentCars title="Populars" data={data} scrollable viewLink="/cars" />
+      <CarsSection title="Populars" data={data} scrollable viewLink="/cars" />
     </div>
   );
 };

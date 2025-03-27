@@ -41,7 +41,6 @@ export function TimePicker() {
         </PopoverContent>
       </Popover>
 
-      {/* Time Picker */}
       <Input
         type="time"
         value={time}

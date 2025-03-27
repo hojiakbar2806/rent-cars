@@ -1,13 +1,19 @@
+export interface CarType {
+  id: number;
+  name: string;
+  description: string;
+}
+
 export interface CarItem {
   id: number;
   name: string;
   images: string[];
-  image: string;
+  fuel_capacity: number;
+  car_type: CarType;
   description: string;
-  gas_capacity: number;
-  drive_mode: string;
-  person_capacity: number;
-  price: number;
-  discount: number;
-  car_type_id: number;
+  price_per_day: number;
+  original_price: number;
+  fuel_type: string;
+  transmission: string;
+  capacity: number;
 }

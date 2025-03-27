@@ -1,15 +1,24 @@
-import { FC } from "react";
-import { fetchCars } from "@/app/actions/product";
-import { CarItem } from "@/types/cars";
-import RentCars from "@/components/shared/cars/CarsSection";
+import { FC, use } from "react";
+import RentCars from "@/components/shared/carCard/CarsSection";
+import getCarsWithFilters from "@/app/actions/cars/getCarsWithParams";
 
 type Props = {
   params: Record<string, string>;
+  full?: boolean;
 };
 
-const CarsList: FC<Props> = async ({ params }) => {
-  const data: CarItem[] = await fetchCars(params.toString());
-  return <RentCars data={data} showMore />;
+const CarsList: FC<Props> = ({ params }) => {
+  const searchParams = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach((v) => searchParams.append(key, v));
+    } else {
+      searchParams.append(key, value);
+    }
+  });
+  const data = use(getCarsWithFilters(searchParams.toString()));
+  return <RentCars data={data} showMore full/>;
 };
 
 export default CarsList;
