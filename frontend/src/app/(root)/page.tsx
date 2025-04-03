@@ -17,8 +17,8 @@ const HomePage: FC = async () => {
   return (
     <div className="bg-gray-100 p-8 flex flex-col gap-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <HeroCard image={recommends[randomRecommendIndex].images[0]} />
-        <HeroCard image={populars[randomPopularIndex].images[0]} />
+        <HeroCard image={recommends[randomRecommendIndex]?.images[0]} />
+        <HeroCard image={populars[randomPopularIndex]?.images[0]} />
       </div>
       <TransferSelectorBar />
       <CarsSection
