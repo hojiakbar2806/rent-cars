@@ -26,7 +26,7 @@ const RootLayout: FC<Props> = async ({ children }) => {
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Car Rental</title>
+        <title>Avtomobil ijarasi</title>
       </head>
       <body>
         <SessionProvider session={session}>

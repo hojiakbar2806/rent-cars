@@ -31,7 +31,7 @@ export function UserDropdown({ session }: UserDropdownProps) {
           useSessionStore.getState().setSession(null);
         } else toast.error(res.msg);
       }),
-      { loading: "Logging out..." }
+      { loading: "Siz tizimdan chiqmoqdasiz..." }
     );
   };
 
@@ -61,11 +61,11 @@ export function UserDropdown({ session }: UserDropdownProps) {
               className="cursor-pointer"
             >
               <UserCircle className="size-4 md:size-5" />
-              <span className="text-sm md:text-lg">Profile</span>
+              <span className="text-sm md:text-lg">Shaxsiy kabinet</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
               <LogOut className="size-4 md:size-5" />
-              <span className="text-sm md:text-lg">Logout</span>
+              <span className="text-sm md:text-lg">Tizimdan chiqish</span>
             </DropdownMenuItem>
           </>
         ) : (
@@ -75,14 +75,14 @@ export function UserDropdown({ session }: UserDropdownProps) {
               onClick={() => handleNavigate("/login")}
             >
               <LogIn className="size-4 md:size-5" />
-              <span className="text-sm md:text-lg">Login</span>
+              <span className="text-sm md:text-lg">Tizimga kirish</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => handleNavigate("/register")}
               className="cursor-pointer"
             >
               <UserPlus className="size-4 md:size-5" />
-              <span className="text-sm md:text-lg"> Register</span>
+              <span className="text-sm md:text-lg"> Ro'yxatdan o'tish</span>
             </DropdownMenuItem>
           </>
         )}

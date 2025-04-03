@@ -15,7 +15,7 @@ export function DatePicker() {
     <Popover>
       <PopoverTrigger asChild>
         <button className="flex items-center justify-between text-md text-gray-500 py-2">
-          {date ? format(date, "dd MMMM yyyy") : "Select date"}
+          {date ? format(date, "dd MMMM yyyy") : "Sana tanlang"}
           <ChevronDown className="ml-2 h-4 w-4" />
         </button>
       </PopoverTrigger>

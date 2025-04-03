@@ -72,15 +72,15 @@ const CarsCard: FC<Props> = ({ scrollable = false, car }) => {
       <div className="flex justify-between items-center">
         <div>
           <p>
-            <span className="text-lg font-semibold">${car.price_per_day}/</span>
+            <span className="text-lg font-semibold">{car.price_per_day} ming/</span>
             <span className="text-slate-400 text-sm">kun</span>
           </p>
           <p className="text-slate-400 font-semibold text-xs">
-            ${car.original_price}
+            {car.original_price} ming
           </p>
         </div>
         <Button asChild onClick={(e) => e.stopPropagation()}>
-          <Link href={`/rent/${car.id}`}>Rent Now</Link>
+          <Link href={`/rent/${car.id}`}>Band qilish</Link>
         </Button>
       </div>
     </div>

@@ -41,7 +41,7 @@ const PaymentMethodSection: FC = () => {
 
       <div className="mb-4">
         <PaymentOption
-          name="Credit Card"
+          name="Plastik karta"
           selected={selectedMethod === "creditCard"}
           onClick={() => onMethodChange("creditCard")}
           logo={
@@ -64,17 +64,17 @@ const PaymentMethodSection: FC = () => {
         {selectedMethod === "creditCard" && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <InputField
-              label="Card Number"
+              label="Plastik karta raqami"
               defaultValue={cardData?.cardNumber || ""}
               onChange={handleCardDataChange("cardNumber")}
             />
             <InputField
-              label="Expiration Date"
+              label="Muddati"
               defaultValue={cardData?.expirationDate || ""}
               onChange={handleCardDataChange("expirationDate")}
             />
             <InputField
-              label="Cardholder"
+              label="Karta sahibi"
               defaultValue={cardData?.cardHolder || ""}
               onChange={handleCardDataChange("cardHolder")}
             />

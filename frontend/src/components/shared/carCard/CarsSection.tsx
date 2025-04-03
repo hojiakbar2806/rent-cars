@@ -25,7 +25,7 @@ const CarsSection: FC<Props> = (props) => {
               href={props.viewLink}
               className="text-blue-500 hover:underline"
             >
-              View all
+              Hammasini ko'rish
             </Link>
           )}
         </div>
@@ -41,7 +41,7 @@ const CarsSection: FC<Props> = (props) => {
       </RentCardWrapper>
       {props.showMore && props.data.length > 0 && (
         <Button className="mt-5">
-          <Link href={"props.viewLink"}>Show more car</Link>
+          <Link href={"props.viewLink"}>Ko'proq mashinalar</Link>
         </Button>
       )}
     </div>

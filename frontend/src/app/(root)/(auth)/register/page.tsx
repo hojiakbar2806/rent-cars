@@ -40,7 +40,7 @@ export default function SignUp() {
           toast.error(res.msg);
         }
       }),
-      { loading: "Signing up..." }
+      { loading: "Aniqlanmoqda..." }
     );
   };
 
@@ -50,42 +50,44 @@ export default function SignUp() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
       >
-        <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Ro'yxatdan o'tish
+        </h2>
 
         <FormInput
-          label="Email"
+          label="E-pochta"
           register={registerForm("email")}
           error={errors.email?.message}
-          placeholder="Email"
+          placeholder="E-pochta"
         />
 
         <FormInput
-          label="First Nmame"
+          label="Ismingiz"
           register={registerForm("first_name")}
           error={errors.first_name?.message}
-          placeholder="First Nmame"
+          placeholder="Ismingiz"
         />
 
         <FormInput
-          label="Last Nmame"
+          label="Familyangiz"
           register={registerForm("last_name")}
           error={errors.last_name?.message}
-          placeholder="Last Name"
+          placeholder="Familyangiz"
         />
 
         <FormInput
-          label="Password"
+          label="Maxfiy parol"
           register={registerForm("password")}
           error={errors.password?.message}
-          placeholder="Password"
+          placeholder="Maxfiy parol"
           type="password"
         />
         <SubmitButton isLoading={isSubmitting} label="Sign Up" />
 
         <p className="flex gap-2">
-          Already have an account?
+          Sizda allaqachon hisobingiz mavjudmi?
           <Link className="text-blue-500" href="/login">
-            Sign In
+            Kirish
           </Link>
         </p>
       </form>

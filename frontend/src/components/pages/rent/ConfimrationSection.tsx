@@ -32,18 +32,19 @@ const ConfirmationSection: React.FC<ConfirmationSectionProps> = ({
         checked={data?.marketingConsent}
         onChange={handleChange("marketingConsent")}
       >
-        I agree with sending marketing and newsletter emails. No spam, promised!
+        Men marketing va axborot byulletenlarini yuborishga roziman. Spam yo'q,
+        va'da qilingan!
       </CheckboxField>
       <div className="mb-6">
         <CheckboxField
           checked={data?.termsConsent}
           onChange={handleChange("termsConsent")}
         >
-          I agree with our terms and conditions and privacy policy.
+          Men shartlarimiz va maxfiylik siyosatimizga roziman.
         </CheckboxField>
       </div>
       <Button className="w-full md:w-auto" onClick={onSubmit}>
-        Rent Now
+        Band qilish
       </Button>
       <div className="flex items-center mt-4 text-sm text-gray-500">
         <svg
@@ -58,7 +59,7 @@ const ConfirmationSection: React.FC<ConfirmationSectionProps> = ({
             clipRule="evenodd"
           />
         </svg>
-        All your data is safe
+        Barcha ma'lumotlaringiz xavfsiz
       </div>
     </Card>
   );

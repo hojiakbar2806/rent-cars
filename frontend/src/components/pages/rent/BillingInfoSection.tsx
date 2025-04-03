@@ -27,25 +27,25 @@ const BillingInfoSection: React.FC<BillingInfoSectionProps> = ({
 
   return (
     <Card>
-      <SectionHeader title="Billing Info" step="1" />
+      <SectionHeader title="Hisob-kitob ma'lumotlari" step="1" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <InputField
-          label="Name"
+          label="Ism"
           defaultValue={data?.name || ""}
           onChange={handleChange("name")}
         />
         <InputField
-          label="Phone/Mobile"
+          label="Telefon raqam"
           defaultValue={data?.phone || ""}
           onChange={handleChange("phone")}
         />
         <InputField
-          label="Address"
+          label="Manzil"
           defaultValue={data?.address || ""}
           onChange={handleChange("address")}
         />
         <InputField
-          label="Town/City"
+          label="Shahar"
           defaultValue={data?.city || ""}
           onChange={handleChange("city")}
         />

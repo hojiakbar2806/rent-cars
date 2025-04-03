@@ -24,7 +24,10 @@ const FilterRange: FC<FilterRangeProps> = ({ min = 0, max = 100 }) => {
   const debouncedRange = useDebounce(current, 300);
 
   useEffect(() => {
-    if (debouncedRange.join("-") !== priceRange) {
+    if (
+      debouncedRange.join("-") !== priceRange &&
+      (min !== debouncedRange[0] || max !== debouncedRange[1])
+    ) {
       NProgress.start();
       startTransition(() => setPriceRange(debouncedRange.join("-")));
     }
@@ -39,8 +42,8 @@ const FilterRange: FC<FilterRangeProps> = ({ min = 0, max = 100 }) => {
       <label className="w-full">
         <Slider
           step={1}
-          max={max}
-          min={min}
+          max={max + 1}
+          min={min-1}
           value={current}
           disabled={isPending}
           onValueChange={(values) => setCurrent([values[0], values[1]])}

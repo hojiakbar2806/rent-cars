@@ -4,7 +4,7 @@ import React from "react";
 const SelectDate = () => {
   return (
     <label htmlFor="">
-      <span className="text-xl font-semibold">Date</span>
+      <span className="text-xl font-semibold">Sana</span>
       <DatePicker />
     </label>
   );

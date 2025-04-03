@@ -18,7 +18,6 @@ const FilterbarDrawer = () => {
   const { data } = useQuery({
     queryKey: ["carFilters"],
     queryFn: getCarFilters,
-    enabled: filterbarDrawer,
   });
   return (
     <Sheet

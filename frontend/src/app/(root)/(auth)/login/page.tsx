@@ -29,7 +29,7 @@ export default function SignIn() {
 
   const onSubmit = async (data: LoginFormData) => {
     await toast.promise(login(data), {
-      loading: "Signing in...",
+      loading: "Aniqlanmoqda...",
       success: (res) => res.message,
       error: (error) => error.message,
     });
@@ -44,29 +44,29 @@ export default function SignIn() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
       >
-        <h2 className="text-2xl font-bold mb-4 text-center">Sign In</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Tizimga kirish</h2>
 
         <FormInput
           defaultValue="hojiakbarni0628@icloud.com"
-          label="Email"
+          label="E-pochta"
           register={registerForm("email")}
           error={errors.email?.message}
-          placeholder="Email"
+          placeholder="E-pochta"
         />
 
         <FormInput
-          label="Password"
+          label="Maxfiy parol"
           defaultValue="qwerty"
           register={registerForm("password")}
           error={errors.password?.message}
-          placeholder="Password"
+          placeholder="Maxfiy parol"
           type="password"
         />
-        <SubmitButton isLoading={isSubmitting} label="Sign In" />
+        <SubmitButton isLoading={isSubmitting} label="Tizimga kirish" />
         <p className="flex gap-2">
-          Don&apos;t have an account?
+          Sizda hali hisobingiz yo'qmi?
           <Link className="text-blue-500" href="/register">
-            Sign Up
+            Ro'yxatdan o'tish
           </Link>
         </p>
       </form>

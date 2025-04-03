@@ -34,7 +34,7 @@ const SearchInput = () => {
         </i>
         <input
           id="search"
-          placeholder="Search"
+          placeholder="Qidiruv..."
           defaultValue={search}
           className="flex-1 outline-none bg-none"
           onChange={(e: ChangeEvent<HTMLInputElement>) =>

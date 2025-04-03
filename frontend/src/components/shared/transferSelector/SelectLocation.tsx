@@ -13,20 +13,20 @@ import {
 export function SelectLocation() {
   return (
     <div>
-      <span className="text-lg font-semibold">Locations</span>
+      <span className="text-lg font-semibold">Manzillar</span>
 
       <Select>
         <SelectTrigger className="text-md text-gray-500 p-0 m-0 border-none shadow-none">
-          <SelectValue placeholder="Select a fruit" />
+          <SelectValue placeholder="Manzil tanlang" className="ring-0"/>
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Fruits</SelectLabel>
-            <SelectItem value="apple">Apple</SelectItem>
-            <SelectItem value="banana">Banana</SelectItem>
-            <SelectItem value="blueberry">Blueberry</SelectItem>
-            <SelectItem value="grapes">Grapes</SelectItem>
-            <SelectItem value="pineapple">Pineapple</SelectItem>
+            <SelectLabel>Manzillar</SelectLabel>
+            <SelectItem value="apple">Toshkent</SelectItem>
+            <SelectItem value="banana">Samarqand</SelectItem>
+            <SelectItem value="blueberry">Andijon</SelectItem>
+            <SelectItem value="grapes">Sirdaryo</SelectItem>
+            <SelectItem value="pineapple">Namangan</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

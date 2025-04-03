@@ -15,22 +15,22 @@ const NotificationDrawer = () => {
   const notifications = [
     {
       id: 1,
-      title: "Push Notifications",
-      description: "Allow notifications",
+      title: "Yangi xabar",
+      description: "Salom",
       enabled: true,
       receivedDate: new Date(),
     },
     {
       id: 2,
-      title: "Email Notifications",
-      description: "Allow notifications",
+      title: "Yangi xabar",
+      description: "Salom",
       enabled: true,
       receivedDate: new Date(),
     },
     {
       id: 3,
-      title: "Push Notifications",
-      description: "Allow notifications",
+      title: "Yangi xabar",
+      description: "Salom",
       enabled: true,
       receivedDate: new Date(),
     },

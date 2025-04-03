@@ -39,7 +39,7 @@ const SpecialInfoSection: React.FC<SpecialInfoSectionProps> = ({
           onChange={handleChange("idType")}
         />
         <InputField
-          label="ID #"
+          label="ID"
           defaultValue={data?.idNumber || ""}
           onChange={handleChange("idNumber")}
         />
@@ -48,10 +48,12 @@ const SpecialInfoSection: React.FC<SpecialInfoSectionProps> = ({
       <div className="mb-2 text-sm text-gray-600">Time</div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <InputField
+          label="ID"
           defaultValue={data?.startTime || ""}
           onChange={handleChange("startTime")}
         />
         <InputField
+          label="ID"
           defaultValue={data?.endTime || ""}
           onChange={handleChange("endTime")}
         />
@@ -60,10 +62,12 @@ const SpecialInfoSection: React.FC<SpecialInfoSectionProps> = ({
       <div className="mb-2 text-sm text-gray-600">Time</div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <InputField
+          label="ID"
           defaultValue={data?.pickupTime || ""}
           onChange={handleChange("pickupTime")}
         />
         <InputField
+          label="ID"
           defaultValue={data?.returnTime || ""}
           onChange={handleChange("returnTime")}
         />
