@@ -31,7 +31,7 @@ const FilterRange: FC<FilterRangeProps> = ({ min = 0, max = 100 }) => {
       NProgress.start();
       startTransition(() => setPriceRange(debouncedRange.join("-")));
     }
-  }, [debouncedRange]);
+  }, [debouncedRange, priceRange]);
 
   return (
     <div className="w-full flex flex-col gap-2 text-lg">
@@ -43,7 +43,7 @@ const FilterRange: FC<FilterRangeProps> = ({ min = 0, max = 100 }) => {
         <Slider
           step={1}
           max={max + 1}
-          min={min-1}
+          min={min - 1}
           value={current}
           disabled={isPending}
           onValueChange={(values) => setCurrent([values[0], values[1]])}
