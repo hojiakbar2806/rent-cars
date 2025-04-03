@@ -1,18 +1,16 @@
 from pathlib import Path
+from typing import List
 
 from pydantic_settings import BaseSettings
 from pydantic import Field, SecretStr
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 class Settings(BaseSettings):
     app_name: str
-    app_env: str = Field('development')
-    app_debug: bool = Field(False)
-    app_host: str = Field('127.0.0.1')
-    app_port: int = Field(8000)
+    app_env: str
+    app_debug: bool
+    app_host: str
+    app_port: int
 
     # Database settings
     db_user: str = Field(alias='POSTGRES_USER')
@@ -28,8 +26,8 @@ class Settings(BaseSettings):
     # JWT settings
     jwt_secret_key: SecretStr
     jwt_algorithm: str
-    jwt_access_token_expire_minutes: int = Field(30)
-    jwt_refresh_token_expire_minutes: int = Field((60 * 24 * 2))
+    jwt_access_token_expire_minutes: int
+    jwt_refresh_token_expire_minutes: int
     jwt_public_key_path: Path
     jwt_private_key_path: Path
 
@@ -42,6 +40,9 @@ class Settings(BaseSettings):
 
     facebook_client_id: str
     facebook_client_secret: str
+
+    allowed_file_extensions: set = {"jpg", "jpeg", "png", "webp", "tiff"}
+    file_uploads_path: str = "uploads"
 
     class Config:
         env_file = ".env"

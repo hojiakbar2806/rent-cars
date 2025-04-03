@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Depends
 from fastapi.security import HTTPBearer
+from fastapi.staticfiles import StaticFiles
 
 from app.middleware import register_middleware
 from app.api.v1 import v1_router
@@ -12,10 +13,12 @@ def create_app() -> FastAPI:
         dependencies=[Depends(auth_scheme)],
         title="FastAPI",
         version="1.0.0",
-        description="API with custom error format", )
+        description="API with custom error format",
+    )
 
     register_middleware(app)
 
     app.include_router(v1_router)
+    app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
     return app

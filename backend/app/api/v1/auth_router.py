@@ -1,3 +1,4 @@
+from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -6,9 +7,9 @@ from app.core.permissions import IsAuthenticated, IsAdminUser
 from app.core.database import get_async_session
 from app.services.auth_service import AuthService
 from app.repositories.user_repository import UserRepository
-from app.schemas.auth import RegisterUser, LoginUser, TokenResponse
+from app.schemas.auth import RegisterUser, LoginUser, TokenResponse, UserResponse
 
-router = APIRouter()
+router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
 def get_auth_service(session: AsyncSession = Depends(get_async_session)):
@@ -25,14 +26,14 @@ async def login_user(user: LoginUser, auth_service: AuthService = Depends(get_au
     return await auth_service.login(user)
 
 
-@router.get("/me")
+@router.get("/session", response_model=UserResponse)
 @permission_classes(IsAuthenticated)
 async def get_auth_user(request: Request):
-    user_agent = request.headers.get("User-Agent")
-    forwarded_for = request.headers.get("X-Forwarded-For")
+    current_user = getattr(request.state, "user", None)
+    return current_user
 
-    return {
-        "user_agent": user_agent,
-        "user": request.state.user,
-        "forwarded_for": forwarded_for
-    }
+
+@router.get("/refresh_token")
+async def refresh_token(request: Request, auth_service: AuthService = Depends(get_auth_service)):
+    refresh_token = request.cookies.get("refresh_token")
+    return await auth_service.refresh_token(refresh_token)

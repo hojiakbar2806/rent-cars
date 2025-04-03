@@ -3,7 +3,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_async_session
 from app.repositories.user_repository import UserRepository
 from app.services.user_service import UserService
-from app.models.user import User
 
 router = APIRouter(prefix="/users", tags=["Users"])
 

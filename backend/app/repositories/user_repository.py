@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from app.models.user import User
+from app.db.models import User
 from app.schemas.auth import RegisterUser
 
 
@@ -12,8 +12,8 @@ class UserRepository:
         result = await self.session.execute(select(User).where(User.id == user_id))
         return result.scalar_one_or_none()
 
-    async def get_user_by_username(self, username: str) -> User:
-        result = await self.session.execute(select(User).where(User.username == username))
+    async def get_user_by_email(self, email: str) -> User:
+        result = await self.session.execute(select(User).where(User.email == email))
         return result.scalar_one_or_none()
 
     async def create_user(self, user: RegisterUser) -> User:

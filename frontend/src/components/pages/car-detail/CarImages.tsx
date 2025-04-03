@@ -11,7 +11,7 @@ type Props = {
 const CarImages: FC<Props> = ({ images }) => {
   const [image, setImage] = React.useState(images[0]);
   return (
-    <div className="w-1/2 aspect-[320/230] flex flex-col gap-4 flex-wrap">
+    <div className="w-full md:w-1/2 aspect-[320/230] flex flex-col gap-4 flex-wrap">
       <div className="flex-1 flex justify-center items-center bg-white rounded-xl p-8">
         <Image
           src={`${BASE_URL}/${image}`}

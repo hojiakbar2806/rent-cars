@@ -3,6 +3,7 @@ import { getPopularCars } from "@/app/actions/cars/getPopularCars";
 import { getRecommendedCars } from "@/app/actions/cars/getRecommendedCars";
 import CarDetail from "@/components/pages/car-detail/CarDetail";
 import CarsSection from "@/components/shared/carCard/CarsSection";
+import { Metadata } from "next";
 import { FC } from "react";
 
 type Props = {
@@ -26,3 +27,9 @@ const RentCarPage: FC<Props> = async ({ params }) => {
 };
 
 export default RentCarPage;
+
+export function metadata(): Metadata {
+  return {
+    title: "Car",
+  };
+}

@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.config import settings
 from app.core.enums import TokenType
 from app.core.security.jwt import encode_jwt, decode_jwt
-from app.models import User
+from app.db.models import User
 
 
 def create_access_token(sub) -> str:
@@ -23,12 +23,7 @@ def create_refresh_token(sub) -> str:
 
 
 async def verify_jwt_token(token: str, audience: List[TokenType], session: AsyncSession) -> User:
-    try:
-        sub = decode_jwt(token, audience).get("sub")
-        if not sub: raise
-        result = await session.execute(select(User).where(User.id == int(sub)))
-        db_user = result.scalar_one_or_none()
-        if not db_user: raise
-        return db_user
-    except Exception:
-        raise Exception
+    sub = decode_jwt(token, audience).get("sub")
+    result = await session.execute(select(User).where(User.id == int(sub)))
+    db_user = result.scalar_one_or_none()
+    return db_user

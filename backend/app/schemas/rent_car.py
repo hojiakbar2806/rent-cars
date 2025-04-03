@@ -1,42 +1,34 @@
 from pydantic import BaseModel
 from typing import Optional
-from app.core.enums import DriveMode
+from datetime import date
 
 
-class CarTypeBase(BaseModel):
-    name: str
+class RentalBase(BaseModel):
+    car_id: str
+    user_id: str
+    pickup_location_id: str
+    dropoff_location_id: str
+    pickup_date: date
+    dropoff_date: date
+    total_price: float
 
 
-class CarTypeCreate(CarTypeBase):
+class RentalCreate(RentalBase):
     pass
 
 
-class CarType(CarTypeBase):
-    id: int
-
-    class Config:
-        from_attributes = True
-
-
-class CarBase(BaseModel):
-    name: Optional[str] = None
-    image: str
-    gas_capacity: int
-    drive_mode: DriveMode
-    person_capacity: int
-    price: float
-    discount: float
-    car_type_id: int
+class RentalUpdate(BaseModel):
+    car_id: Optional[str]
+    user_id: Optional[str]
+    pickup_location_id: Optional[str]
+    dropoff_location_id: Optional[str]
+    pickup_date: Optional[date]
+    dropoff_date: Optional[date]
+    total_price: Optional[float]
 
 
-class CarCreate(CarBase):
-    pass
-
-class CarUpdate(CarBase):
-    pass
-
-class CarResponse(CarBase):
-    id: int
+class RentalResponse(RentalBase):
+    id: str
 
     class Config:
         from_attributes = True

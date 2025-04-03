@@ -12,5 +12,4 @@ def register_middleware(app: FastAPI):
         allow_methods=["*"],
         allow_headers=["*"],
     )
-
     app.add_middleware(JWTAuthMiddleware)

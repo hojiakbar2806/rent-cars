@@ -1,35 +1,27 @@
 from typing import Optional
-from datetime import datetime, date
+from datetime import date
 from pydantic import BaseModel, EmailStr, Field
-
-from app.core.enums import OAuthProvider, UserStatus
 
 
 class LoginUser(BaseModel):
-    username: str = Field(..., example="johndoe")
-    password: str = Field(..., min_length=8, alias="password")
+    email: str = Field(..., example="qwerty@gmail.com")
+    hashed_password: str = Field(..., alias="password")
 
 
 class RegisterUser(BaseModel):
-    username: str = Field(..., example="johndoe")
-    phone_number: Optional[str] = Field(
-        None, pattern=r"^\+998\d{9}$", example="+998901234567"
-    )
-    hashed_password: str = Field(..., min_length=8, alias="password")
+    email: EmailStr = Field(..., example="qwerty@gmail.com")
+    first_name: Optional[str] = Field(None, example="qwerty")
+    last_name: Optional[str] = Field(None, example="qwerty")
+    hashed_password: str = Field(..., alias="password")
 
 
-class ProfileBase(BaseModel):
+class ProfileResponse(BaseModel):
+    id: int
     first_name: Optional[str] = Field(None, example="John")
     last_name: Optional[str] = Field(None, example="Doe")
     bio: Optional[str] = Field(None, example="Software Developer")
-    profile_pic: Optional[str] = Field(
-        None, example="https://example.com/profile.jpg"
-    )
+    profile_pic: Optional[str] = Field(None)
     date_of_birth: Optional[date]
-
-
-class ProfileResponse(ProfileBase):
-    id: int
 
     class Config:
         from_attributes = True
@@ -37,18 +29,10 @@ class ProfileResponse(ProfileBase):
 
 class UserResponse(BaseModel):
     id: int
-    username: str = Field(..., example="johndoe")
-    email: EmailStr = Field(..., example="johndoe@example.com")
-    phone_number: Optional[str] = Field(
-        None, pattern=r"^\+998\d{9}$", example="+998901234567"
-    )
-    status: UserStatus
-    is_oauth: bool
-    oauth_provider: Optional[OAuthProvider]
-    is_superuser: bool
-    last_login_at: datetime
-    created_at: datetime
-    updated_at: datetime
+    email: str
+    first_name: str
+    last_name: str
+    is_admin: bool
 
     class Config:
         from_attributes = True
@@ -56,25 +40,13 @@ class UserResponse(BaseModel):
 
 class TokenResponse(BaseModel):
     access_token: str
-    token_type: str = "bearer"
-
-
-class LoginRequest(BaseModel):
-    username: str = Field(..., example="johndoe")
-    password: str = Field(..., min_length=8, example="strongpassword123")
+    refresh_token: str
+    token_type: str = "Bearer"
 
 
 class UserWithProfile(BaseModel):
     user: UserResponse
     profile: Optional[ProfileResponse]
-
-    class Config:
-        from_attributes = True
-
-
-class SessionResponse(BaseModel):
-    user: UserResponse
-    expires: datetime
 
     class Config:
         from_attributes = True
