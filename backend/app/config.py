@@ -12,6 +12,8 @@ class Settings(BaseSettings):
     app_host: str
     app_port: int
 
+    api_prefix: str
+
     # Database settings
     db_user: str = Field(alias='POSTGRES_USER')
     db_pass: str = Field(alias='POSTGRES_PASSWORD')
@@ -51,3 +53,6 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+
+print(settings.db_url)
