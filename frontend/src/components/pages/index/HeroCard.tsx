@@ -43,6 +43,7 @@ const HeroCard: FC<Props> = ({
           alt="GTR Car"
           width={247.5}
           height={110}
+          priority
           className="w-[60%] z-10"
         />
       </div>

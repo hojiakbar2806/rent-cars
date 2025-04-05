@@ -10,8 +10,8 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
       {
-        protocol: "http",
-        hostname: "146.190.158.46",
+        protocol: "https",
+        hostname: "rent-cars.hojiakbar.me",
         pathname: "/**",
       },
     ],

@@ -2,6 +2,7 @@ import { getCarById } from "@/app/actions/cars/getCarById";
 import { getPopularCars } from "@/app/actions/cars/getPopularCars";
 import { getRecommendedCars } from "@/app/actions/cars/getRecommendedCars";
 import CarDetail from "@/components/pages/car-detail/CarDetail";
+import CarReview from "@/components/pages/car-detail/CarReviews";
 import CarFilter from "@/components/pages/cars/carFilter/CarFilter";
 import CarsSection from "@/components/shared/carCard/CarsSection";
 import { Metadata } from "next";
@@ -24,6 +25,7 @@ const RentCarPage: FC<Props> = async ({ params }) => {
       <CarFilter />
       <div className="w-full md:w-[calc(100%-320px)] flex flex-col gap-8 p-8">
         <CarDetail car={carDetail} />
+        <CarReview />
         <CarsSection title="Recent Car" data={recents} scrollable />
         <CarsSection title="Recommended Car" data={recommends} scrollable />
       </div>

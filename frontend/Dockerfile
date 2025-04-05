@@ -1,5 +1,4 @@
-FROM imbios/bun-node:18-slim
-ARG DEBIAN_FRONTEND=noninteractive
+FROM imbios/bun-node:18-slim AS deps
 
 RUN apt-get -y update && \
     apt-get install -yq openssl git ca-certificates tzdata && \
@@ -10,15 +9,12 @@ WORKDIR /app
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
-
+FROM deps AS builder
 WORKDIR /app
 COPY . .
 
 RUN bun run build
 
-
-WORKDIR /app
-
 EXPOSE 3000
 
-CMD ["bun", "start"]
+CMD ["bun",  "start"]

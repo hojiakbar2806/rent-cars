@@ -3,6 +3,8 @@ import { CarItem } from "@/types/cars";
 import Link from "next/link";
 import React, { FC } from "react";
 import CarImages from "./CarImages";
+import StarsRating from "@/components/shared/StarsRating";
+import LikeButton from "@/components/shared/LikeButton";
 
 type Props = {
   car: CarItem;
@@ -13,15 +15,32 @@ const CarDetail: FC<Props> = ({ car }) => {
     <div className="w-full flex flex-col lg:flex-row gap-8">
       <CarImages images={car.images} />
       <div className="w-full lg:w-1/2 flex flex-col gap-6 bg-white rounded-xl p-4">
-        <h3 className="text-2xl font-bold">{car.name}</h3>
-        <p className="text-slate-400 font-semibold">{car.car_type.name}</p>
+        <div>
+          <div className="flex justify-between">
+            <h3 className="text-2xl font-bold">
+              {car.name}{" "}
+              <span className="text-slate-400 text-lg font-normal">
+                {car.car_type.name}
+              </span>
+            </h3>
+            <LikeButton id="1" liked={false} />
+          </div>
+          <div className="flex gap-2 items-center">
+            <StarsRating readonly value={4} />
+            <span className="text-slate-400">400 + ko'ruvchilar</span>
+          </div>
+        </div>
         <p className="text-slate-400">{car.description}</p>
 
-        <div className="flex justify-between mt-auto">
+        <div className="my-auto grid grid-cols-4">
+          <p className="text-slate-500">Yoqilg'i</p>
+          <p className="text-slate-500">Boshqaruv</p>
+          <p className="text-slate-500">Sig'im</p>
+          <p className="text-slate-500">Yo'lovchilar</p>
           <p>{car.fuel_type}</p>
           <p>{car.transmission}</p>
           <p>{car.fuel_capacity} L</p>
-          <p>{car.capacity} Yo'lovchi</p>
+          <p>{car.capacity} </p>
         </div>
 
         <div className="flex justify-between items-center">
