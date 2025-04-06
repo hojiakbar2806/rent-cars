@@ -13,7 +13,6 @@ services:
       - "8000"
     networks:
       - rent_cars_network
-      - database_network
 
   frontend:
     image: hojiakbar2806/rent_cars_frontend
