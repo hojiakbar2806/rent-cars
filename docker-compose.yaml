@@ -1,6 +1,8 @@
 networks:
   rent_cars_network:
     driver: bridge
+  database_network:
+    external: true
 
 services:
   backend:
