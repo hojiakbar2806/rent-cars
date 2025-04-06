@@ -23,8 +23,6 @@ def create_app() -> FastAPI:
     register_middleware(app)
 
     app.include_router(v1_router, prefix=settings.api_prefix)
-
-    os.makedirs("uploads", exist_ok=True)
-    app.mount(f"{settings.api_prefix}/uploads", StaticFiles(directory="uploads"), name="uploads")
+    app.mount(f"{settings.api_prefix}/uploads", StaticFiles(directory="uploads", check_dir=False), name="uploads")
 
     return app
