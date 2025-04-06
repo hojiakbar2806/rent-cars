@@ -48,3 +48,6 @@ services:
       - ./nginx/error-pages:/usr/share/nginx/html  
     networks:
       - app-network
+
+volumes:
+  db_data:
