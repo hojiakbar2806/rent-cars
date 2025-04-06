@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-push-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -37,16 +37,15 @@ jobs:
           cache-from: ${{ secrets.DOCKER_USERNAME }}/rent_cars_backend:latest
           push: true
 
-      - name: Set up SSH key
-        uses: webfactory/ssh-agent@v0.5.3
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.4
         with:
-          ssh-private-key: ${{ secrets.VPS_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Deploy to AWS
+      - name: SSH into Server and Deploy
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} << EOF
-          cd ~/rent_cars
-          git pull origin main
-          docker pull ${{ secrets.DOCKER_USERNAME }}/rent_cars_frontend:latest
-          docker pull ${{ secrets.DOCKER_USERNAME }}/rent_cars_backend:latest
-          docker-compose up -d
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+          "cd ~/${{ secrets.WORK_DIR }} && \
+          git fetch origin main && \
+          git reset --hard origin/main && \
+          ./scripts/deploy.sh"
