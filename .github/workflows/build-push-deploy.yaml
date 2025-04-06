@@ -48,4 +48,4 @@ jobs:
 
       - name: SSH into Server and Deploy
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/${{secrets.WORK_DIR}} && bash ./scripts/deploy.sh"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "bash ./scripts/deploy.sh"
