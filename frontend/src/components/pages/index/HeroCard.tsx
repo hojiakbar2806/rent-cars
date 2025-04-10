@@ -47,7 +47,7 @@ const HeroCard: FC<Props> = ({
           className="w-[60%] z-10"
         />
       </div>
-      <Image src={bgImg} fill alt="" className="z-0" />
+      <Image src={bgImg} fill alt="" priority className="z-0" />
     </div>
   );
 };

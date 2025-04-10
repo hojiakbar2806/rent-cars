@@ -8,3 +8,4 @@ export interface UserSession {
   } | null;
   token: string | null;
 }
+
