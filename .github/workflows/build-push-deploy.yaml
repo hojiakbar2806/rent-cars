@@ -26,9 +26,8 @@ jobs:
         with:
           context: ./frontend
           file: ./frontend/Dockerfile
-          platforms: linux/amd64, linux/arm64
+          platforms: linux/amd64,linux/arm64
           tags: ${{ secrets.DOCKER_USERNAME }}/rent_cars_frontend:latest
-          cache-from: ${{ secrets.DOCKER_USERNAME }}/rent_cars_frontend:latest
           push: true
 
       - name: Build and push backend
@@ -36,9 +35,8 @@ jobs:
         with:
           context: ./backend
           file: ./backend/Dockerfile
-          platforms: linux/amd64, linux/arm64
+          platforms: linux/amd64,linux/arm64
           tags: ${{ secrets.DOCKER_USERNAME }}/rent_cars_backend:latest
-          cache-from: ${{ secrets.DOCKER_USERNAME }}/rent_cars_backend:latest
           push: true
   deploy:
     runs-on: ubuntu-latest
