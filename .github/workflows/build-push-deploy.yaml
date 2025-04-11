@@ -1,4 +1,4 @@
-name: Rent-Cars workflow
+name: Rent-Cars build and push workflow
 
 on:
   push:
@@ -38,29 +38,3 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/rent_cars_backend:latest
           cache-from: ${{ secrets.DOCKER_USERNAME }}/rent_cars_backend:latest
           push: true
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: SSH into Server and Deploy
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd ~/rent-cars || exit
-
-            echo "📥 Pulling latest changes..."
-            git pull origin main
-
-            echo "🐳 Pulling latest Docker images..."
-            docker pull ${{ secrets.DOCKER_USERNAME }}/rent_cars_frontend:latest
-            docker pull ${{ secrets.DOCKER_USERNAME }}/rent_cars_backend:latest
-
-            echo "🚀 Restarting Docker Compose..."
-            docker-compose down
-            docker-compose up -d
-
-            echo "🎉 Deployment completed successfully!"
-          EOF

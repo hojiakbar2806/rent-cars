@@ -30,9 +30,11 @@ const RootLayout: FC<Props> = async ({ children }) => {
       <body>
         <SessionProvider session={session}>
           <QueryProvider>
-            <main>
+            <main className="w-full h-screen flex flex-col bg-slate-100">
               <Navbar session={session} />
-              {children}
+              <div className="flex-1 flex flex-col overflow-scroll">
+                {children}
+              </div>
             </main>
             <NextTopLoader color="#3563E9" height={5} showSpinner={false} />
             <Toaster position="top-center" reverseOrder={false} />

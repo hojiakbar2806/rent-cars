@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
   return (
-    <div className="w-70 flex flex-col gap-2 bg-white p-5">
+    <div className="w-70 h-full flex flex-col gap-2 bg-white p-5">
       <h2 className="text-lg font-semibold mb-4">Asosiy menu</h2>
       <SidebarItem
         Icon={LayoutDashboardIcon}

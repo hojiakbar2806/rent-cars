@@ -23,16 +23,17 @@ export function UserDropdown({ session }: UserDropdownProps) {
   const router = useRouter();
   const fallbackText = session?.user?.email.slice(0, 2).toUpperCase();
 
-  const handleLogout = () => {
-    toast.promise(
-      logout().then((res) => {
-        if (res.ok) {
-          toast.success(res.msg);
-          useSessionStore.getState().setSession(null);
-        } else toast.error(res.msg);
-      }),
-      { loading: "Siz tizimdan chiqmoqdasiz..." }
+  const handleLogout = async () => {
+    await toast.promise(logout(),
+      {
+        loading: "Siz tizimdan chiqmoqdasiz...",
+        success: (res) => res.msg,
+        error: (error) => error.msg
+      }
     );
+    nProgress.start();
+    useSessionStore.setState({ session: null });
+    router.push("/");
   };
 
   const handleNavigate = (path: string) => {
@@ -56,13 +57,20 @@ export function UserDropdown({ session }: UserDropdownProps) {
       <DropdownMenuContent align="end">
         {session?.user ? (
           <>
-            <DropdownMenuItem
+            {session.user.is_admin ? <DropdownMenuItem
+              onClick={() => handleNavigate("/dashboard")}
+              className="cursor-pointer"
+            >
+              <UserCircle className="size-4 md:size-5" />
+              <span className="text-sm md:text-lg">Dashboard</span>
+            </DropdownMenuItem> : <DropdownMenuItem
               onClick={() => handleNavigate("/profile")}
               className="cursor-pointer"
             >
               <UserCircle className="size-4 md:size-5" />
               <span className="text-sm md:text-lg">Shaxsiy kabinet</span>
-            </DropdownMenuItem>
+            </DropdownMenuItem>}
+
             <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
               <LogOut className="size-4 md:size-5" />
               <span className="text-sm md:text-lg">Tizimdan chiqish</span>
