@@ -1,8 +1,8 @@
 networks:
   rent_cars_network:
     driver: bridge
-  # database_network:
-  #   external: true
+  database_network:
+    external: true
 
 services:
   rent_car_backend:
@@ -17,7 +17,7 @@ services:
       - ./uploads:/app/uploads
     networks:
       - rent_cars_network
-      # - database_network
+      - database_network
 
   rent_car_frontend:
     image: hojiakbar2806/rent_cars_frontend
