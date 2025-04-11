@@ -12,6 +12,10 @@ export default async function login(data: LoginFormData) {
       httpOnly: true,
       sameSite: "strict",
     });
+    cookieStore.set("is_admin", res.data.refresh_token, {
+      httpOnly: true,
+      sameSite: "strict",
+    });
     return { message: "Login successful" };
   } catch (error) {
     if (axios.isAxiosError(error)) {

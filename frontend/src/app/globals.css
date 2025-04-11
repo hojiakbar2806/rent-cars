@@ -86,6 +86,7 @@ body {
 }
 
 .dark {
+  --chart-1: 221.2 83.2% 53.3%;
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
   --card: oklch(0.129 0.042 264.695);
@@ -125,8 +126,4 @@ body {
 }
 body {
   @apply bg-background text-foreground;
-}
-
-main {
-  @apply w-full min-h-screen h-full flex flex-col bg-slate-100;
 }

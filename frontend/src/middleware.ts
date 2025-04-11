@@ -4,7 +4,7 @@ export function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get("refresh_token")?.value;
   const pathname = request.nextUrl.pathname;
 
-  const protectedRoutes = ["/profile"];
+  const protectedRoutes = ["/profile", "/dashboard"];
 
   if (protectedRoutes.some((route) => pathname.startsWith(route))) {
     if (!refreshToken) {

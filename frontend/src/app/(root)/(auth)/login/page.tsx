@@ -6,14 +6,14 @@ import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import nProgress from "nprogress";
 import login from "@/app/actions/auth/login";
 import FormInput from "@/components/pages/auth/FormInput";
 import SubmitButton from "@/components/pages/auth/SubmitButton";
+import nProgress from "nprogress";
 
 const schema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
+  password: z.string().min(4, "Password must be at least 6 characters long"),
 });
 
 export type LoginFormData = z.infer<typeof schema>;
