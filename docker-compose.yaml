@@ -18,7 +18,7 @@ services:
       - rent_cars_network
       - database_network
 
-  fronten:
+  frontend:
     image: hojiakbar2806/rent_cars_frontend
     expose:
       - "3000"
