@@ -13,12 +13,12 @@ def get_location_service(session: AsyncSession = Depends(get_async_session)):
     return LocationService(repo)
 
 
-@router.get("/", response_model=list[LocationResponse])
+@router.get("", response_model=list[LocationResponse])
 async def get_all_locations(request: Request, service: LocationService = Depends(get_location_service)):
     return await service.get_all_locations()
 
 
-@router.post("/", response_model=LocationResponse)
+@router.post("", response_model=LocationResponse)
 async def create_location(location: LocationCreate, service: LocationService = Depends(get_location_service)):
     return await service.create_location(location)
 

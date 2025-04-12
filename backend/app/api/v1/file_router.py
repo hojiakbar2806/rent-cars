@@ -15,7 +15,7 @@ def get_file_service(session: AsyncSession = Depends(get_async_session)):
     return FileService(FileRepository(session))
 
 
-@router.post("/upload/")
+@router.post("/upload")
 async def upload_files(files: List[UploadFile], file_service: FileService = Depends(get_file_service)):
     return await file_service.upload_multiple_files(files)
 

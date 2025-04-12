@@ -1,5 +1,5 @@
 import { FC, use } from "react";
-import RentCars from "@/components/shared/carCard/CarsSection";
+import RentCars from "@/components/shared/CarsSection";
 import getCarsWithFilters from "@/app/actions/cars/getCarsWithParams";
 
 type Props = {

@@ -4,9 +4,10 @@ import { getRecommendedCars } from "@/app/actions/cars/getRecommendedCars";
 import CarDetail from "@/components/pages/car-detail/CarDetail";
 import CarReview from "@/components/pages/car-detail/CarReviews";
 import CarFilter from "@/components/pages/cars/carFilter/CarFilter";
-import CarsSection from "@/components/shared/carCard/CarsSection";
+import CarsSection from "@/components/shared/CarsSection";
+import Navbar from "@/components/shared/Navbar";
 import { Metadata } from "next";
-import { FC } from "react";
+import { FC, Fragment } from "react";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -21,15 +22,20 @@ const RentCarPage: FC<Props> = async ({ params }) => {
   ]);
 
   return (
-    <div className="flex">
-      <CarFilter />
-      <div className="w-full md:w-[calc(100%-320px)] flex flex-col gap-8 p-8">
-        <CarDetail car={carDetail} />
-        <CarReview />
-        <CarsSection title="Recent Car" data={recents} scrollable />
-        <CarsSection title="Recommended Car" data={recommends} scrollable />
+    <Fragment>
+      <Navbar />
+      <div className="w-full flex-1 flex flex-col overflow-scroll">
+        <div className="w-full flex">
+          <CarFilter />
+          <div className="w-full md:max-w-[calc(100%-320px)] flex flex-col p-5 gap-5">
+            <CarDetail car={carDetail} />
+            <CarReview />
+            <CarsSection title="Recent Car" data={recents} scrollable />
+            <CarsSection title="Recommended Car" data={recommends} scrollable />
+          </div>
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

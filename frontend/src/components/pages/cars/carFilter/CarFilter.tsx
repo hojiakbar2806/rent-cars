@@ -9,13 +9,16 @@ const CarFilter: FC = () => {
 
   return (
     <div
-      className="min-w-80 hidden flex-col gap-8 border border-gray-100 bg-white p-8
+      className="w-80 hidden top-0 flex-col gap-8 border border-gray-100 bg-white
       md:flex"
     >
-      <FilterCarType data={data.car_types} />
-      <FilterCapacity data={data.capacities} />
-      <FilterRange max={data.max_price} min={data.min_price} />
+      <div className="top-0 sticky p-8">
+        <FilterCarType data={data.car_types} />
+        <FilterCapacity data={data.capacities} />
+        <FilterRange max={data.max_price} min={data.min_price} />
+      </div>
     </div>
+
   );
 };
 

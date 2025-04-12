@@ -7,6 +7,7 @@ export default async function logout() {
   if (!cookieStore.has("refresh_token")) {
     return { ok: false, msg: "Muvafaqiyatli tizimga kirdingiz" };
   }
+  cookieStore.delete("session");
   cookieStore.delete("refresh_token");
   return { ok: true, msg: "Muvafaqiyatli tizimdan chiqdingiz" };
 }

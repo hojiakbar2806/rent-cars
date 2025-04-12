@@ -7,7 +7,6 @@ networks:
 services:
   rent_car_backend:
     image: hojiakbar2806/rent_cars_backend
-    container_name: backend
     command: /bin/sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
     env_file:
       - .env
@@ -21,9 +20,10 @@ services:
 
   rent_car_frontend:
     image: hojiakbar2806/rent_cars_frontend
-    container_name: frontend
     expose:
       - "3000"
+    env_file:
+      - .env
     networks:
       - rent_cars_network
 

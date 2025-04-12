@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from app.db.models import User
 from app.schemas.auth import RegisterUser
+from app.schemas.user import UserCreate
 
 
 class UserRepository:
@@ -12,11 +13,15 @@ class UserRepository:
         result = await self.session.execute(select(User).where(User.id == user_id))
         return result.scalar_one_or_none()
 
+    async def get_users(self) -> list[User]:
+        result = await self.session.execute(select(User))
+        return result.scalars().all()
+
     async def get_user_by_email(self, email: str) -> User:
         result = await self.session.execute(select(User).where(User.email == email))
         return result.scalar_one_or_none()
 
-    async def create_user(self, user: RegisterUser) -> User:
+    async def create_user(self, user: UserCreate) -> User:
         new_user = User(**user.model_dump())
         self.session.add(new_user)
         await self.session.commit()

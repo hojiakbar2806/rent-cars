@@ -9,6 +9,7 @@ from app.config import settings
 
 auth_scheme = HTTPBearer(auto_error=False)
 
+
 def create_app() -> FastAPI:
     app = FastAPI(
         dependencies=[Depends(auth_scheme)],
@@ -23,6 +24,7 @@ def create_app() -> FastAPI:
     register_middleware(app)
 
     app.include_router(v1_router, prefix=settings.api_prefix)
-    app.mount(f"{settings.api_prefix}/uploads", StaticFiles(directory="uploads", check_dir=False), name="uploads")
+    app.mount(f"{settings.api_prefix}/uploads",
+              StaticFiles(directory="uploads",), name="uploads")
 
     return app

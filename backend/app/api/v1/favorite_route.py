@@ -13,12 +13,12 @@ def get_favorite_service(session: AsyncSession = Depends(get_async_session)):
     return FavoriteService(repo)
 
 
-@router.get("/", response_model=list[FavoriteResponse])
+@router.get("", response_model=list[FavoriteResponse])
 async def get_all_favorites(service: FavoriteService = Depends(get_favorite_service)):
     return await service.get_all_favorites()
 
 
-@router.post("/", response_model=FavoriteResponse)
+@router.post("", response_model=FavoriteResponse)
 async def create_favorite(favorite: FavoriteCreate, service: FavoriteService = Depends(get_favorite_service)):
     return await service.create_favorite(favorite)
 
