@@ -31,8 +31,8 @@ services:
     image: nginx:latest
     container_name: nginx
     depends_on:
-      - rent_car_frontend
-      - rent_car_backend
+      - frontend
+      - backend
     ports:
       - "85:80"
     volumes:
