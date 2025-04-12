@@ -2,9 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
-  serverActions: {
-    bodySizeLimit: "10mb", 
-  },
   images: {
     remotePatterns: [
       {
