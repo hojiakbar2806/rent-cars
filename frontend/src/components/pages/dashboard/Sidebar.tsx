@@ -1,7 +1,6 @@
 "use client";
 
 import { FC } from "react";
-import LogoutButton from "../../shared/LogoutButton";
 import Link from "next/link";
 import {
   CarIcon,
@@ -14,30 +13,30 @@ import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
   return (
-    <div className="w-70 h-full flex flex-col gap-2 bg-white p-5">
-      <h2 className="text-lg font-semibold mb-4">Asosiy menu</h2>
-      <SidebarItem
-        Icon={LayoutDashboardIcon}
-        path="/dashboard"
-        label="Dashboard"
-      />
-      <SidebarItem
-        Icon={Users}
-        path="/dashboard/users-list"
-        label="Users List"
-      />
-      <SidebarItem
-        Icon={CarIcon}
-        path="/dashboard/cars-list"
-        label="Cars List"
-      />
-      <SidebarItem
-        Icon={FileType2}
-        path="/dashboard/car-types"
-        label="Car types"
-      />
-
-      <LogoutButton />
+    <div className="w-80 hidden md:flex h-full bg-white">
+      <div className="w-full flex flex-col gap-2 sticky top-0 p-5">
+        <h2 className="text-lg font-semibold mb-4">Asosiy menu</h2>
+        <SidebarItem
+          Icon={LayoutDashboardIcon}
+          path="/dashboard"
+          label="Boshqaruv paneli"
+        />
+        <SidebarItem
+          Icon={Users}
+          path="/dashboard/users-list"
+          label="Foydalanuvchilar"
+        />
+        <SidebarItem
+          Icon={CarIcon}
+          path="/dashboard/cars-list"
+          label="Mashinalar"
+        />
+        <SidebarItem
+          Icon={FileType2}
+          path="/dashboard/car-type-list"
+          label="Mashina turlari"
+        />
+      </div>
     </div>
   );
 };
@@ -52,7 +51,7 @@ type Props = {
 
 const SidebarItem: FC<Props> = ({ path, Icon, label }) => {
   const pathname = usePathname();
-  const isActive = pathname === path;
+  const isActive = pathname.split("/")[2] === path.split("/")[2];
   return (
     <Link
       href={path}

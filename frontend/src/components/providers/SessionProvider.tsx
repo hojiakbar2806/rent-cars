@@ -1,17 +1,29 @@
 "use client";
 
-import { useSessionStore } from "@/hooks/useSessionStore";
+import { createContext, ReactNode, useEffect } from "react";
 import { UserSession } from "@/types/session";
-import { FC, Fragment, useEffect } from "react";
 
-type Props = {
-  children: React.ReactNode;
-  session: UserSession;
+export interface SessionContextType {
+  session: UserSession | null;
+  setSession: (session: UserSession) => void;
+}
+
+export const SessionContext = createContext<SessionContextType | null>(null);
+
+export const SessionProvider = ({ children, session }: { children: ReactNode, session: UserSession }) => {
+  useEffect(() => {
+    if (session) {
+      document.cookie = `session=${encodeURIComponent(JSON.stringify(session))}; path=/; max-age=1800; secure; sameSite=strict`;
+    }
+  }, [session]);
+
+  const setSession = (userSession: UserSession) => {
+    document.cookie = `session=${encodeURIComponent(JSON.stringify(userSession))}; path=/; max-age=1800; secure; sameSite=strict`;
+  };
+
+  return (
+    <SessionContext.Provider value={{ session, setSession }}>
+      {children}
+    </SessionContext.Provider>
+  );
 };
-
-const SessionProvider: FC<Props> = ({ children, session }) => {
-  useEffect(() => useSessionStore.getState().setSession(session), [session]);
-  return <Fragment>{children}</Fragment>;
-};
-
-export default SessionProvider;

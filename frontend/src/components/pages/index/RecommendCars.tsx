@@ -1,4 +1,4 @@
-import RentCars from "@/components/shared/carCard/CarsSection";
+import RentCars from "@/components/shared/CarsSection";
 import { CarItem } from "@/types/cars";
 import { FC } from "react";
 

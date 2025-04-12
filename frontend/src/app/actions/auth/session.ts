@@ -6,6 +6,12 @@ import axios from "@/lib/axios";
 export const getSession = async () => {
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get("refresh_token")?.value;
+  const session = cookieStore.get("session")?.value;
+
+  if (session) {
+    return JSON.parse(session);
+  }
+
   let accessToken = null;
 
   try {
@@ -22,11 +28,8 @@ export const getSession = async () => {
       });
       return { user: sessionRes.data, token: accessToken };
     }
-  } catch (error) {
-    cookieStore.delete("refresh_token");
-    if (axios.isAxiosError(error)) {
-      return { user: null, token: null };
-    }
+  } catch {
+    return null
   }
-  return { user: null, token: null };
+  return null
 };

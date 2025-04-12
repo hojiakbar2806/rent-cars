@@ -12,12 +12,12 @@ def get_car_type_service(session: AsyncSession = Depends(get_async_session)):
     return CarTypeService(CarTypeRepository(session))
 
 
-@router.get("/", response_model=list[CarTypeResponse])
+@router.get("", response_model=list[CarTypeResponse])
 async def get_all_car_types(service: CarTypeService = Depends(get_car_type_service)):
     return await service.get_all_car_types()
 
 
-@router.post("/", response_model=CarTypeResponse)
+@router.post("", response_model=CarTypeResponse)
 async def create_car_type(car_type: CarTypeCreate, service: CarTypeService = Depends(get_car_type_service)):
     return await service.create_car_type(car_type)
 

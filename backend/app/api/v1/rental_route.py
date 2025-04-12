@@ -13,12 +13,12 @@ def get_rental_service(session: AsyncSession = Depends(get_async_session)):
     return RentalService(repo)
 
 
-@router.get("/", response_model=list[RentalResponse])
+@router.get("", response_model=list[RentalResponse])
 async def get_all_rentals(request: Request, service: RentalService = Depends(get_rental_service)):
     return await service.get_all_rentals()
 
 
-@router.post("/", response_model=RentalResponse)
+@router.post("", response_model=RentalResponse)
 async def create_rental(rental: RentalCreate, service: RentalService = Depends(get_rental_service)):
     return await service.create_rental(rental)
 
