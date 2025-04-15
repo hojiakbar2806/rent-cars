@@ -2,7 +2,7 @@
 
 import { FC } from "react";
 import Image from "next/image";
-import { Heart, LucideIcon, UsersRound, Fuel, Target } from "lucide-react";
+import { LucideIcon, UsersRound, Fuel, Target } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { CarItem } from "@/types/cars";
@@ -10,14 +10,17 @@ import Link from "next/link";
 import { BASE_URL } from "@/lib/const";
 import { useRouter } from "next/navigation";
 import nProgress from "nprogress";
+import LikeButton from "./LikeButton";
 
 type Props = {
   car: CarItem;
   scrollable?: boolean;
+  invalidate: string[]
 };
 
-const CarsCard: FC<Props> = ({ scrollable = false, car }) => {
+const CarsCard: FC<Props> = ({ scrollable = false, car, invalidate }) => {
   const router = useRouter();
+
   return (
     <div
       data-scrollable={scrollable}
@@ -35,9 +38,7 @@ const CarsCard: FC<Props> = ({ scrollable = false, car }) => {
           <h1 className="font-bold text-xl">{car.name}</h1>
           <p className="text-slate-400 font-semibold">{car.car_type.name}</p>
         </div>
-        <button className="cursor-pointer">
-          <Heart className="w-6 h-6 text-red-500 fill-red-500" />
-        </button>
+        <LikeButton id={car.id} is_liked={car.is_liked} invalidate={invalidate} />
       </div>
 
       <div

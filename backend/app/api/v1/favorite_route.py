@@ -1,26 +1,31 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_async_session
+from app.core.decorators import permission_classes
+from app.core.permissions import IsAuthenticated
+from app.schemas.car import CarResponse
 from app.services.favorite_service import FavoriteService
 from app.repositories.favorite_repository import FavoriteRepository
 from app.schemas.favorite import FavoriteCreate, FavoriteResponse
 
-router = APIRouter()
+router = APIRouter(prefix="/favorites", tags=["Favorites"])
 
 
 def get_favorite_service(session: AsyncSession = Depends(get_async_session)):
-    repo = FavoriteRepository(session)
-    return FavoriteService(repo)
+    return FavoriteService(FavoriteRepository(session))
 
 
-@router.get("", response_model=list[FavoriteResponse])
-async def get_all_favorites(service: FavoriteService = Depends(get_favorite_service)):
-    return await service.get_all_favorites()
+@router.get("", response_model=list[CarResponse])
+async def get_my_favorite_cars(user_id: int, service: FavoriteService = Depends(get_favorite_service)):
+    return await service.get_all_favorite_cars(user_id)
 
 
-@router.post("", response_model=FavoriteResponse)
-async def create_favorite(favorite: FavoriteCreate, service: FavoriteService = Depends(get_favorite_service)):
-    return await service.create_favorite(favorite)
+@router.post("/{car_id}", response_model=FavoriteResponse)
+async def create_favorite(request: Request, car_id: int, service: FavoriteService = Depends(get_favorite_service)):
+    user = getattr(request.state, "user", None)
+    if user is None:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    return await service.create_favorite(car_id, user.id)
 
 
 @router.get("/{favorite_id}", response_model=FavoriteResponse)

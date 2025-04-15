@@ -1,5 +1,6 @@
 import Sidebar from "@/components/pages/profile/Sidebar";
-import React, { FC } from "react";
+import Navbar from "@/components/shared/Navbar";
+import React, { FC, Fragment } from "react";
 
 type Props = {
   children: React.ReactNode;
@@ -7,10 +8,15 @@ type Props = {
 
 const ProfileLayout: FC<Props> = ({ children }) => {
   return (
-    <div className="flex-1 w-full flex">
-      <Sidebar />
-      {children}
-    </div>
+    <Fragment>
+      <Navbar />
+      <div className="flex-1 flex flex-col overflow-scroll">
+        <div className="w-full flex-1 flex">
+          <Sidebar />
+          {children}
+        </div>
+      </div>
+    </Fragment>
   );
 };
 

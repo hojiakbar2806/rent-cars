@@ -8,19 +8,19 @@ const ReviewCard = () => {
       <div className="flex-1 flex flex-col gap-2">
         <div className="flex justify-between">
           <div>
-            <h2 className="font-semibold text-lg">Alex Stanton</h2>
-            <h3 className="text-slate-400">CEO at Bukalapak</h3>
+            <h2 className="font-semibold text-lg">Muhammad Ali</h2>
+            <h3 className="text-slate-400">Boshliq</h3>
           </div>
           <div>
             <h2 className="text-slate-400">21 July 2022</h2>
-            <StarsRating value={5}/>
+            <StarsRating value={5} />
           </div>
         </div>
         <p className="text-slate-400">
-          We are very happy with the service from the MORENT App. Morent has a
-          low price and also a large variety of cars with good and comfortable
-          facilities. In addition, the service provided by the officers is also
-          very friendly and very polite.
+          Biz MORENT ilovasining xizmatidan juda mamnunmiz. Morent bor
+          past narx, shuningdek, yaxshi va qulay avtomobillarning katta assortimenti
+          ob'ektlar. Bundan tashqari, ofitserlar tomonidan ko'rsatiladigan xizmat ham
+          juda samimiy va juda muloyim.
         </p>
       </div>
     </div>

@@ -2,15 +2,11 @@
 
 import { cookies } from "next/headers";
 import axios from "@/lib/axios";
+import { UserSession } from "@/types/session";
 
 export const getSession = async () => {
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get("refresh_token")?.value;
-  const session = cookieStore.get("session")?.value;
-
-  if (session) {
-    return JSON.parse(session);
-  }
 
   let accessToken = null;
 
@@ -26,10 +22,10 @@ export const getSession = async () => {
       const sessionRes = await axios.get("/v1/auth/session", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-      return { user: sessionRes.data, token: accessToken };
+      return { user: sessionRes.data, token: accessToken } as UserSession;
     }
   } catch {
-    return null
+    return { user: null, token: null }
   }
-  return null
+  return { user: null, token: null }
 };

@@ -3,18 +3,18 @@
 import { FC } from "react";
 import Link from "next/link";
 import {
-  ArrowRightLeft,
+  BellRing,
   Heart,
   LayoutDashboardIcon,
-  ListOrdered,
   LucideIcon,
+  Settings,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import LogoutButton from "../../shared/LogoutButton";
+import LogoutButton from "@/components/shared/LogoutButton";
 
 const Sidebar = () => {
   return (
-    <div className="w-70 flex flex-col gap-2 bg-white p-5">
+    <div className="w-70 flex-col gap-2 bg-white p-5 hidden md:flex">
       <h2 className="text-lg font-semibold mb-4">Sizning kabinetingiz</h2>
       <SidebarItem
         Icon={LayoutDashboardIcon}
@@ -22,21 +22,20 @@ const Sidebar = () => {
         label="Mening kabinetim"
       />
       <SidebarItem
-        Icon={ListOrdered}
-        path="/profile/orders"
-        label="Buyurtmalar"
-      />
-      <SidebarItem
-        Icon={ArrowRightLeft}
-        path="/profile/transactions"
-        label="Tranzaksiyalar"
+        Icon={Settings}
+        path="/profile/settings"
+        label="Sozlamalar"
       />
       <SidebarItem
         Icon={Heart}
         path="/profile/wishlists"
         label="Sevimlilar"
       />
-
+      <SidebarItem
+        Icon={BellRing}
+        path="/profile/notifications"
+        label="Xabarlar"
+      />
       <LogoutButton />
     </div>
   );

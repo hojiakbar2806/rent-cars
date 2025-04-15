@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { getCars } from "@/app/actions/cars/getCars";
 
 const CarsListPage = () => {
-  const cars = use(getCars());
+  const cars = use(getCars("all"));
 
   return <div className="flex-1 p-5 h-full overflow-scroll flex flex-col gap-5">
     <div className="flex justify-between items-center w-full p-5 rounded-lg bg-white">

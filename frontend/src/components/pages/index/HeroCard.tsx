@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { BASE_URL } from "@/lib/const";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -25,7 +24,7 @@ const HeroCard: FC<Props> = ({
   const router = useRouter();
   return (
     <div className="relative overflow-hidden rounded-xl bg-gradient-to-r p-8 text-white lg:block hidden">
-      <div className="flex flex-col gap-5 items-start relative z-10">
+      <div className="flex flex-col gap-8 items-start relative z-10">
         <h2 className="text-3xl font-bold mb-2 leading-tight max-w-md">
           {title}
         </h2>
@@ -39,7 +38,7 @@ const HeroCard: FC<Props> = ({
       </div>
       <div className="w-full flex justify-end">
         <Image
-          src={`${BASE_URL}/${image}`}
+          src={`${image}`}
           alt="GTR Car"
           width={247.5}
           height={110}

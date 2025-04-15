@@ -1,11 +1,11 @@
 import { getCars } from "@/app/actions/cars/getCars";
 import { getCarTypes } from "@/app/actions/cars/getCarTypes";
 import { getUsers } from "@/app/actions/users/getUsers";
-import {DashboardChart} from "@/components/pages/dashboard/Chart";
+import { DashboardChart } from "@/components/pages/dashboard/Chart";
 import React, { use } from "react";
 
 const DashboardPage = () => {
-  const cars = use(getCars());
+  const cars = use(getCars("all"));
   const carTypes = use(getCarTypes());
   const users = use(getUsers());
   return (

@@ -1,11 +1,13 @@
 from typing import List, Optional
 from fastapi import APIRouter, Depends, Query, Request
+from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_async_session
 from app.repositories.car_type_repository import CarTypeRepository
+from app.repositories.favorite_repository import FavoriteRepository
 from app.services.car_service import CarService
 from app.repositories.car_repository import CarRepository
-from app.schemas.car import CarCreate, CarResponse, CarUpdate
+from app.schemas.car import CarCreate, CarFilterParams, CarResponse, CarUpdate
 from app.services.filter_service import FilterService
 
 router = APIRouter(prefix="/cars", tags=["Cars"])
@@ -13,8 +15,9 @@ router = APIRouter(prefix="/cars", tags=["Cars"])
 
 def get_car_service(session: AsyncSession = Depends(get_async_session)):
     car_repo = CarRepository(session)
+    favorite_repo = FavoriteRepository(session)
     car_type_repo = CarTypeRepository(session)
-    return CarService(car_repo, car_type_repo)
+    return CarService(car_repo, car_type_repo, favorite_repo)
 
 
 def get_car_filter_service(session: AsyncSession = Depends(get_async_session)):
@@ -33,9 +36,7 @@ async def get_all_cars(
     q: str = Query(None),
     service: CarService = Depends(get_car_service)
 ):
-    return await service.get_all_cars(
-        limit, offset, car_type, price, capacity, q
-    )
+    return await service.get_all_cars(CarFilterParams(limit=limit, offset=offset, car_type=car_type, price=price, capacity=capacity, q=q))
 
 
 @router.post("", response_model=CarResponse)

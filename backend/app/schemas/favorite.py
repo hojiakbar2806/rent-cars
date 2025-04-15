@@ -1,17 +1,13 @@
 from pydantic import BaseModel
 
 
-class FavoriteBase(BaseModel):
-    user_id: str
-    car_id: str
+class FavoriteCreate(BaseModel):
+    user_id: int
+    car_id: int
 
 
-class FavoriteCreate(FavoriteBase):
-    pass
-
-
-class FavoriteResponse(FavoriteBase):
-    id: str
+class FavoriteResponse(BaseModel):
+    car_id: int
 
     class Config:
         from_attributes = True
