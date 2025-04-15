@@ -5,7 +5,7 @@ from sqlalchemy import or_
 from sqlalchemy.orm import selectinload
 from app.db.models import Car
 from app.db.models.car_type import CarType
-from app.schemas.car import CarCreate, CarUpdate
+from app.schemas.car import CarCreate, CarFilterParams, CarResponse, CarUpdate
 
 
 class CarRepository:
@@ -27,23 +27,18 @@ class CarRepository:
         result = await self.db.execute(select(Car).options(*options).where(Car.id == car_id))
         return result.scalar_one_or_none()
 
-    async def get_all_cars(self, limit: str, offset: str, car_type: list, price: str, capacity: list,  q: str) -> list[Car]:
+    async def get_all_cars(self, params: CarFilterParams) -> list[CarResponse]:
         query = select(Car).join(CarType).options(selectinload(Car.car_type))
-        if car_type:
-            query = query.where(CarType.name.in_(car_type))
-        if price and len(price.split("-")) == 2:
-            min, max = price.split("-")
+        if params.car_type:
+            query = query.where(CarType.name.in_(params.car_type))
+        if params.price and len(params.price.split("-")) == 2:
+            min, max = params.price.split("-")
             query = query.where(Car.price_per_day.between(int(min), int(max)))
-        if capacity:
-            query = query.where(Car.capacity.in_(capacity))
-        if q:
-            query = query.filter(
-                or_(
-                    Car.name.ilike(f"%{q}%"),
-                    # Car.description.ilike(f"%{q}%")
-                )
-            )
-        result = await self.db.execute(query.limit(int(limit)).offset(int(offset)))
+        if params.capacity:
+            query = query.where(Car.capacity.in_(params.capacity))
+        if params.q:
+            query = query.filter(or_(Car.name.ilike(f"%{params.q}%"),))
+        result = await self.db.execute(query.limit(int(params.limit)).offset(int(params.offset)))
         return result.scalars().all()
 
     async def get_popular_cars(self) -> list[Car]:

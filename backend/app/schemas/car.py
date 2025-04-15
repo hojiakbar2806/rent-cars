@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+from fastapi import Query
 from pydantic import BaseModel
 from typing import List, Optional
 
@@ -37,6 +39,7 @@ class CarResponse(BaseModel):
     price_per_day: float
     original_price: float
     fuel_type: FuelTypeEnum
+    is_liked: bool = False
     fuel_capacity: Optional[int] = None
     transmission: TransmissionEnum
     capacity: int
@@ -44,3 +47,12 @@ class CarResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class CarFilterParams(BaseModel):
+    limit: Optional[int] = 20
+    offset: Optional[int] = 0
+    car_type: Optional[List[str]] = None
+    price: Optional[str] = None
+    capacity: Optional[List[int]] = None
+    q: Optional[str] = None

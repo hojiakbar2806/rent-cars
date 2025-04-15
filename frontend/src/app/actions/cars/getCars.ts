@@ -1,17 +1,16 @@
 "use server";
 
-import { BASE_URL } from "@/lib/const";
+import axios from "@/lib/axios";
 import { CarItem } from "@/types/cars";
 
-export async function getCars(): Promise<CarItem[] | null> {
-    try {
-        const response = await fetch(`${BASE_URL}/v1/cars`, {
-            headers: { "Cache-Control": "max-age=300, stale-while-revalidate=600" },
-            next: { revalidate: 300 },
-        });
-        return response.json();
+export async function getCars(filterBy: "all" | "popular", page?: number): Promise<CarItem[] | null> {
+    const params = new URLSearchParams();
+    params.set("filter", filterBy);
+    if (page) {
+        params.set("limit", "5");
+        params.set("page", String(page));
+        params.set("offset", String((page - 1) * 5));
     }
-    catch {
-        return null
-    }
+    const response = await axios.get(`/v1/cars?${params.toString()}`);
+    return response.data
 }

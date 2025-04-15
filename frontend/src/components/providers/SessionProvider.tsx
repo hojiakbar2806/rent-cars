@@ -4,7 +4,7 @@ import { createContext, ReactNode, useEffect } from "react";
 import { UserSession } from "@/types/session";
 
 export interface SessionContextType {
-  session: UserSession | null;
+  session: UserSession;
   setSession: (session: UserSession) => void;
 }
 

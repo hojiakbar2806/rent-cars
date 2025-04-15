@@ -3,7 +3,7 @@
 import { FC } from "react";
 
 const PropfilePage: FC = () => {
-  return <div></div>;
+  return <div>Mening kabinetim</div>;
 };
 
 export default PropfilePage;

@@ -1,4 +1,4 @@
-from fastapi import Request
+from fastapi import HTTPException, Request
 
 
 class BasePermission:
@@ -9,7 +9,9 @@ class BasePermission:
 class IsAuthenticated(BasePermission):
     async def has_permission(self, request: Request) -> bool:
         user = getattr(request.state, "user", None)
-        return user is not None
+        if user is None:
+            raise HTTPException(status_code=401, detail="Not authenticated")
+        return True
 
 
 class IsAdminUser(BasePermission):

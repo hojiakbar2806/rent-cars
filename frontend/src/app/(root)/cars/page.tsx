@@ -1,16 +1,10 @@
-import { FC, Fragment, use } from "react";
+import { FC, Fragment } from "react";
 import CarsList from "@/components/pages/cars/CarsList";
 import CarFilter from "@/components/pages/cars/carFilter/CarFilter";
 import Navbar from "@/components/shared/Navbar";
 import TransferSelectorBar from "@/components/shared/TransferSelectorBar";
 
-type Props = {
-  searchParams: Promise<Record<string, string>>;
-};
-
-const RentCarPage: FC<Props> = ({ searchParams }) => {
-  const params = use(searchParams);
-
+const RentCarPage: FC = () => {
   return (
     <Fragment>
       <Navbar />
@@ -19,7 +13,7 @@ const RentCarPage: FC<Props> = ({ searchParams }) => {
           <CarFilter />
           <div className="flex-1 overflow-scroll p-5 flex flex-col gap-5">
             <TransferSelectorBar />
-            <CarsList params={params} full />
+            <CarsList />
           </div>
         </div>
       </div>

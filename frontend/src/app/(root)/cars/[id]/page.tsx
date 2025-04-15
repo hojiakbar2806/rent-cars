@@ -1,11 +1,10 @@
 import { getCarById } from "@/app/actions/cars/getCarById";
-import { getPopularCars } from "@/app/actions/cars/getPopularCars";
-import { getRecommendedCars } from "@/app/actions/cars/getRecommendedCars";
 import CarDetail from "@/components/pages/car-detail/CarDetail";
 import CarReview from "@/components/pages/car-detail/CarReviews";
 import CarFilter from "@/components/pages/cars/carFilter/CarFilter";
-import CarsSection from "@/components/shared/CarsSection";
 import Navbar from "@/components/shared/Navbar";
+import PopularCars from "@/components/shared/PopularCars";
+import RecommendedCars from "@/components/shared/RecommendCars";
 import { Metadata } from "next";
 import { FC, Fragment } from "react";
 
@@ -15,12 +14,6 @@ type Props = {
 
 const RentCarPage: FC<Props> = async ({ params }) => {
   const id = (await params).id;
-  const [recents, recommends, carDetail] = await Promise.all([
-    getRecommendedCars(),
-    getPopularCars(),
-    getCarById(+id),
-  ]);
-
   return (
     <Fragment>
       <Navbar />
@@ -28,10 +21,10 @@ const RentCarPage: FC<Props> = async ({ params }) => {
         <div className="w-full flex">
           <CarFilter />
           <div className="w-full md:max-w-[calc(100%-320px)] flex flex-col p-5 gap-5">
-            <CarDetail car={carDetail} />
+            <CarDetail id={+id} />
             <CarReview />
-            <CarsSection title="Recent Car" data={recents} scrollable />
-            <CarsSection title="Recommended Car" data={recommends} scrollable />
+            <PopularCars />
+            <RecommendedCars />
           </div>
         </div>
       </div>

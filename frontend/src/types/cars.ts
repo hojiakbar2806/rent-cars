@@ -14,6 +14,7 @@ export interface CarItem {
   car_type: CarType;
   description: string;
   price_per_day: number;
+  is_liked: boolean;
   original_price: number;
   fuel_type: string;
   transmission: string;

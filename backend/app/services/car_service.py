@@ -4,13 +4,15 @@ from sqlalchemy.orm import selectinload
 from app.db.models.car import Car
 from app.repositories.car_repository import CarRepository
 from app.repositories.car_type_repository import CarTypeRepository
-from app.schemas.car import CarCreate, CarResponse, CarUpdate
+from app.repositories.favorite_repository import FavoriteRepository
+from app.schemas.car import CarCreate, CarFilterParams, CarResponse, CarUpdate
 
 
 class CarService:
-    def __init__(self, car_repo: CarRepository, car_type_repo: CarTypeRepository):
+    def __init__(self, car_repo: CarRepository, car_type_repo: CarTypeRepository, favorite_repo: FavoriteRepository):
         self.car_repo = car_repo
         self.car_type_repo = car_type_repo
+        self.favorite_repo = favorite_repo
 
     async def create_car(self, car: CarCreate) -> CarResponse:
         car_type = await self.car_type_repo.get_car_type(car.car_type_id)
@@ -29,8 +31,11 @@ class CarService:
             )
         return CarResponse.model_validate(db_car)
 
-    async def get_all_cars(self, limit, offset, car_type, price, capacity, q) -> list[CarResponse]:
-        cars = await self.car_repo.get_all_cars(limit, offset, car_type, price, capacity, q)
+    async def get_all_cars(self, params: CarFilterParams):
+        cars = await self.car_repo.get_all_cars(params)
+        favorites = await self.favorite_repo.get_favorites_car_id_by_user_id(1)
+        for car in cars:
+            car.is_liked = car.id in favorites
         return [CarResponse.model_validate(car) for car in cars]
 
     async def get_popular_cars(self) -> list[CarResponse]:

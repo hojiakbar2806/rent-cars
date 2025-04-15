@@ -1,24 +1,28 @@
-import { FC, use } from "react";
-import RentCars from "@/components/shared/CarsSection";
+"use client";
+
+import { FC, useMemo } from "react";
 import getCarsWithFilters from "@/app/actions/cars/getCarsWithParams";
+import { useSearchParams } from "next/navigation";
+import CardWrapper from "@/components/shared/CardWrapper";
+import { useQuery } from "@tanstack/react-query";
+import RentCarCard from "@/components/shared/CarCard";
 
-type Props = {
-  params: Record<string, string>;
-  full?: boolean;
-};
 
-const CarsList: FC<Props> = ({ params }) => {
-  const searchParams = new URLSearchParams();
 
-  Object.entries(params).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
-      value.forEach((v) => searchParams.append(key, v));
-    } else {
-      searchParams.append(key, value);
-    }
-  });
-  const data = use(getCarsWithFilters(searchParams.toString()));
-  return <RentCars data={data} showMore full/>;
+const CarsList: FC = () => {
+  const params = useSearchParams();
+  const search = useMemo(() => params.toString(), [params]);
+  const { data, isLoading } = useQuery({
+    queryKey: [`cars`, search],
+    queryFn: () => getCarsWithFilters(params.toString()),
+    staleTime: 5,
+  })
+
+  return <CardWrapper isLoading={isLoading} hasData={!!data?.length}>
+    {data?.map((car) => (
+      <RentCarCard car={car} invalidate={[`cars`, search]} key={car.id} />
+    ))}
+  </CardWrapper>
 };
 
 export default CarsList;

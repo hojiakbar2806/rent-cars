@@ -1,28 +1,32 @@
-import { CarItem } from "@/types/cars";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface WishlistStore {
-  wishlist: CarItem[] | null;
-  add: (car: CarItem) => void;
-  remove: (id: number) => void;
+  wishlist: number[];
+  toggle: (car_id: number) => void;
+  setWishlist: (car_id: number) => void;
 }
 
 export const useWishlistStore = create<WishlistStore>()(
   persist(
     (set, get) => ({
-      wishlist: null,
-      add: () => set({}),
-      remove: (id) =>
-        set(() => {
-          const wishlist = get().wishlist;
-          const existing = wishlist?.some((item) => item.id === id);
-          if (existing) {
-            const updated = wishlist?.filter((item) => item.id !== id);
-            return { wishlist: updated };
+      wishlist: [],
+      toggle: (car_id) => {
+        const wishlist = get().wishlist;
+        if (wishlist) {
+          if (wishlist.includes(car_id)) {
+            set({ wishlist: wishlist.filter((id) => id !== car_id) });
+          } else {
+            set({ wishlist: [...wishlist, car_id] });
           }
-          return { wishlist };
-        }),
+        }
+      },
+      setWishlist: (car_id) => {
+        const wishlist = get().wishlist;
+        if (!wishlist.includes(car_id)) {
+          set({ wishlist: [...wishlist, car_id] });
+        }
+      },
     }),
     { name: "wishlist" }
   )
