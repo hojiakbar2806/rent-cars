@@ -13,12 +13,12 @@ export const SessionContext = createContext<SessionContextType | null>(null);
 export const SessionProvider = ({ children, session }: { children: ReactNode, session: UserSession }) => {
   useEffect(() => {
     if (session) {
-      document.cookie = `session=${encodeURIComponent(JSON.stringify(session))}; path=/; max-age=1800; secure; sameSite=strict`;
+      document.cookie = `is_admin=${session?.user?.is_admin}; path=/; max-age=1800; secure; sameSite=strict`;
     }
   }, [session]);
 
   const setSession = (userSession: UserSession) => {
-    document.cookie = `session=${encodeURIComponent(JSON.stringify(userSession))}; path=/; max-age=1800; secure; sameSite=strict`;
+    document.cookie = `is_admin=${userSession?.user?.is_admin}; path=/; max-age=1800; secure; sameSite=strict`;
   };
 
   return (
