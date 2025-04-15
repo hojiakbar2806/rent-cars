@@ -6,11 +6,13 @@ import RentCarCard from "@/components/shared/CarCard";
 import { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCars } from "@/app/actions/cars/getCars";
+import { useSession } from "@/hooks/useSession";
 
 const PopularCars: FC = () => {
+  const { session } = useSession()
   const { data = null, isLoading } = useQuery({
     queryKey: ["cars"],
-    queryFn: () => getCars("all"),
+    queryFn: () => getCars("all", session?.token),
     staleTime: 5,
   })
 

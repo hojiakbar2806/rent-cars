@@ -3,7 +3,7 @@
 import axios from "@/lib/axios";
 import { CarItem } from "@/types/cars";
 
-export async function getCars(filterBy: "all" | "popular", page?: number): Promise<CarItem[] | null> {
+export async function getCars(filterBy: "all" | "popular", token?: string | null, page?: number): Promise<CarItem[] | null> {
     const params = new URLSearchParams();
     params.set("filter", filterBy);
     if (page) {
@@ -11,6 +11,9 @@ export async function getCars(filterBy: "all" | "popular", page?: number): Promi
         params.set("page", String(page));
         params.set("offset", String((page - 1) * 5));
     }
-    const response = await axios.get(`/v1/cars?${params.toString()}`);
+    const header = token ? { Authorization: `Bearer ${token}` } : {};
+    const response = await axios.get(`/v1/cars?${params.toString()}`, {
+        headers: header,
+    });
     return response.data
 }
