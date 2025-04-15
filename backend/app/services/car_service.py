@@ -23,17 +23,19 @@ class CarService:
         new_car = await self.car_repo.create_car(car)
         return CarResponse.model_validate(new_car)
 
-    async def get_car(self, car_id: int) -> CarResponse:
+    async def get_car(self, car_id: int, user_id: int) -> CarResponse:
         db_car = await self.car_repo.get_car_with_options(car_id, [selectinload(Car.car_type)])
+        favorites = await self.favorite_repo.get_favorites_car_id_by_user_id(user_id)
+        db_car.is_liked = db_car.id in favorites
         if not db_car:
             raise HTTPException(
                 status_code=404, detail=f"Car with ID {car_id} not found"
             )
         return CarResponse.model_validate(db_car)
 
-    async def get_all_cars(self, params: CarFilterParams):
+    async def get_all_cars(self, params: CarFilterParams, user_id: int) -> list[CarResponse]:
         cars = await self.car_repo.get_all_cars(params)
-        favorites = await self.favorite_repo.get_favorites_car_id_by_user_id(1)
+        favorites = await self.favorite_repo.get_favorites_car_id_by_user_id(user_id)
         for car in cars:
             car.is_liked = car.id in favorites
         return [CarResponse.model_validate(car) for car in cars]

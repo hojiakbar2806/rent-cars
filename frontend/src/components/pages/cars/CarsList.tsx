@@ -6,15 +6,17 @@ import { useSearchParams } from "next/navigation";
 import CardWrapper from "@/components/shared/CardWrapper";
 import { useQuery } from "@tanstack/react-query";
 import RentCarCard from "@/components/shared/CarCard";
+import { useSession } from "@/hooks/useSession";
 
 
 
 const CarsList: FC = () => {
   const params = useSearchParams();
+  const { session } = useSession()
   const search = useMemo(() => params.toString(), [params]);
   const { data, isLoading } = useQuery({
     queryKey: [`cars`, search],
-    queryFn: () => getCarsWithFilters(params.toString()),
+    queryFn: () => getCarsWithFilters(params.toString(), session?.token),
     staleTime: 5,
   })
 

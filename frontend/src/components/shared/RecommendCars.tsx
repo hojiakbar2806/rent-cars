@@ -8,11 +8,14 @@ import RentCardWrapper from "@/components/shared/CardWrapper";
 import RentCarCard from "@/components/shared/CarCard";
 import { CarItem } from "@/types/cars";
 import { getCars } from "@/app/actions/cars/getCars";
+import { useSession } from "@/hooks/useSession";
 
 const RecommendedCars: FC = () => {
+  const { session } = useSession()
+
   const query = useInfiniteQuery({
     queryKey: ["recommendedCars"],
-    queryFn: ({ pageParam = 1 }) => getCars("popular", pageParam),
+    queryFn: ({ pageParam = 1 }) => getCars("popular", session?.token, pageParam),
     getNextPageParam: (lastPage, pages) => {
       if (lastPage?.length === 0) return undefined;
       return pages.length + 1;

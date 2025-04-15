@@ -28,6 +28,7 @@ def get_car_filter_service(session: AsyncSession = Depends(get_async_session)):
 
 @router.get("", response_model=list[CarResponse])
 async def get_all_cars(
+    request: Request,
     limit: Optional[int] = 20,
     offset: Optional[int] = 0,
     car_type: List[str] = Query(None),
@@ -36,7 +37,9 @@ async def get_all_cars(
     q: str = Query(None),
     service: CarService = Depends(get_car_service)
 ):
-    return await service.get_all_cars(CarFilterParams(limit=limit, offset=offset, car_type=car_type, price=price, capacity=capacity, q=q))
+    user = getattr(request.state, "user", None)
+    user_id = user.id if user else 0
+    return await service.get_all_cars(CarFilterParams(limit=limit, offset=offset, car_type=car_type, price=price, capacity=capacity, q=q), user_id)
 
 
 @router.post("", response_model=CarResponse)
@@ -60,8 +63,10 @@ async def get_cars_filters(service: CarService = Depends(get_car_service)):
 
 
 @router.get("/{car_id}", response_model=CarResponse)
-async def get_car(car_id: int, service: CarService = Depends(get_car_service)):
-    return await service.get_car(car_id)
+async def get_car(request: Request, car_id: int, service: CarService = Depends(get_car_service)):
+    user = getattr(request.state, "user", None)
+    user_id = user.id if user else 0
+    return await service.get_car(car_id, user_id)
 
 
 @router.put("/{car_id}", response_model=CarResponse)

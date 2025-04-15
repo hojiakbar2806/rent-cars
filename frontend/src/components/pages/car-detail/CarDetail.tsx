@@ -9,16 +9,17 @@ import LikeButton from "@/components/shared/LikeButton";
 import { useQuery } from "@tanstack/react-query";
 import { getCarById } from "@/app/actions/cars/getCarById";
 import { CarDetailSkeleton } from "./CarDetailSkeleton";
+import { useSession } from "@/hooks/useSession";
 
 type Props = {
   id: number
 };
 
 const CarDetail: FC<Props> = ({ id }) => {
-
+  const { session } = useSession()
   const { data: car, isLoading } = useQuery({
     queryKey: ["car", `${id}`],
-    queryFn: () => getCarById(1),
+    queryFn: () => getCarById(1, session?.token),
     staleTime: 5,
   })
   if (isLoading) {

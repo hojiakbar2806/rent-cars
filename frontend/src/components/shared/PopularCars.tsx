@@ -7,11 +7,13 @@ import Link from "next/link";
 import { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCars } from "@/app/actions/cars/getCars";
+import { useSession } from "@/hooks/useSession";
 
 const PopularCars: FC = () => {
+  const { session } = useSession()
   const { data = null, isLoading } = useQuery({
     queryKey: ["popularCars"],
-    queryFn: () => getCars("popular"),
+    queryFn: () => getCars("popular", session?.token),
     staleTime: 5,
   })
 
@@ -21,7 +23,7 @@ const PopularCars: FC = () => {
         <div className="flex items-center justify-between w-full px-4">
           <h1 className="text-2xl font-bold">Mashhur mashinalar</h1>
           <Link
-            href=""
+            href="/cars"
             className="text-blue-500 hover:underline"
           >
             Hammasini ko'rish
