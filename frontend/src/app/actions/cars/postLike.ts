@@ -10,6 +10,6 @@ export default async function postLike(id: number, token: string | null) {
         });
         return { message: res.data.message };
     } catch (error: unknown) {
-        throw new Error("Avval ro'yxatdan o'ting");
+        throw new Error(error instanceof Error ? error.message : "Something went wrong");
     }
 }
