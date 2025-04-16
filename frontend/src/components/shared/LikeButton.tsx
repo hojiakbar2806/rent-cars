@@ -24,7 +24,12 @@ const LikeButton: FC<Props> = ({ id, is_liked, invalidate, noAction }) => {
       className="group cursor-pointer"
       onClick={async (e) => {
         if (!noAction) {
-          e.stopPropagation();
+          e.stopPropagation()
+          if (session?.token === null) {
+            toast.error("Avval ro'yxatdan o'ting");
+            return
+          }
+
           toast.promise(postLike(id ?? 0, session?.token || null), {
             loading: "Liking...",
             success: (data) => {
