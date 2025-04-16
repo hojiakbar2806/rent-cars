@@ -10,7 +10,6 @@ import login from "@/app/actions/auth/login";
 import FormInput from "@/components/pages/auth/FormInput";
 import SubmitButton from "@/components/pages/auth/SubmitButton";
 import nProgress from "nprogress";
-import { useSession } from "@/hooks/useSession";
 
 const schema = z.object({
   email: z.string().email("Invalid email address"),
