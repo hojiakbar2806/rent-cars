@@ -50,3 +50,7 @@ class UserWithProfile(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class TokenRequest(BaseModel):
+    refresh_token: str
