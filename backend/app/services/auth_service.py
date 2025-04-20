@@ -50,6 +50,9 @@ class AuthService(UserService):
         return await self.verify_user_token(token, [TokenType.ACCESS])
 
     async def refresh_token(self, token: str):
-        user_id = decode_jwt(token, [TokenType.REFRESH]).get("sub")
-        access_token = create_access_token(user_id)
-        return JSONResponse(content={"access_token": access_token})
+        try:
+            user_id = decode_jwt(token, [TokenType.REFRESH]).get("sub")
+            access_token = create_access_token(user_id)
+            return JSONResponse(content={"access_token": access_token})
+        except PyJWTError:
+            raise HTTPException(status_code=401, detail="Invalid token")
