@@ -11,6 +11,8 @@ import FormInput from "@/components/pages/auth/FormInput";
 import SubmitButton from "@/components/pages/auth/SubmitButton";
 import nProgress from "nprogress";
 import { LoginFormData, loginSchema } from "@/lib/validations/auth";
+import queryClient from "@/lib/queryClient";
+import { useSession } from "@/hooks/useSession";
 
 export default function SignIn() {
   const {
@@ -20,11 +22,16 @@ export default function SignIn() {
   } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
 
   const router = useRouter();
+  const { setSession } = useSession();
 
   const onSubmit = async (data: LoginFormData) => {
     await toast.promise(login(data), {
       loading: "Aniqlanmoqda...",
-      success: (res) => res.message,
+      success: (res) => {
+        queryClient.invalidateQueries();
+        setSession(res.data)
+        return res.message
+      },
       error: (error) => error.message,
     });
 

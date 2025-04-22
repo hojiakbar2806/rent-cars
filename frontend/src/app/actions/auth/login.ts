@@ -31,7 +31,7 @@ export default async function login(data: LoginFormData) {
     await redis.set(session_id, JSON.stringify(session), 'EX', session.expire * 60)
     await redis.set(`user_session:${session.user.id}`, session_id, 'EX', session.expire * 60)
     cookieStore.set("session_id", session_id, { httpOnly: true, sameSite: "strict" })
-    return { message: "Login successful" };
+    return { message: "Login successful", data: session };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new Error(error.response?.data.detail);

@@ -12,8 +12,8 @@ import { useAPIClient } from "@/hooks/useAPIClient";
 const PopularCars: FC = () => {
   const { get } = useAPIClient()
   const { data = null, isLoading } = useQuery({
-    queryKey: ["popularCars"],
-    queryFn: () => get<CarItem[]>("/v1/cars?popular=true"),
+    queryKey: ["populars"],
+    queryFn: () => get<CarItem[]>("/v1/cars?filter=popular"),
     staleTime: 1000 * 60 * 10,
   })
 
@@ -36,7 +36,7 @@ const PopularCars: FC = () => {
           hasData={true}
         >
           {data?.map((car) => (
-            <RentCarCard car={car} key={car.id} scrollable={true} invalidate={["popularCars"]} />
+            <RentCarCard car={car} key={car.id} scrollable={true} />
           ))}
         </RentCardWrapper>
       </div>

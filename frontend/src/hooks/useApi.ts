@@ -10,7 +10,7 @@ const useApi = () => {
         const requestInterceptor = api.interceptors.request.use(
             (config) => {
                 if (session?.access_token) {
-                    config.headers.Authorization = `Bearer ${session?.access_token}`
+                    config.headers.Authorization = `Bearer ${session?.access_token}`;
                 }
                 return config;
             },
@@ -20,26 +20,25 @@ const useApi = () => {
         const responseInterceptor = api.interceptors.response.use(
             (response) => response,
             async (error) => {
-                if (error.response?.status === 401) {
+                const originalRequest = error.config;
+
+                if (
+                    error.response?.status === 401 &&
+                    !originalRequest._retry &&
+                    originalRequest.url !== "/api/new-token"
+                ) {
+                    originalRequest._retry = true;
                     try {
-                        // const refreshRes = await api.post("/v1/auth/refresh_token", {
-                        //     refresh_token: session.refresh_token,
-                        // });
-                        // const { access_token } = refreshRes.data;
-
-                        // setSession({ ...session, access_token });
-                        // axios.post("/api/update-access", { access_token });
-
-                        // error.config.headers.Authorization = `Bearer ${access_token}`;
-                        // return api(error.config);
+                        if (session) {
+                            const res = await axios.get("/api/new-token");
+                            setSession({ ...session, access_token: res.data.token });
+                            return api(error.config);
+                        }
                     } catch (refreshError) {
                         setSession(null);
-                        axios.post("/api/update-access", { access_token: null });
+                        const res = await axios.post("/api/logout");
                         return Promise.reject(refreshError);
                     }
-                }
-                else {
-                    setSession(null);
                 }
 
                 return Promise.reject(error);
@@ -50,7 +49,7 @@ const useApi = () => {
             api.interceptors.request.eject(requestInterceptor);
             api.interceptors.response.eject(responseInterceptor);
         };
-    }, [session, setSession])
+    }, [session, setSession]);
 
     return api;
 };

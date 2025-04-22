@@ -13,10 +13,9 @@ import LikeButton from "./LikeButton";
 type Props = {
   car: CarItem;
   scrollable?: boolean;
-  invalidate: any[];
 };
 
-const CarsCard: FC<Props> = ({ scrollable = false, car, invalidate }) => {
+const CarsCard: FC<Props> = ({ scrollable = false, car }) => {
   const router = useRouter();
 
   const handleClick = () => {
@@ -37,7 +36,7 @@ const CarsCard: FC<Props> = ({ scrollable = false, car, invalidate }) => {
           <h1 className="font-bold text-xl">{car.name}</h1>
           <p className="text-slate-400 font-semibold">{car.car_type.name}</p>
         </div>
-        <LikeButton id={car.id} is_liked={car.is_liked} invalidate={invalidate} />
+        <LikeButton id={car.id} is_liked={car.is_liked} />
       </div>
 
       <div className="w-full flex-1 flex flex-row justify-between items-center md:flex-col">

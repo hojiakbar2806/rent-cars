@@ -1,6 +1,7 @@
 "use client";
 
 import logout from "@/app/actions/auth/logout";
+import { useSession } from "@/hooks/useSession";
 import { LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import nProgress from "nprogress";
@@ -9,15 +10,20 @@ import toast from "react-hot-toast";
 
 const LogoutButton = () => {
   const router = useRouter();
+  const { setSession } = useSession()
 
   const handleLogout = async () => {
     await toast.promise(logout(),
       {
         loading: "Siz tizimdan chiqmoqdasiz...",
-        success: (res) => res.msg,
+        success: (res) => {
+          setSession(null)
+          return res.msg
+        },
         error: (error) => error.msg
       }
     );
+
     nProgress.start();
     router.push("/");
   };

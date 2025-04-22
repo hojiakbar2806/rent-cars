@@ -7,19 +7,18 @@ import CarImages from "./CarImages";
 import StarsRating from "@/components/shared/StarsRating";
 import LikeButton from "@/components/shared/LikeButton";
 import { useQuery } from "@tanstack/react-query";
-import { getCarById } from "@/app/actions/cars/getCarById";
 import { CarDetailSkeleton } from "./CarDetailSkeleton";
-import { useSession } from "@/hooks/useSession";
+import { useAPIClient } from "@/hooks/useAPIClient";
 
 type Props = {
   id: number
 };
 
 const CarDetail: FC<Props> = ({ id }) => {
-  const { session } = useSession()
+  const { get } = useAPIClient()
   const { data: car, isLoading } = useQuery({
-    queryKey: ["car", `${id}`],
-    queryFn: () => getCarById(1, session?.access_token),
+    queryFn: () => get(`/v1/cars/${id}`),
+    queryKey: ["car", id],
     staleTime: 5,
   })
   if (isLoading) {
@@ -37,7 +36,7 @@ const CarDetail: FC<Props> = ({ id }) => {
                 {car?.car_type.name}
               </span>
             </h3>
-            <LikeButton id={car?.id ?? 0} is_liked={car?.is_liked ?? false} invalidate={["car", `${id}`]} />
+            <LikeButton id={car?.id ?? 0} is_liked={car?.is_liked ?? false} />
           </div>
           <div className="flex gap-2 items-center">
             <StarsRating readonly value={4} />

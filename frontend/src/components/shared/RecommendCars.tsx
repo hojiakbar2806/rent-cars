@@ -12,7 +12,6 @@ import { useAPIClient } from "@/hooks/useAPIClient";
 const RecommendedCars: FC = () => {
   const { get } = useAPIClient();
 
-  const limit = 5;
 
   const {
     data,
@@ -21,16 +20,16 @@ const RecommendedCars: FC = () => {
     hasNextPage,
     fetchNextPage,
   } = useInfiniteQuery({
-    queryKey: ["recommendedCars"],
+    queryKey: ["recommends"],
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await get(`/v1/cars?page=${pageParam}&limit=${limit}&offset=${(pageParam - 1) * limit}`);
+      const res = await get(`/v1/cars?page=${pageParam}&limit=10&offset=${(pageParam - 1) * 10}`);
       return res;
     },
     getNextPageParam: (lastPage, allPages) => {
       return lastPage?.length === 0 ? undefined : allPages.length + 1;
     },
     initialPageParam: 1,
-    staleTime: 60_000,
+    staleTime: 1000 * 60 * 10,
   });
 
   const allCars = data?.pages.flat() as CarItem[] ?? [];
@@ -54,7 +53,6 @@ const RecommendedCars: FC = () => {
               key={car.id}
               car={car}
               scrollable={false}
-              invalidate={["recommendedCars"]}
             />
           ))}
         </RentCardWrapper>

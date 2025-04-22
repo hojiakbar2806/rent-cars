@@ -10,11 +10,10 @@ import { useAPIClient } from "@/hooks/useAPIClient";
 type Props = {
   id?: number;
   is_liked?: boolean;
-  invalidate?: string[]
   noAction?: boolean
 };
 
-const LikeButton: FC<Props> = ({ id, is_liked, invalidate, noAction }) => {
+const LikeButton: FC<Props> = ({ id, is_liked, noAction }) => {
   const { session } = useSession();
   const { post } = useAPIClient()
 
@@ -34,7 +33,10 @@ const LikeButton: FC<Props> = ({ id, is_liked, invalidate, noAction }) => {
           toast.promise(post(`/v1/favorites/${id}`), {
             loading: "Liking...",
             success: (data) => {
-              queryClient.invalidateQueries({ queryKey: invalidate });
+              queryClient.invalidateQueries({ queryKey: ["cars"] });
+              queryClient.invalidateQueries({ queryKey: ["recommends"] });
+              queryClient.invalidateQueries({ queryKey: ["populars"] });
+              queryClient.invalidateQueries({ queryKey: ["car", id] });
               return data.message
             },
             error: "Avval ro'yxatdan o'ting",

@@ -10,6 +10,8 @@ import FormInput from "@/components/pages/auth/FormInput";
 import SubmitButton from "@/components/pages/auth/SubmitButton";
 import register from "@/app/actions/auth/register";
 import { RegisterFormData, registerSchema } from "@/lib/validations/auth";
+import queryClient from "@/lib/queryClient";
+import { useSession } from "@/hooks/useSession";
 
 
 export default function SignUp() {
@@ -20,19 +22,19 @@ export default function SignUp() {
   } = useForm<RegisterFormData>({ resolver: zodResolver(registerSchema) });
 
   const router = useRouter();
+  const { setSession } = useSession();
 
-  const onSubmit = (data: RegisterFormData) => {
-    toast.promise(
-      register(data).then((res) => {
-        if (res.ok) {
-          router.replace("/");
-          toast.success(res.msg);
-        } else {
-          toast.error(res.msg);
-        }
-      }),
-      { loading: "Aniqlanmoqda..." }
-    );
+  const onSubmit = async (data: RegisterFormData) => {
+    await toast.promise(register(data), {
+      loading: "Aniqlanmoqda...",
+      success: (res) => {
+        queryClient.invalidateQueries();
+        setSession(res.data)
+        return res.message
+      },
+      error: (error) => error.message,
+    });
+
   };
 
   return (

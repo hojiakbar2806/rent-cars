@@ -17,14 +17,17 @@ import toast from "react-hot-toast";
 
 export function UserDropdown() {
   const router = useRouter();
-  const { session } = useSession()
+  const { session, setSession } = useSession()
   const fallbackText = session?.user?.email.slice(0, 2).toUpperCase();
 
   const handleLogout = async () => {
     await toast.promise(logout(),
       {
         loading: "Siz tizimdan chiqmoqdasiz...",
-        success: (res) => res.msg,
+        success: (res) => {
+          setSession(null)
+          return res.msg
+        },
         error: (error) => error.msg
       }
     );

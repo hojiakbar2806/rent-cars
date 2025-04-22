@@ -6,28 +6,9 @@ import TransferSelectorBar from "@/components/shared/TransferSelectorBar";
 import PopularCars from "@/components/shared/PopularCars";
 import RecommentdedCars from "@/components/shared/RecommendCars";
 import queryClient from "@/lib/queryClient";
-// import getRecommendedCars from "../actions/cars/getRecommendedCars";
 import HydrateProvider from "@/components/providers/HydrateProvider";
-// import getPopularCars from "../actions/cars/getPopularCars";
 
 const HomePage: FC = async () => {
-  // const page = 1
-  // const limit = 5
-
-  // await queryClient.prefetchQuery({
-  //   queryKey: ["popularCars"],
-  //   queryFn: () => getPopularCars(1, 10),
-  // });
-
-
-  // await queryClient.prefetchInfiniteQuery({
-  //   queryKey: ["recommendedCars", { page, limit }],
-  //   queryFn: () => getRecommendedCars(page, limit),
-  //   getNextPageParam: (lastPage: string | any[], allPages: string | any[]) => {
-  //     return lastPage.length === limit ? allPages.length + 1 : undefined;
-  //   },
-  //   initialPageParam: page,
-  // });
 
   return (
     <HydrateProvider state={queryClient}>
@@ -52,7 +33,7 @@ const HomePage: FC = async () => {
           </div>
           <TransferSelectorBar />
           <PopularCars />
-          <RecommentdedCars  />
+          <RecommentdedCars />
         </div>
         <Footer />
       </div>
