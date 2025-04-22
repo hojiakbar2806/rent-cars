@@ -1,7 +1,7 @@
 "use server";
 
 import axios from "@/lib/axios";
-import { RegisterFormData } from "@/app/(root)/(auth)/register/page";
+import { RegisterFormData } from "@/lib/validations/auth";
 import { cookies } from "next/headers";
 
 export default async function register(data: RegisterFormData) {

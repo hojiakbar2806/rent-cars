@@ -9,6 +9,7 @@ export type UserSession = {
     last_name: string;
     is_admin: boolean;
   };
+  expire: number;
   access_token: string;
 } | null
 

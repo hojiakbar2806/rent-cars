@@ -1,10 +1,10 @@
 "use server";
 
 import axios from "@/lib/axios";
-import { LoginFormData } from "@/app/(root)/(auth)/login/page";
 import { cookies } from "next/headers";
 import { redis } from "@/lib/redis";
 import { v4 as uuidv4 } from 'uuid'
+import { LoginFormData } from "@/lib/validations/auth";
 
 
 export default async function login(data: LoginFormData) {
@@ -18,7 +18,7 @@ export default async function login(data: LoginFormData) {
       user: sessionRes.data,
       access_token: loginRes.data.access_token,
       refresh_token: loginRes.data.refresh_token,
-      expire: loginRes.data?.expire || 100,
+      expire: loginRes.data?.expire_minutes ?? 60 * 10,
     }
 
     const old_session_id = await redis.get(`user_session:${session.user.id}`)
@@ -28,8 +28,8 @@ export default async function login(data: LoginFormData) {
       await redis.del(`user_session:${session.user.id}`)
     }
     const session_id = uuidv4()
-    await redis.set(session_id, JSON.stringify(session), 'EX', session.expire)
-    await redis.set(`user_session:${session.user.id}`, session_id, 'EX', session.expire)
+    await redis.set(session_id, JSON.stringify(session), 'EX', session.expire * 60)
+    await redis.set(`user_session:${session.user.id}`, session_id, 'EX', session.expire * 60)
     cookieStore.set("session_id", session_id, { httpOnly: true, sameSite: "strict" })
     return { message: "Login successful" };
   } catch (error) {

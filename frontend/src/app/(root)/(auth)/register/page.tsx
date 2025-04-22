@@ -8,25 +8,16 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/pages/auth/FormInput";
 import SubmitButton from "@/components/pages/auth/SubmitButton";
-import register  from "@/app/actions/auth/register";
+import register from "@/app/actions/auth/register";
+import { RegisterFormData, registerSchema } from "@/lib/validations/auth";
 
-const schema = z.object({
-  email: z.string().email("Invalid email address"),
-  first_name: z
-    .string()
-    .min(4, "First name must be at least 4 characters long"),
-  last_name: z.string().min(4, "First name must be at least 4 characters long"),
-  password: z.string().min(4, "Password must be at least 6 characters long"),
-});
-
-export type RegisterFormData = z.infer<typeof schema>;
 
 export default function SignUp() {
   const {
     register: registerForm,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterFormData>({ resolver: zodResolver(schema) });
+  } = useForm<RegisterFormData>({ resolver: zodResolver(registerSchema) });
 
   const router = useRouter();
 
