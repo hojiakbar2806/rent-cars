@@ -22,7 +22,7 @@ const CarsList: FC = () => {
 
   return <CardWrapper isLoading={isLoading} hasData={!!data?.length}>
     {data?.map((car) => (
-      <RentCarCard car={car} invalidate={[`cars`, search]} key={car.id} />
+      <RentCarCard car={car} key={car.id} />
     ))}
   </CardWrapper>
 };

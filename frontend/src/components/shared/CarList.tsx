@@ -24,7 +24,7 @@ const PopularCars: FC = () => {
         hasData={true}
       >
         {data?.map((car) => (
-          <RentCarCard car={car} key={car.id} scrollable={true} invalidate={["cars"]} />
+          <RentCarCard car={car} key={car.id} scrollable={true} />
         ))}
       </RentCardWrapper>
     </div>

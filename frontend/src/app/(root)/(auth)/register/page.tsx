@@ -1,10 +1,8 @@
 "use client";
 
-import { z } from "zod";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/pages/auth/FormInput";
 import SubmitButton from "@/components/pages/auth/SubmitButton";
@@ -21,7 +19,6 @@ export default function SignUp() {
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({ resolver: zodResolver(registerSchema) });
 
-  const router = useRouter();
   const { setSession } = useSession();
 
   const onSubmit = async (data: RegisterFormData) => {

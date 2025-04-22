@@ -36,7 +36,7 @@ const useApi = () => {
                         }
                     } catch (refreshError) {
                         setSession(null);
-                        const res = await axios.post("/api/logout");
+                        await axios.post("/api/logout");
                         return Promise.reject(refreshError);
                     }
                 }
