@@ -1,37 +1,36 @@
-"use client";
+"use client"
 
 import { FC } from "react";
 import Image from "next/image";
 import { LucideIcon, UsersRound, Fuel, Target } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { CarItem } from "@/types/cars";
 import Link from "next/link";
 import { BASE_URL } from "@/lib/const";
 import { useRouter } from "next/navigation";
-import nProgress from "nprogress";
 import LikeButton from "./LikeButton";
 
 type Props = {
   car: CarItem;
   scrollable?: boolean;
-  invalidate: string[]
+  invalidate: any[];
 };
 
 const CarsCard: FC<Props> = ({ scrollable = false, car, invalidate }) => {
   const router = useRouter();
 
+  const handleClick = () => {
+    router.push(`/cars/${car.id}`);
+  };
+
   return (
     <div
       data-scrollable={scrollable}
       className="flex flex-col gap-6 justify-between aspect-[400/300] min-w-[400px] p-4 rounded-xl bg-white snap-start
-      md:aspect-[300/400] md:min-w-[300px]
-      data-[scrollable=true]:aspect-[300/400] 
-      data-[scrollable=true]:min-w-[300px]"
-      onClick={() => {
-        nProgress.start();
-        router.push(`/cars/${car.id}`);
-      }}
+        md:aspect-[300/400] md:min-w-[300px]
+        data-[scrollable=true]:aspect-[300/400] 
+        data-[scrollable=true]:min-w-[300px]"
+      onClick={handleClick}
     >
       <div className="w-full flex items-center justify-between">
         <div>
@@ -41,29 +40,17 @@ const CarsCard: FC<Props> = ({ scrollable = false, car, invalidate }) => {
         <LikeButton id={car.id} is_liked={car.is_liked} invalidate={invalidate} />
       </div>
 
-      <div
-        data-scrollable={scrollable}
-        className="w-full flex-1 flex flex-row justify-between items-center
-        md:flex-col
-        data-[scrollable=true]:flex-col
-        "
-      >
+      <div className="w-full flex-1 flex flex-row justify-between items-center md:flex-col">
         <Image
           src={`${BASE_URL}/${car.images[0]}`}
           width={250}
           height={110}
           alt={car.name}
           priority
-          className="w-full my-auto"
+          className="w-full my-auto object-contain"
         />
 
-        <div
-          data-scrollable={scrollable}
-          className="flex flex-col gap-3
-          md:flex-row md:w-full md:justify-between
-          data-[scrollable=true]:flex-row
-          data-[scrollable=true]:w-full"
-        >
+        <div className="flex flex-col gap-3 md:flex-row md:w-full md:justify-between">
           <InfoLab Icon={Fuel} label={`${car.fuel_capacity} L`} />
           <InfoLab Icon={Target} label={car.transmission} />
           <InfoLab Icon={UsersRound} label={`${car.capacity} Yo'lovchi`} />

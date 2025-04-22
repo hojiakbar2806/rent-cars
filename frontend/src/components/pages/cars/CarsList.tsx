@@ -16,7 +16,7 @@ const CarsList: FC = () => {
   const search = useMemo(() => params.toString(), [params]);
   const { data, isLoading } = useQuery({
     queryKey: [`cars`, search],
-    queryFn: () => getCarsWithFilters(params.toString(), session?.token),
+    queryFn: () => getCarsWithFilters(params.toString(), session?.access_token),
     staleTime: 5,
   })
 

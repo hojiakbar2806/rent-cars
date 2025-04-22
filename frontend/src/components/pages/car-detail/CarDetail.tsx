@@ -19,7 +19,7 @@ const CarDetail: FC<Props> = ({ id }) => {
   const { session } = useSession()
   const { data: car, isLoading } = useQuery({
     queryKey: ["car", `${id}`],
-    queryFn: () => getCarById(1, session?.token),
+    queryFn: () => getCarById(1, session?.access_token),
     staleTime: 5,
   })
   if (isLoading) {

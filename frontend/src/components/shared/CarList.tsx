@@ -12,7 +12,7 @@ const PopularCars: FC = () => {
   const { session } = useSession()
   const { data = null, isLoading } = useQuery({
     queryKey: ["cars"],
-    queryFn: () => getCars("all", session?.token),
+    queryFn: () => getCars("all", session?.access_token),
     staleTime: 5,
   })
 
