@@ -4,17 +4,11 @@ import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 import TransferSelectorBar from "@/components/shared/TransferSelectorBar";
 import PopularCars from "@/components/shared/PopularCars";
+import RecommentdedCars from "@/components/shared/RecommendCars";
 import queryClient from "@/lib/queryClient";
 import HydrateProvider from "@/components/providers/HydrateProvider";
-import { getCars } from "../actions/cars/getCars";
-import RecommentdedCars from "@/components/shared/RecommendCars";
 
-const HomePage: FC = () => {
-  queryClient.prefetchQuery({
-    queryKey: ["popularCars"],
-    queryFn: () => getCars("popular")
-  })
-
+const HomePage: FC = async () => {
 
   return (
     <HydrateProvider state={queryClient}>

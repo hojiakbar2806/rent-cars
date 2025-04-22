@@ -1,31 +1,18 @@
 "use server";
 
 import { cookies } from "next/headers";
-import axios from "@/lib/axios";
+import { redis } from "@/lib/redis";
 import { UserSession } from "@/types/session";
 
-export const getSession = async () => {
+export async function getSession(): Promise<UserSession> {
   const cookieStore = await cookies();
-  const refreshToken = cookieStore.get("refresh_token")?.value;
-
-  let accessToken = null;
-
+  const sessionId = cookieStore.get('session_id')?.value;
+  if (!sessionId) return null;
+  const sessionRaw = await redis.get(sessionId);
+  if (!sessionRaw) return null;
   try {
-    if (refreshToken) {
-      const refreshRes = await axios.get("/v1/auth/refresh_token", {
-        headers: { Cookie: `refresh_token=${refreshToken}` },
-      });
-      accessToken = refreshRes.data.access_token;
-    }
-
-    if (accessToken) {
-      const sessionRes = await axios.get("/v1/auth/session", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      return { user: sessionRes.data, token: accessToken } as UserSession;
-    }
+    return JSON.parse(sessionRaw);
   } catch {
-    return { user: null, token: null }
+    return null;
   }
-  return { user: null, token: null }
-};
+}

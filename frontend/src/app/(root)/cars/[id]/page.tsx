@@ -24,7 +24,7 @@ const RentCarPage: FC<Props> = async ({ params }) => {
             <CarDetail id={+id} />
             <CarReview />
             <PopularCars />
-            <RecommendedCars />
+            <RecommendedCars/>
           </div>
         </div>
       </div>

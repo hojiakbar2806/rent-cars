@@ -1,47 +1,37 @@
 "use client";
 
-import { z } from "zod";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/pages/auth/FormInput";
 import SubmitButton from "@/components/pages/auth/SubmitButton";
-import register  from "@/app/actions/auth/register";
+import register from "@/app/actions/auth/register";
+import { RegisterFormData, registerSchema } from "@/lib/validations/auth";
+import queryClient from "@/lib/queryClient";
+import { useSession } from "@/hooks/useSession";
 
-const schema = z.object({
-  email: z.string().email("Invalid email address"),
-  first_name: z
-    .string()
-    .min(4, "First name must be at least 4 characters long"),
-  last_name: z.string().min(4, "First name must be at least 4 characters long"),
-  password: z.string().min(4, "Password must be at least 6 characters long"),
-});
-
-export type RegisterFormData = z.infer<typeof schema>;
 
 export default function SignUp() {
   const {
     register: registerForm,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterFormData>({ resolver: zodResolver(schema) });
+  } = useForm<RegisterFormData>({ resolver: zodResolver(registerSchema) });
 
-  const router = useRouter();
+  const { setSession } = useSession();
 
-  const onSubmit = (data: RegisterFormData) => {
-    toast.promise(
-      register(data).then((res) => {
-        if (res.ok) {
-          router.replace("/");
-          toast.success(res.msg);
-        } else {
-          toast.error(res.msg);
-        }
-      }),
-      { loading: "Aniqlanmoqda..." }
-    );
+  const onSubmit = async (data: RegisterFormData) => {
+    await toast.promise(register(data), {
+      loading: "Aniqlanmoqda...",
+      success: (res) => {
+        queryClient.invalidateQueries();
+        setSession(res.data)
+        return res.message
+      },
+      error: (error) => error.message,
+    });
+
   };
 
   return (

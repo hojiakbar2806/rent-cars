@@ -6,7 +6,7 @@ interface DictionaryState {
   setDictionary: (dict: Dictionary) => void;
 }
 
-export const useDictionaryStore = create<DictionaryState>((set) => ({
+export const useDictionary = create<DictionaryState>((set) => ({
   dictionary: null,
   setDictionary: (dict) => set({ dictionary: dict }),
 }));

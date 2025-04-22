@@ -12,7 +12,7 @@ const PopularCars: FC = () => {
   const { session } = useSession()
   const { data = null, isLoading } = useQuery({
     queryKey: ["cars"],
-    queryFn: () => getCars("all", session?.token),
+    queryFn: () => getCars("all", session?.access_token),
     staleTime: 5,
   })
 
@@ -24,7 +24,7 @@ const PopularCars: FC = () => {
         hasData={true}
       >
         {data?.map((car) => (
-          <RentCarCard car={car} key={car.id} scrollable={true} invalidate={["cars"]} />
+          <RentCarCard car={car} key={car.id} scrollable={true} />
         ))}
       </RentCardWrapper>
     </div>

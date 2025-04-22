@@ -7,57 +7,63 @@ import { Button } from "@/components/ui/button";
 import RentCardWrapper from "@/components/shared/CardWrapper";
 import RentCarCard from "@/components/shared/CarCard";
 import { CarItem } from "@/types/cars";
-import { getCars } from "@/app/actions/cars/getCars";
-import { useSession } from "@/hooks/useSession";
+import { useAPIClient } from "@/hooks/useAPIClient";
 
 const RecommendedCars: FC = () => {
-  const { session } = useSession()
+  const { get } = useAPIClient();
 
-  const query = useInfiniteQuery({
-    queryKey: ["recommendedCars"],
-    queryFn: ({ pageParam = 1 }) => getCars("popular", session?.token, pageParam),
-    getNextPageParam: (lastPage, pages) => {
-      if (lastPage?.length === 0) return undefined;
-      return pages.length + 1;
+
+  const {
+    data,
+    isLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["recommends"],
+    queryFn: async ({ pageParam = 1 }) => {
+      const res = await get(`/v1/cars?page=${pageParam}&limit=10&offset=${(pageParam - 1) * 10}`);
+      return res;
+    },
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage?.length === 0 ? undefined : allPages.length + 1;
     },
     initialPageParam: 1,
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60 * 10,
   });
 
-  const allCars = query.data?.pages.flat() as CarItem[] ?? []
+  const allCars = data?.pages.flat() as CarItem[] ?? [];
 
   return (
     <div className="w-full flex flex-col">
       <div className="w-full flex items-center flex-col gap-5">
         <div className="flex items-center justify-between w-full px-4">
-          <h1 className="text-2xl font-bold">Tavfsiya qilinadigan mashinalar</h1>
+          <h1 className="text-2xl font-bold">Tavsiya qilinadigan mashinalar</h1>
           <Link href="/cars/popular" className="text-blue-500 hover:underline">
-            Hammasini ko'rish
+            Hammasini ko‘rish
           </Link>
         </div>
 
         <RentCardWrapper
-          isLoading={query.isLoading}
-          scrollable={false}
+          isLoading={isLoading}
           hasData={!!allCars.length}
         >
-          {allCars?.map((car) => (
+          {allCars.map((car) => (
             <RentCarCard
-              car={car}
               key={car.id}
+              car={car}
               scrollable={false}
-              invalidate={["recommendedCars"]}
             />
           ))}
         </RentCardWrapper>
 
-        {query.hasNextPage && (
+        {hasNextPage && (
           <Button
-            className="mt-5 cursor-pointer"
-            onClick={() => query.fetchNextPage()}
-            disabled={query.isFetchingNextPage}
+            className="mt-5"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
           >
-            {query.isFetchingNextPage ? "Yuklanmoqda..." : "Ko'proq mashinalar"}
+            {isFetchingNextPage ? "Yuklanmoqda..." : "Ko‘proq mashinalar"}
           </Button>
         )}
       </div>

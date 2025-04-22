@@ -11,6 +11,7 @@ from app.db.models import User
 from app.schemas.auth import RegisterUser, LoginUser, TokenResponse
 from app.services.user_service import UserService
 from app.repositories.user_repository import UserRepository
+from app.config import settings
 
 
 class AuthService(UserService):
@@ -23,7 +24,11 @@ class AuthService(UserService):
             raise HTTPException(status_code=404, detail="User not found")
         access_token = create_access_token(db_user.id)
         refresh_token = create_refresh_token(db_user.id)
-        return TokenResponse(access_token=access_token, refresh_token=refresh_token)
+        return TokenResponse(
+            access_token=access_token, 
+            refresh_token=refresh_token, 
+            expire_minutes=settings.jwt_refresh_token_expire_minutes
+        )
 
     async def register(self, user: RegisterUser):
         db_user = await self.repo.get_user_by_email(user.email)
@@ -32,8 +37,12 @@ class AuthService(UserService):
         new_user = await self.repo.create_user(user)
         access_token = create_access_token(new_user.id)
         refresh_token = create_refresh_token(new_user.id)
-        return TokenResponse(access_token=access_token, refresh_token=refresh_token)
-
+        return TokenResponse(
+            access_token=access_token, 
+            refresh_token=refresh_token, 
+            expire_minutes=settings.jwt_refresh_token_expire_minutes
+        )
+    
     async def verify_user_token(self, token: str, audience: List[TokenType]) -> Coroutine[Any, Any, User]:
         try:
             sub = decode_jwt(token, audience).get("sub")

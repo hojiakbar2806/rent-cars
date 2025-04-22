@@ -16,13 +16,13 @@ const CarsList: FC = () => {
   const search = useMemo(() => params.toString(), [params]);
   const { data, isLoading } = useQuery({
     queryKey: [`cars`, search],
-    queryFn: () => getCarsWithFilters(params.toString(), session?.token),
+    queryFn: () => getCarsWithFilters(params.toString(), session?.access_token),
     staleTime: 5,
   })
 
   return <CardWrapper isLoading={isLoading} hasData={!!data?.length}>
     {data?.map((car) => (
-      <RentCarCard car={car} invalidate={[`cars`, search]} key={car.id} />
+      <RentCarCard car={car} key={car.id} />
     ))}
   </CardWrapper>
 };

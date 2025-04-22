@@ -1,6 +1,6 @@
 "use client";
 
-import { useDictionaryStore } from "@/hooks/useDictionaryStore";
+import { useDictionary } from "@/hooks/useDictionary";
 import { Dictionary } from "@/localization/getDictionary";
 import { FC, Fragment, useEffect } from "react";
 
@@ -11,7 +11,7 @@ type Props = {
 
 const LocaleProvider: FC<Props> = ({ children, dictionary }) => {
   useEffect(
-    () => useDictionaryStore.getState().setDictionary(dictionary),
+    () => useDictionary.getState().setDictionary(dictionary),
     [dictionary]
   );
   return <Fragment>{children}</Fragment>;
