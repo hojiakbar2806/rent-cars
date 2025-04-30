@@ -1,6 +1,6 @@
 "use client"
 
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import Link from "next/link";
 import { Bell, HeartIcon, Settings } from "lucide-react";
 import { UserDropdown } from "./UserDropDown";
@@ -23,7 +23,9 @@ const Navbar: FC = () => {
           <span className="text-xl md:text-2xl font-semibold">Mashinalar</span>
         </Link>
         <div className="max-w-2xl flex-1 hidden md:flex">
-          <SearchInput />
+          <Suspense>
+            <SearchInput />
+          </Suspense>
         </div>
         <div className="flex items-center gap-10">
           <div className="hidden md:flex gap-6">
@@ -53,8 +55,10 @@ const Navbar: FC = () => {
         </div>
       </div>
       <div className="md:hidden flex items-center justify-between">
-        <SearchInput />
-      </div>
+        <Suspense>
+          <SearchInput />
+        </Suspense>      
+        </div>
     </header>
   );
 };
