@@ -19,7 +19,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Create .env for frontend
         run: |
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> frontend/.env
+          echo "NEXT_PUBLIC_EXTERNAL_API_URL=https://rent-cars.hojiakbar.me/backend" >> frontend/.env
+          echo "NEXT_PUBLIC_INTERNAL_API_URL=https://rent-cars.hojiakbar.me" >> frontend/.env
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
