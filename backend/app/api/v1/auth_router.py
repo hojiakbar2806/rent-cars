@@ -6,8 +6,8 @@ from app.core.decorators import permission_classes
 from app.core.permissions import IsAuthenticated, IsAdminUser
 from app.core.database import get_async_session
 from app.services.auth_service import AuthService
-from app.repositories.user_repository import UserRepository
-from app.schemas.auth import RegisterUser, LoginUser, TokenResponse, UserResponse, TokenRequest
+from app.repositories.user import UserRepository
+from app.schemas.auth import RegisterUser, LoginUser, LoginResponse, UserResponse, TokenRequest
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -21,7 +21,7 @@ async def register_user(user: RegisterUser, auth_service: AuthService = Depends(
     return await auth_service.register(user)
 
 
-@router.post("/login", response_model=TokenResponse)
+@router.post("/login", response_model=LoginResponse)
 async def login_user(user: LoginUser, auth_service: AuthService = Depends(get_auth_service)):
     return await auth_service.login(user)
 

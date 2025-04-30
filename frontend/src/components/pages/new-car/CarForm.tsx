@@ -1,8 +1,8 @@
 "use client"
 
-import postCar from '@/app/actions/cars/postCar';
 import FormInput from '@/components/shared/FormInput'
 import SubmitButton from '@/components/shared/SubmitButton';
+import { externalApi } from '@/lib/api';
 import { CarType } from '@/types/cars';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { FC } from 'react'
@@ -12,7 +12,7 @@ import { z } from 'zod';
 
 const schema = z.object({
     name: z.string().min(1, "Ism kiritilmadi"),
-    car_type_id: z.string().min(1, "Mashina turi tanlanmadi"), 
+    car_type_id: z.string().min(1, "Mashina turi tanlanmadi"),
     images: z.any(),
     price_per_day: z.coerce.number(),
     original_price: z.coerce.number(),
@@ -26,7 +26,7 @@ const schema = z.object({
 export type NewCarForm = z.infer<typeof schema>;
 
 type Props = {
-    carTypes: CarType[] | null
+    carTypes: CarType[]
 }
 
 const CarForm: FC<Props> = ({ carTypes }) => {
@@ -44,10 +44,10 @@ const CarForm: FC<Props> = ({ carTypes }) => {
             return toast.error("Mashina rasmi kiritilmadi")
         }
         await toast.promise(
-            postCar(data),
+            externalApi.post("/v1/cars", data),
             {
                 loading: "Yuklanmoqda...",
-                success: (data) => data.message,
+                success: "Car successfully created",
                 error: (err) => err.message,
             }
         )

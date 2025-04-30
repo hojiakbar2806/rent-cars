@@ -19,3 +19,13 @@ class CarTypeResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class FetchCarTypeStatsResponse(BaseModel):
+    id: int
+    name: str
+    cars_count: int
+    description: Optional[str] = None
+
+    class Config:
+        from_attributes = True

@@ -38,6 +38,13 @@ class UserResponse(BaseModel):
         from_attributes = True
 
 
+class LoginResponse(BaseModel):
+    access_token: str
+    refresh_token: str
+    expire_minutes: int
+    user_info: UserResponse
+
+
 class TokenResponse(BaseModel):
     access_token: str
     refresh_token: str

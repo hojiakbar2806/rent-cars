@@ -1,7 +1,7 @@
 "use client";
 
-import logout from "@/app/actions/auth/logout";
 import { useSession } from "@/hooks/useSession";
+import { internalApi } from "@/lib/api";
 import { LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import nProgress from "nprogress";
@@ -13,12 +13,12 @@ const LogoutButton = () => {
   const { setSession } = useSession()
 
   const handleLogout = async () => {
-    await toast.promise(logout(),
+    await toast.promise(internalApi.post("/api/auth/logout"),
       {
-        loading: "Siz tizimdan chiqmoqdasiz...",
-        success: (res) => {
+        loading: "Loading ...",
+        success: () => {
           setSession(null)
-          return res.msg
+          return "You have been logged out"
         },
         error: (error) => error.msg
       }

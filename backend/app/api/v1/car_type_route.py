@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_async_session
-from app.services.car_type_service import CarTypeService
-from app.repositories.car_type_repository import CarTypeRepository
+from app.services.car_type import CarTypeService
+from app.repositories.car_type import CarTypeRepository
 from app.schemas.car_type import CarTypeCreate, CarTypeResponse, CarTypeUpdate
 
 router = APIRouter(prefix="/car-types", tags=["Car Types"])

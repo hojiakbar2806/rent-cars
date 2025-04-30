@@ -1,29 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from "next/server";
+import { localeMiddleware } from "./lib/middleware/localeMiddleware";
+import { authMiddleware } from "./lib/middleware/authMiddleware";
 
 export async function middleware(req: NextRequest) {
-  const session_id = req.cookies.get('session_id')?.value;
-  const pathname = req.nextUrl.pathname;
+  const localeResponse = await localeMiddleware(req);
+  if (localeResponse) return localeResponse
 
-  if (!session_id) {
-    return NextResponse.redirect(new URL('/login', req.url));
-  }
-
-  const res = await fetch(`${req.nextUrl.origin}/api/get-user`, {
-    headers: { cookie: req.headers.get('cookie') || '' }
-  });
-
-  if (!res.ok) {
-    return NextResponse.redirect(new URL('/login', req.url));
-  }
-
-  const user = await res.json();
-
-  if (pathname.startsWith('/dashboard') && user.is_admin) {
-    return NextResponse.redirect(new URL('/', req.url));
-  }
-
-  if (pathname.startsWith('/profile') && !user) {
-    return NextResponse.redirect(new URL('/login', req.url));
+  if(req.nextUrl.pathname.includes('/dashboard')) {
+    const authResponse = await authMiddleware(req);
+    if (authResponse) return authResponse
   }
 
   return NextResponse.next();
@@ -31,7 +16,6 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    '/dashboard/:path*',
-    '/profile/:path*',
+    '/((?!api|_next|favicon.ico|robots.txt|sitemap.xml|fonts|images|assets|icons).*)',
   ],
 };

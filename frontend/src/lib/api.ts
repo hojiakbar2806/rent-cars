@@ -1,13 +1,13 @@
 import axios, { AxiosInstance } from "axios"
-import { BASE_URL } from "./const"
+import { BASE_URL, EXTERNAL_API_URL, INTERNAL_API_URL } from "./const"
 
 export const createAPI = (baseURL = BASE_URL): AxiosInstance => {
-  const api = axios.create({
-    baseURL,
-    timeout: 30000,
+  return axios.create({
+    baseURL:baseURL,
     headers: { "Content-Type": "application/json" },
   })
-  return api
 }
 
-export const api = createAPI()
+export const internalApi = createAPI(INTERNAL_API_URL)
+
+export const externalApi = createAPI(EXTERNAL_API_URL)

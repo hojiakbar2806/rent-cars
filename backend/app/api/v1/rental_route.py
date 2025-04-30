@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_async_session
-from app.services.rental_service import RentalService
-from app.repositories.rental_repository import RentalRepository
+from app.services.rental import RentalService
+from app.repositories.rental import RentalRepository
 from app.schemas.rent_car import RentalCreate, RentalResponse, RentalUpdate
 
 router = APIRouter(prefix="/rentals", tags=["Rentals"])

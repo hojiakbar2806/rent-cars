@@ -6,12 +6,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "127.0.0.1",
+        hostname: "*",
         pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "rent-cars.hojiakbar.me",
+        hostname: "*",
         pathname: "/**",
       },
     ],

@@ -1,20 +1,18 @@
 "use client";
 
-import { useDictionary } from "@/hooks/useDictionary";
+import { FC, ReactNode } from "react";
 import { Dictionary } from "@/localization/getDictionary";
-import { FC, Fragment, useEffect } from "react";
+import { LocaleContext } from "@/context/localeContext";
 
-type Props = {
-  children: React.ReactNode;
+type LocaleProviderProps = {
+  children: ReactNode;
   dictionary: Dictionary;
 };
 
-const LocaleProvider: FC<Props> = ({ children, dictionary }) => {
-  useEffect(
-    () => useDictionary.getState().setDictionary(dictionary),
-    [dictionary]
+export const LocaleProvider: FC<LocaleProviderProps> = ({ children, dictionary }) => {
+  return (
+    <LocaleContext.Provider value={{ dictionary }}>
+      {children}
+    </LocaleContext.Provider>
   );
-  return <Fragment>{children}</Fragment>;
 };
-
-export default LocaleProvider;

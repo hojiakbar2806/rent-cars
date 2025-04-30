@@ -25,9 +25,7 @@ export function useQueryState<T extends boolean>(
 
       if (currentValues.includes(newValue)) {
         currentValues = currentValues.filter((v) => v !== newValue);
-      } else {
-        currentValues.push(newValue);
-      }
+      } else {currentValues.push(newValue)}
 
       currentValues.sort();
 

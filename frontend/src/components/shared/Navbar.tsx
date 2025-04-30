@@ -1,27 +1,26 @@
+"use client"
+
 import { FC } from "react";
 import Link from "next/link";
-import SearchInput from "./SearchInput";
-import { HeartIcon, Settings } from "lucide-react";
+import { Bell, HeartIcon, Settings } from "lucide-react";
 import { UserDropdown } from "./UserDropDown";
-import MenuButton from "./MenuButton";
-import NotifButton from "./NotifButton";
 import Image from "next/image";
+import SearchInput from "./SearchInput";
 
 
 const Navbar: FC = () => {
   return (
-    <header className="w-full flex flex-col gap-4 z-50 bg-white p-6 shadow">
+    <header className="w-full sticky top-0 flex flex-col gap-4 z-50 bg-white p-6 shadow">
       <div className="flex items-center justify-between gap-4">
-        <MenuButton />
-        <Link href="/" className="hidden md:flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <Image
             src="/icons/logo.svg"
             alt="logo"
             width={50}
             height={51.5}
-            className="size-12"
+            className="size-10 md:size-12"
           />
-          <span className="text-2xl font-semibold">Mashinalar</span>
+          <span className="text-xl md:text-2xl font-semibold">Mashinalar</span>
         </Link>
         <div className="max-w-2xl flex-1 hidden md:flex">
           <SearchInput />
@@ -34,7 +33,15 @@ const Navbar: FC = () => {
             >
               <HeartIcon className="w-6 h-6 text-slate-500" />
             </Link>
-            <NotifButton />
+            <Link
+              href="/profile/notifications"
+              data-has={true}
+              className="size-12 grid place-items-center border border-slate-100 rounded-full relative transition cursor-pointer
+              after:content-[''] after:size-3 after:absolute after:bg-red-500 after:rounded-full after:top-0 after:right-0
+              data-[has=false]:after:opacity-0 data-[has=true]:after:animate-ping"
+            >
+              <Bell className="w-6 h-6 text-slate-500" />
+            </Link>
             <Link
               href="/profile/settings"
               className="size-12 grid place-items-center border border-slate-100 rounded-full"

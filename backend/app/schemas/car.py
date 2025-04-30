@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from fastapi import Query
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 from app.core.enums import TransmissionEnum, FuelTypeEnum
-from app.schemas.car_type import CarTypeResponse
+from app.schemas.car_type import CarTypeResponse, FetchCarTypeStatsResponse
 
 
 class CarCreate(BaseModel):
@@ -31,6 +31,17 @@ class CarUpdate(BaseModel):
     description: Optional[str]
 
 
+class CarUpdatePartial(BaseModel):
+    name: Optional[str]
+    car_type_id: Optional[int]
+    price_per_day: Optional[float]
+    original_price: Optional[float]
+    fuel_type: Optional[FuelTypeEnum]
+    transmission: Optional[TransmissionEnum]
+    capacity: Optional[int]
+    description: Optional[str]
+
+
 class CarResponse(BaseModel):
     id: int
     name: str
@@ -39,7 +50,6 @@ class CarResponse(BaseModel):
     price_per_day: float
     original_price: float
     fuel_type: FuelTypeEnum
-    is_liked: bool = False
     fuel_capacity: Optional[int] = None
     transmission: TransmissionEnum
     capacity: int
@@ -55,4 +65,12 @@ class CarFilterParams(BaseModel):
     car_type: Optional[List[str]] = None
     price: Optional[str] = None
     capacity: Optional[List[int]] = None
-    q: Optional[str] = None
+    query: Optional[str] = None
+    filter_by: Optional[Literal["recommends", "popular"]] = None
+
+
+class CarFilterDataResponse(BaseModel):
+    car_types: List[FetchCarTypeStatsResponse]
+    max_price: float
+    min_price: float
+    capacities: List[int]

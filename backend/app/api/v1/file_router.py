@@ -5,8 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.decorators import permission_classes
 from app.core.permissions import IsAdminUser, IsAuthenticated
 from app.db.session import get_async_session
-from app.services.file_service import FileService
-from app.repositories.file_repository import FileRepository
+from app.services.file import FileService
+from app.repositories.file import FileRepository
 
 router = APIRouter(prefix="/files", tags=["File"])
 

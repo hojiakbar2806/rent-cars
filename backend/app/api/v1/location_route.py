@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_async_session
-from app.services.location_service import LocationService
-from app.repositories.location_repository import LocationRepository
+from app.services.location import LocationService
+from app.repositories.location import LocationRepository
 from app.schemas.rent_car import LocationCreate, LocationResponse, LocationUpdate
 
 router = APIRouter()

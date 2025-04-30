@@ -23,27 +23,27 @@ const HeroCard: FC<Props> = ({
 }) => {
   const router = useRouter();
   return (
-    <div className="relative overflow-hidden rounded-xl bg-gradient-to-r p-8 text-white lg:block hidden">
-      <div className="flex flex-col gap-8 items-start relative z-10">
-        <h2 className="text-3xl font-bold mb-2 leading-tight max-w-md">
+    <div className="relative overflow-hidden rounded-xl bg-gradient-to-r p-8 text-white md:first:block first:hidden">
+      <div className="flex flex-col md:gap-5 items-start relative z-10">
+        <h2 className="text-lg sm:text-xl md:text-3xl font-bold mb-2 leading-tight max-w-md">
           {title}
         </h2>
-        <p className="text-white/90 max-w-sm">{description}</p>
+        <p className="text-white/90 max-w-sm text-xs sm:text-xl">{description}</p>
+      </div>
+      <div className="w-full mt-4 flex-col flex sm:flex-row justify-between items-start sm:items-center gap-4">
         <Button
-          className={cn("cursor-pointer", btnClass)}
+          className={cn("cursor-pointer z-20", btnClass)}
           onClick={() => router.push("/cars")}
         >
           Band qilish
         </Button>
-      </div>
-      <div className="w-full flex justify-end">
         <Image
           src={`${image}`}
           alt="GTR Car"
           width={247.5}
           height={110}
           priority
-          className="w-[60%] z-10"
+          className="w-[60%] z-10 ml-auto"
         />
       </div>
       <Image src={bgImg} fill alt="" priority className="z-0" />

@@ -2,9 +2,21 @@
 @plugin 'tailwind-scrollbar';
 @plugin "tailwindcss-animate";
 
+
+
+
+* {
+  @apply border-border outline-ring/50 overscroll-none;
+}
+
+body {
+  @apply antialiased;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --breakpoint-xxs:40rem;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -45,9 +57,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-body {
-  @apply antialiased;
-}
+
 
 :root {
   --background: oklch(1 0 0);
@@ -119,8 +129,4 @@ body {
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(0.279 0.041 260.031);
   --sidebar-ring: oklch(0.446 0.043 257.281);
-}
-
-* {
-  @apply border-border outline-ring/50;
 }
