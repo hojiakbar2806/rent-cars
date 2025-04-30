@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SearchInput from "@/components/shared/SearchInput";
@@ -23,7 +23,9 @@ const Navbar: FC = () => {
                 <UserDropdown />
             </div>
             <div className="md:hidden flex items-center justify-between">
-                <SearchInput />
+                <Suspense>
+                    <SearchInput />
+                </Suspense>
             </div>
         </header>
     );

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import FilterCarType from "./FilterCarType";
 import FilterCapacity from "./FilterCapacity";
 import FilterPriceRange from "./FilterPriceRange";
@@ -31,9 +31,15 @@ const FilterBar: FC<FilterBarProps> = ({ filters }) => {
                     className="top-0 sticky p-5 md:flex flex-col gap-5 items-start 
                     md:top-24
                     ">
-                    <FilterCarType data={filters.car_types} />
-                    <FilterCapacity data={filters.capacities} />
-                    <FilterPriceRange max={filters.max_price} min={filters.min_price} />
+                    <Suspense>
+                        <FilterCarType data={filters.car_types} />
+                    </Suspense>
+                    <Suspense>
+                        <FilterCapacity data={filters.capacities} />
+                    </Suspense>
+                    <Suspense>
+                        <FilterPriceRange max={filters.max_price} min={filters.min_price} />
+                    </Suspense>
                 </div>
             </div>
         </div>
