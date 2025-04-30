@@ -1,45 +1,55 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
-import { SearchIcon, Settings2 } from "lucide-react";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useQueryState } from "@/hooks/useQueryState";
-import nProgress from "nprogress";
-import Link from "next/link";
 import useDrawerStore from "@/hooks/useDrawerStore";
+import { useQueryState } from "@/hooks/useQueryState";
+import { SearchIcon, Settings2 } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import nProgress from "nprogress";
+import { ChangeEvent } from "react";
 
 const SearchInput = () => {
-  const [search, setSearch] = useQueryState("q", false, "/cars");
-  const [current, setCurrent] = useState(search);
+  const [search, setSearch, clear] = useQueryState("query", false, "/cars");
   const { open } = useDrawerStore();
+  const pathname = usePathname();
+  const router = useRouter();
 
-  const debouncedSearch = useDebounce(current, 500);
-
-  useEffect(() => {
-    if (debouncedSearch !== search) {
+  const handleClick = () => {
+    if (!pathname.includes("cars")) {
       nProgress.start();
-      setSearch(debouncedSearch);
+      router.push("/cars");
     }
-  }, [debouncedSearch]);
+    open("filterbar");
+  };
+
+  const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (e.target.search.value !== "") {
+      nProgress.start();
+      setSearch(e.target.search.value);
+    }
+    else {
+      nProgress.start();
+      clear();
+    }
+  };
 
   return (
-    <label
-      htmlFor="search"
+    <form
+      onSubmit={handleSubmit}
       className="w-full h-12 flex items-center justify-between gap-4
       md:rounded-full md:border md:p-2"
     >
-      <label className="flex flex-1 border rounded-lg md:border-none">
+      <label htmlFor="search" className="flex flex-1 border rounded-lg md:border-none">
         <i className="p-2">
           <SearchIcon className="text-slate-500 size-5 md:size-6" />
         </i>
         <input
           id="search"
+          name="search"
           placeholder="Qidiruv..."
           defaultValue={search}
           className="flex-1 outline-none bg-none"
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setCurrent(e.target.value)
-          }
         />
       </label>
       <Link
@@ -50,13 +60,14 @@ const SearchInput = () => {
         <Settings2 className="text-slate-500 size-5 md:size-6" />
       </Link>
       <button
+        type="button"
         className="flex md:hidden cursor-pointer p-2 rounded-lg border 
         md:border-none md:hover:bg-slate-50 md:rounded-full"
-        onClick={() => open("filterbarDrawer")}
+        onClick={handleClick}
       >
         <Settings2 className="text-slate-500 size-5 md:size-6" />
       </button>
-    </label>
+    </form>
   );
 };
 

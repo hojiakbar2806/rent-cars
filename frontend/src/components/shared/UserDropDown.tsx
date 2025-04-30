@@ -1,6 +1,5 @@
 "use client";
 
-import logout from "@/app/actions/auth/logout";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -10,7 +9,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSession } from "@/hooks/useSession";
 import { useSessionStore } from "@/hooks/useSessionStore";
-import { User2, LogOut, UserCircle, LogIn, UserPlus } from "lucide-react";
+import { internalApi } from "@/lib/api";
+import queryClient from "@/lib/queryClient";
+import { User2, LogOut, UserCircle, LogIn, UserPlus, HeartIcon, Bell, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 import nProgress from "nprogress";
 import toast from "react-hot-toast";
@@ -21,12 +22,13 @@ export function UserDropdown() {
   const fallbackText = session?.user?.email.slice(0, 2).toUpperCase();
 
   const handleLogout = async () => {
-    await toast.promise(logout(),
+    await toast.promise(internalApi.post("/api/auth/logout"),
       {
         loading: "Siz tizimdan chiqmoqdasiz...",
         success: (res) => {
           setSession(null)
-          return res.msg
+          queryClient.clear()
+          return res.data.message
         },
         error: (error) => error.msg
       }
@@ -71,6 +73,22 @@ export function UserDropdown() {
               <span className="text-sm md:text-lg">Shaxsiy kabinet</span>
             </DropdownMenuItem>}
 
+            <DropdownMenuItem onClick={handleLogout} className="md:hidden cursor-pointer">
+              <HeartIcon className="size-4 md:size-5" />
+              <span className="text-sm md:text-lg">Sevimlilar</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout} className="md:hidden cursor-pointer">
+              <Settings className="size-4 md:size-5" />
+              <span className="text-sm md:text-lg">Sozlamalar</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout} className="md:hidden cursor-pointer flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Bell className="size-4 md:size-5" />
+                <span className="text-sm md:text-lg">Xabarlar</span>
+              </div>
+              <span data-has={true} className="size-2 bg-red-500 rounded-full
+                data-[has=false]:opacity-0 data-[has=true]:animate-ping" />
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
               <LogOut className="size-4 md:size-5" />
               <span className="text-sm md:text-lg">Tizimdan chiqish</span>
@@ -98,3 +116,28 @@ export function UserDropdown() {
     </DropdownMenu>
   );
 }
+
+
+
+
+//  <Link
+//     href="/profile/wishlists"
+//     className="size-12 grid place-items-center border border-slate-100 rounded-full"
+//   >
+//     <HeartIcon className="w-6 h-6 text-slate-500" />
+//   </Link>
+//   <Link
+//     href="/profile/notifications"
+//     data-has={true}
+//     className="size-12 grid place-items-center border border-slate-100 rounded-full relative transition cursor-pointer
+//
+//     data-[has=false]:after:opacity-0 data-[has=true]:after:animate-ping"
+//   >
+//     <Bell className="w-6 h-6 text-slate-500" />
+//   </Link>
+//   <Link
+//     href="/profile/settings"
+//     className="size-12 grid place-items-center border border-slate-100 rounded-full"
+//   >
+//     <Settings className="w-6 h-6 text-slate-500" />
+//   </Link>

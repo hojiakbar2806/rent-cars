@@ -1,41 +1,27 @@
-import React, { FC } from "react";
-import CarCardSkeleton from "./CarCardSkeleton";
+import React, { Children, FC } from "react";
 
 type Props = {
   children: React.ReactNode;
   scrollable?: boolean;
-  hasData: boolean;
-  isLoading: boolean
 };
 
-const CardWrapper: FC<Props> = ({ children, scrollable, hasData, isLoading }) => {
-  const containerClass = scrollable
-    ? "w-full flex gap-4 overflow-x-auto scrollbar-none snap-x"
-    : "w-full grid gap-5 grid-cols-[repeat(auto-fill,minmax(400px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]"
-
-  if (!hasData && !isLoading) {
-    return (
-      <div className="flex justify-center">
-        <h3 className="text-2xl font-bold">Mashinalar topilmadi</h3>
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className={containerClass}>
-        {
-          Array.from({ length: 8 }).map((_, index) => (
-            <CarCardSkeleton key={index} />
-          ))
-        }
-      </div>
-    )
-  }
-
+const CardWrapper: FC<Props> = ({ children, scrollable }) => {
   return (
-    <div className={containerClass}>
-      {children}
+    <div
+      data-scrollable={scrollable}
+      className={` w-full gap-5
+        ${scrollable
+          ? "overflow-x-auto snap-x snap-mandatory flex scrollbar-none"
+          : "grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]"}
+      `}
+    >
+      {
+        scrollable ? Children.map(children, (child) => (
+          <div className={scrollable ? "snap-start shrink-0 w-[300px]" : ""}>
+            {child}
+          </div>
+        )) : children
+      }
     </div>
   );
 };

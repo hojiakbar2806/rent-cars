@@ -1,12 +1,9 @@
-import { Dictionary } from "@/localization/getDictionary";
-import { create } from "zustand";
+import { LocaleContext, LocaleContextType } from "@/context/localeContext";
+import { useContext } from "react";
 
-interface DictionaryState {
-  dictionary: Dictionary | null;
-  setDictionary: (dict: Dictionary) => void;
-}
 
-export const useDictionary = create<DictionaryState>((set) => ({
-  dictionary: null,
-  setDictionary: (dict) => set({ dictionary: dict }),
-}));
+export const useDictionary = (): LocaleContextType => {
+    const context = useContext(LocaleContext);
+    if (!context) { throw new Error("useDictionary must be used within a LocaleProvider"); }
+    return context;
+};

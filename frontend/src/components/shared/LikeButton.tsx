@@ -1,47 +1,50 @@
 "use client";
 
 import { HeartIcon } from "lucide-react";
-import { FC } from "react";
-import toast from "react-hot-toast";
-import { useSession } from "@/hooks/useSession";
-import queryClient from "@/lib/queryClient";
+import { FC, useEffect, useState } from "react";
 import { useAPIClient } from "@/hooks/useAPIClient";
+import { useQuery } from "@tanstack/react-query";
+import queryClient from "@/lib/queryClient";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+
 
 type Props = {
   id?: number;
-  is_liked?: boolean;
-  noAction?: boolean
+  noAction?: boolean;
 };
 
-const LikeButton: FC<Props> = ({ id, is_liked, noAction }) => {
-  const { session } = useSession();
-  const { post } = useAPIClient()
+const LikeButton: FC<Props> = ({ id }) => {
+  const { get, post } = useAPIClient(true);
+  const [isLiked, setIsLiked] = useState(false);
+  const router = useRouter();
+  const { data } = useQuery({
+    queryKey: ["cars-likes"],
+    queryFn: () => get<number[]>("/v1/favorites/id"),
+  });
+
+
+  useEffect(() => {
+    setIsLiked(data?.some((carId) => carId === id) || false)
+  }, [data, id]);
 
 
   return (
     <button
-      data-liked={is_liked}
+      data-liked={isLiked}
       className="group cursor-pointer"
-      onClick={async (e) => {
-        if (!noAction) {
-          e.stopPropagation()
-          if (session?.access_token === null) {
-            toast.error("Avval ro'yxatdan o'ting");
-            return
-          }
-
-          toast.promise(post(`/v1/favorites/${id}`), {
-            loading: "Liking...",
-            success: (data) => {
-              queryClient.invalidateQueries({ queryKey: ["cars"] });
-              queryClient.invalidateQueries({ queryKey: ["recommends"] });
-              queryClient.invalidateQueries({ queryKey: ["populars"] });
-              queryClient.invalidateQueries({ queryKey: ["car", id] });
-              return data.message
-            },
-            error: "Avval ro'yxatdan o'ting",
-          });
-        }
+      onClick={(e) => {
+        e.stopPropagation();
+        toast.promise(post(`/v1/favorites/${id}`), {
+          loading: "Posting like...",
+          success: (res) => {
+            queryClient.invalidateQueries({ queryKey: ["cars-likes"] });
+            queryClient.invalidateQueries({ queryKey: ["wishlist"] });
+            router.refresh()
+            return res.message
+          },
+          error: (error) => error.message
+        })
       }}
     >
       <HeartIcon className="text-red-500 group-data-[liked=true]:fill-red-500" />

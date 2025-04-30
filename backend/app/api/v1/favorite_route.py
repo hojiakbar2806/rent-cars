@@ -4,8 +4,8 @@ from app.core.database import get_async_session
 from app.core.decorators import permission_classes
 from app.core.permissions import IsAuthenticated
 from app.schemas.car import CarResponse
-from app.services.favorite_service import FavoriteService
-from app.repositories.favorite_repository import FavoriteRepository
+from app.services.favorite import FavoriteService
+from app.repositories.favorite import FavoriteRepository
 from app.schemas.favorite import FavoriteCreate, FavoriteResponse
 
 router = APIRouter(prefix="/favorites", tags=["Favorites"])
@@ -16,8 +16,16 @@ def get_favorite_service(session: AsyncSession = Depends(get_async_session)):
 
 
 @router.get("", response_model=list[CarResponse])
-async def get_my_favorite_cars(user_id: int, service: FavoriteService = Depends(get_favorite_service)):
-    return await service.get_all_favorite_cars(user_id)
+@permission_classes(IsAuthenticated)
+async def get_my_favorite_cars(request: Request, service: FavoriteService = Depends(get_favorite_service)):
+    user_id = getattr(request.state.user, "id", None)
+    return await service.get_my_favorite_cars(user_id)
+
+
+@router.get("/id", response_model=list[int])
+async def get_my_favorites(request: Request, service: FavoriteService = Depends(get_favorite_service)):
+    user_id = getattr(request.state.user, "id", None)
+    return await service.get_my_favorite_cars_id(user_id)
 
 
 @router.post("/{car_id}", response_model=FavoriteResponse)

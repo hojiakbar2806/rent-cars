@@ -1,7 +1,7 @@
 import useApi from "./useApi"
 
-export const useAPIClient = () => {
-  const api = useApi()
+export const useAPIClient = (withToken = false ) => {
+  const api = useApi(withToken)
 
   return {
     get: async <T = any>(url: string, params?: any): Promise<T> => {

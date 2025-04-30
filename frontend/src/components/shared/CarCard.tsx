@@ -9,6 +9,7 @@ import Link from "next/link";
 import { BASE_URL } from "@/lib/const";
 import { useRouter } from "next/navigation";
 import LikeButton from "./LikeButton";
+import nProgress from "nprogress";
 
 type Props = {
   car: CarItem;
@@ -19,37 +20,47 @@ const CarsCard: FC<Props> = ({ scrollable = false, car }) => {
   const router = useRouter();
 
   const handleClick = () => {
+    nProgress.start();
     router.push(`/cars/${car.id}`);
   };
 
   return (
     <div
       data-scrollable={scrollable}
-      className="flex flex-col gap-6 justify-between aspect-[400/300] min-w-[400px] p-4 rounded-xl bg-white snap-start
-        md:aspect-[300/400] md:min-w-[300px]
-        data-[scrollable=true]:aspect-[300/400] 
-        data-[scrollable=true]:min-w-[300px]"
+      className="flex flex-col min-w-[300px] gap-6 justify-between aspect-[4/3] p-4 rounded-xl bg-white snap-start xxs:aspect-[3/4]
+      data-[scrollable=true]:aspect-[3/4]
+      data-[scrollable=true]:min-w-[250px]
+      md:data-[scrollable=true]:min-w-[300px]
+      "
       onClick={handleClick}
     >
       <div className="w-full flex items-center justify-between">
         <div>
-          <h1 className="font-bold text-xl">{car.name}</h1>
-          <p className="text-slate-400 font-semibold">{car.car_type.name}</p>
+          <h1 className="font-bold text-lg sm:text-xl">{car.name}</h1>
+          <p className="text-slate-400 font-semibold text-sm sm:text-lg">{car.car_type.name}</p>
         </div>
-        <LikeButton id={car.id} is_liked={car.is_liked} />
+        <LikeButton id={car.id} />
       </div>
 
-      <div className="w-full flex-1 flex flex-row justify-between items-center md:flex-col">
+      <div
+        data-scrollable={scrollable}
+        className="w-full flex-1 flex flex-row justify-between items-center xxs:flex-col
+        data-[scrollable=true]:flex-col">
         <Image
           src={`${BASE_URL}/${car.images[0]}`}
           width={250}
           height={110}
           alt={car.name}
           priority
-          className="w-full my-auto object-contain"
+          className="w-[180px] sm:w-full flex-1 my-auto object-contain"
         />
 
-        <div className="flex flex-col gap-3 md:flex-row md:w-full md:justify-between">
+        <div
+          data-scrollable={scrollable}
+          className="flex flex-col justify-between xxs:flex-row xxs:w-full
+          data-[scrollable=true]:flex-row
+          data-[scrollable=true]:w-full
+          ">
           <InfoLab Icon={Fuel} label={`${car.fuel_capacity} L`} />
           <InfoLab Icon={Target} label={car.transmission} />
           <InfoLab Icon={UsersRound} label={`${car.capacity} Yo'lovchi`} />
@@ -59,8 +70,8 @@ const CarsCard: FC<Props> = ({ scrollable = false, car }) => {
       <div className="flex justify-between items-center">
         <div>
           <p>
-            <span className="text-lg font-semibold">{car.price_per_day} ming/</span>
-            <span className="text-slate-400 text-sm">kun</span>
+            <span className="text-sm sm:text-lg font-semibold">{car.price_per_day} ming/</span>
+            <span className="text-slate-400 text-xs sm:text-sm">kun</span>
           </p>
           <p className="text-slate-400 font-semibold text-xs">
             {car.original_price} ming
@@ -84,7 +95,7 @@ function InfoLab({
   label: string | number;
 }) {
   return (
-    <div className="flex flex-1 items-center gap-1 text-gray-400 text-sm">
+    <div className="shrink-0 flex space-y-2 items-center gap-1 text-gray-400 text-xs">
       <Icon size={18} />
       <span className="whitespace-nowrap">{label}</span>
     </div>
