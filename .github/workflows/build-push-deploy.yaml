@@ -42,4 +42,3 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/rent_cars_frontend:latest
           cache-from: ${{ secrets.DOCKER_USERNAME }}/rent_cars_frontend:latest
           push: true
-          push: true
