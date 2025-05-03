@@ -2,7 +2,7 @@
 
 import useDrawerStore from "@/hooks/useDrawerStore";
 import { useQueryState } from "@/hooks/useQueryState";
-import { SearchIcon, Settings2 } from "lucide-react";
+import { SearchIcon, Settings2, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import nProgress from "nprogress";
@@ -16,7 +16,6 @@ const SearchInput = () => {
 
   const handleClick = () => {
     if (!pathname.includes("cars")) {
-      nProgress.start();
       router.push("/cars");
     }
     open("filterbar");
@@ -40,7 +39,7 @@ const SearchInput = () => {
       className="w-full h-12 flex items-center justify-between gap-4
       md:rounded-full md:border md:p-2"
     >
-      <label htmlFor="search" className="flex flex-1 border rounded-lg md:border-none">
+      <label htmlFor="search" className="flex flex-1 border rounded-lg md:border-none items-center">
         <i className="p-2">
           <SearchIcon className="text-slate-500 size-5 md:size-6" />
         </i>
@@ -51,6 +50,11 @@ const SearchInput = () => {
           defaultValue={search}
           className="flex-1 outline-none bg-none"
         />
+        {search && (
+          <i className="p-2 cursor-pointer" onClick={clear}>
+            <X className="text-slate-500 size-5 md:size-6" />
+          </i>
+        )}
       </label>
       <Link
         href="/cars"

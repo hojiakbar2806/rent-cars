@@ -1,3 +1,5 @@
 {
-  "greeting": "Hello"
+  "auth": {
+    "loginSuccess": "Вход выполнен успешно"
+  }
 }

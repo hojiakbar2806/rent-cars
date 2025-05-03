@@ -18,18 +18,17 @@ const FilterBar: FC<FilterBarProps> = ({ filters }) => {
         <div
             data-open={filterbar}
             className="group inset-0 fixed bg-black/30 z-50 transition-opacity duration-300 ease-in-out cursor-pointer opacity-0 pointer-events-none
-            md:inset-auto md:bg-transparent md:static md:z-0 md:opacity-100 md:pointer-events-auto
-            data-[open=true]:opacity-100 data-[open=true]:pointer-events-auto
-            "
+            lg:inset-auto lg:bg-transparent lg:static lg:z-0 lg:opacity-100 lg:pointer-events-auto
+            data-[open=true]:opacity-100 data-[open=true]:pointer-events-auto"
             onClick={() => close("filterbar")}
         >
             <div
                 className="w-80 h-full fixed -left-full bg-white transition-all duration-300 ease-in-out
-                md:static
+                lg:static
                 group-data-[open=true]:left-0">
                 <div
-                    className="top-0 sticky p-5 md:flex flex-col gap-5 items-start 
-                    md:top-24
+                    className="top-0 sticky p-5 lg:flex flex-col gap-5 items-start 
+                    lg:top-24
                     ">
                     <Suspense>
                         <FilterCarType data={filters.car_types} />

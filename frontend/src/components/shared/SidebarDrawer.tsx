@@ -12,13 +12,13 @@ import { Bell, Heart, Settings } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const SidebarDrawer = () => {
-  const { sidebar, close } = useDrawerStore();
+const DashboardSidebarDrawer = () => {
+  const { dashboardSidebar, close } = useDrawerStore();
 
   return (
     <Sheet
-      open={sidebar}
-      onOpenChange={(open) => (open ? open : close("sidebar"))}
+      open={dashboardSidebar}
+      onOpenChange={(open) => (open ? open : close("dashboardSidebar"))}
     >
       <SheetContent side="left">
         <SheetHeader>
@@ -59,4 +59,4 @@ const SidebarDrawer = () => {
   );
 };
 
-export default SidebarDrawer;
+export default DashboardSidebarDrawer;

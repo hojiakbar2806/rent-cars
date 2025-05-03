@@ -2,7 +2,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi import Request
 
 from app.core.enums import TokenType
-from app.core.database import async_session
+from app.db.session import async_session
 from app.core.security.utils import verify_jwt_token
 
 

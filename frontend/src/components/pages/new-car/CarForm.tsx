@@ -1,40 +1,27 @@
 "use client"
 
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import toast from 'react-hot-toast'
+import { externalApi } from '@/lib/api'
+import { CarType } from '@/types/cars'
+import useApi from '@/hooks/useApi'
 import FormInput from '@/components/shared/FormInput'
-import SubmitButton from '@/components/shared/SubmitButton';
-import { externalApi } from '@/lib/api';
-import { CarType } from '@/types/cars';
-import { zodResolver } from '@hookform/resolvers/zod';
-import React, { FC } from 'react'
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import { z } from 'zod';
+import SubmitButton from '@/components/shared/SubmitButton'
+import { NewCarForm, newCarSchema } from '@/lib/validations/dashboard'
 
-const schema = z.object({
-    name: z.string().min(1, "Ism kiritilmadi"),
-    car_type_id: z.string().min(1, "Mashina turi tanlanmadi"),
-    images: z.any(),
-    price_per_day: z.coerce.number(),
-    original_price: z.coerce.number(),
-    fuel_type: z.string().min(1, "Yoqilg'i turi tanlanmadi"),
-    transmission: z.string().min(1, "Boshqaruv turi tanlanmadi"),
-    capacity: z.coerce.number(),
-    fuel_capacity: z.coerce.number(),
-    description: z.string().min(1, "Tavsif kiritilmadi"),
-});
 
-export type NewCarForm = z.infer<typeof schema>;
+
 
 type Props = {
     carTypes: CarType[]
+    fuels: { value: string, label: string }[]
+    transmissions: { value: string, label: string }[]
 }
 
-const CarForm: FC<Props> = ({ carTypes }) => {
-    const {
-        register: registerForm,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm<NewCarForm>({ resolver: zodResolver(schema) });
+const CarForm: React.FC<Props> = ({ carTypes, fuels, transmissions }) => {
+    const form = useForm<NewCarForm>({ resolver: zodResolver(newCarSchema) })
+    const { post } = useApi(true)
 
     const onSubmit = async (data: NewCarForm) => {
         if (data.images.length > 4) {
@@ -43,52 +30,60 @@ const CarForm: FC<Props> = ({ carTypes }) => {
         if (data.images.length < 1) {
             return toast.error("Mashina rasmi kiritilmadi")
         }
+        const images = new FormData()
+        for (let i = 0; i < data.images.length; i++) {
+            images.append("files", data.images[i])
+        }
         await toast.promise(
-            externalApi.post("/v1/cars", data),
+            post("/v1/files/upload", images, { headers: { "Content-Type": "multipart/form-data" } }),
             {
-                loading: "Yuklanmoqda...",
+                loading: "Rasm yuklanmoqda...",
+                success: (res) => {
+                    data.images = res.data
+                    return "Rasm muvaffaqiyatli yuklandi"
+                },
+                error: (err) => {
+                    console.log(err)
+                    return err.message
+                },
+            }
+        )
+
+        await toast.promise(
+            externalApi.post("/v1/cars", { ...data, car_type_id: Number(data.car_type_id) }),
+            {
+                loading: "Mashina yaratilmoqda...",
                 success: "Car successfully created",
                 error: (err) => err.message,
             }
         )
-    };
-    const fuels = [
-        { value: "Petrol", label: "Benzin" },
-        { value: "Diesel", label: "Dizel" },
-        { value: "Electric", label: "Elektr" },
-        { value: "Hybrid", label: "Gibrid" },
-    ]
+    }
 
-    const transmissions = [
-        { value: "Automatic", label: "Avtomat" },
-        { value: "Manual", label: "Manuel" },
-    ]
+
 
     return (
         <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-4 bg-white p-6 rounded-lg shadow-lg w-full"
         >
-            <h2 className="text-2xl font-bold mb-4 text-center">Yangi mashina yaratish</h2>
-
             <FormInput
                 type="text"
                 defaultValue=""
                 label="Mashina nomi"
                 placeholder="Mashina nomi"
-                register={registerForm("name")}
-                error={errors.name?.message}
+                register={form.register("name")}
+                error={form.formState.errors.name?.message}
             />
 
             <div className='flex flex-col'>
                 <label className='mb-1 text-sm'>Mashina turi</label>
-                <select className="border rounded-lg p-2" {...registerForm("car_type_id")}>
+                <select className="border rounded-lg p-2" {...form.register("car_type_id")}>
                     <option value="">Mashina turi</option>
                     {carTypes?.map((item) => (
                         <option key={item.id} value={String(item.id)}>{item.name}</option>
                     ))}
                 </select>
-                {errors.car_type_id && <span className="text-red-500 text-sm">{errors.car_type_id.message}</span>}
+                {form.formState.errors.car_type_id && <span className="text-red-500 text-sm">{form.formState.errors.car_type_id.message}</span>}
             </div>
 
             <FormInput
@@ -96,8 +91,8 @@ const CarForm: FC<Props> = ({ carTypes }) => {
                 defaultValue=""
                 label="Bir kunlik narxi"
                 placeholder="Narxi"
-                register={registerForm("price_per_day")}
-                error={errors.price_per_day?.message}
+                register={form.register("price_per_day")}
+                error={form.formState.errors.price_per_day?.message}
             />
 
             <FormInput
@@ -105,8 +100,8 @@ const CarForm: FC<Props> = ({ carTypes }) => {
                 defaultValue=""
                 label="Asl narxi"
                 placeholder="Asl narxi"
-                register={registerForm("original_price")}
-                error={errors.original_price?.message}
+                register={form.register("original_price")}
+                error={form.formState.errors.original_price?.message}
             />
 
             <FormInput
@@ -114,8 +109,8 @@ const CarForm: FC<Props> = ({ carTypes }) => {
                 defaultValue=""
                 label="Yo'lovchi sig'imi"
                 placeholder="Sig'im"
-                register={registerForm("capacity")}
-                error={errors.capacity?.message}
+                register={form.register("capacity")}
+                error={form.formState.errors.capacity?.message}
             />
 
             <FormInput
@@ -123,30 +118,30 @@ const CarForm: FC<Props> = ({ carTypes }) => {
                 defaultValue=""
                 label="Yoqilg'i sig'imi"
                 placeholder="Sig'im"
-                register={registerForm("fuel_capacity")}
-                error={errors.fuel_capacity?.message}
+                register={form.register("fuel_capacity")}
+                error={form.formState.errors.fuel_capacity?.message}
             />
 
             <div className='flex flex-col'>
                 <label className='mb-1 text-sm'>Yoqilg'i turi</label>
-                <select className="border rounded-lg p-2" {...registerForm("fuel_type")}>
+                <select className="border rounded-lg p-2" {...form.register("fuel_type")}>
                     <option value="">Yoqilg'i turi</option>
                     {fuels.map((item) => (
                         <option key={item.value} value={item.value}>{item.label}</option>
                     ))}
                 </select>
-                {errors.fuel_type && <span className="text-red-500 text-sm">{errors.fuel_type.message}</span>}
+                {form.formState.errors.fuel_type && <span className="text-red-500 text-sm">{form.formState.errors.fuel_type.message}</span>}
             </div>
 
             <div className='flex flex-col'>
                 <label className='mb-1 text-sm'>Boshqarish</label>
-                <select className="border rounded-lg p-2" {...registerForm("transmission")}>
+                <select className="border rounded-lg p-2" {...form.register("transmission")}>
                     <option value="">Boshqarish</option>
                     {transmissions.map((item) => (
                         <option key={item.value} value={item.value}>{item.label}</option>
                     ))}
                 </select>
-                {errors.transmission && <span className="text-red-500 text-sm">{errors.transmission.message}</span>}
+                {form.formState.errors.transmission && <span className="text-red-500 text-sm">{form.formState.errors.transmission.message}</span>}
             </div>
 
             <div className='flex flex-col'>
@@ -154,9 +149,9 @@ const CarForm: FC<Props> = ({ carTypes }) => {
                 <textarea
                     placeholder='Mashina tavsifi'
                     className='border rounded-lg p-2 focus:outline-none focus:ring-2 ring-blue-400'
-                    {...registerForm("description")}
+                    {...form.register("description")}
                 ></textarea>
-                {errors.description && <span className="text-red-500 text-sm">{errors.description.message}</span>}
+                {form.formState.errors.description && <span className="text-red-500 text-sm">{form.formState.errors.description.message}</span>}
             </div>
 
             <div className='flex flex-col'>
@@ -168,13 +163,13 @@ const CarForm: FC<Props> = ({ carTypes }) => {
                     accept="image/*"
                     multiple
                     className='border rounded-lg p-2 focus:outline-none focus:ring-2 ring-blue-400'
-                    {...registerForm("images")}
+                    {...form.register("images")}
                 />
             </div>
 
-            <SubmitButton isLoading={isSubmitting} label="Yuborish" />
+            <SubmitButton isLoading={form.formState.isSubmitting} label="Yuborish" />
         </form>
     )
 }
 
-export default CarForm;
+export default CarForm

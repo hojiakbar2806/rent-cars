@@ -12,7 +12,7 @@ type RecommendCarsProps = {
 };
 
 const RecommendCars: FC<RecommendCarsProps> = ({ data }) => {
-    const [visibleCount, setVisibleCount] = useState(1);
+    const [visibleCount, setVisibleCount] = useState(4);
 
     const visibleCars = data.slice(0, visibleCount);
 
@@ -21,16 +21,16 @@ const RecommendCars: FC<RecommendCarsProps> = ({ data }) => {
     return (
         <div className="w-full flex flex-col">
             <div className="flex justify-between py-5">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold">Tavfsiya qilinadigan mashinalar</h2>
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold">Tavsiya etilganlar</h2>
                 <Link href="/cars" className="text-blue-500 hover:underline">Hammasini ko'rish</Link>
             </div>
             <CardWrapper>
                 {visibleCars.map((car) => (
-                    <CarsCard car={car} key={car.id} scrollable={true} />
+                    <CarsCard car={car} key={car.id} />
                 ))}
             </CardWrapper>
             {hasMore && <Button
-                onClick={() => setVisibleCount((prev) => prev + 5)}
+                onClick={() => setVisibleCount((prev) => prev + 4)}
                 className="mx-auto cursor-pointer mt-5"
             >
                 Show More

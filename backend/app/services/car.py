@@ -15,8 +15,10 @@ class CarService:
 
     async def create_car(self, car: CarCreate) -> CarResponse:
         try:
-            new_car = await self.car_repo.create_car(car, refresh=True)
-            return CarResponse.model_validate(new_car)
+            await self.car_repo.create_car(car)
+            return JSONResponse(content={"message": "Car created successfully"}, status_code=201)
+        except ResourceNotFoundException as e:
+            raise HTTPException(status_code=404, detail=str(e))
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 

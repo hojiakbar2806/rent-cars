@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="mt-auto bg-white py-10 px-6 md:px-20">
+    <footer className="mt-auto bg-white py-5 px-5 md:px-20">
       <div className="max-w-7xl mx-auto flex flex-col space-y-10 md:space-y-0 md:grid md:grid-cols-4 gap-8">
         <div className="text-center md:text-left">
           <div>
@@ -73,9 +73,9 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mt-10 border-t pt-4 flex flex-col items-center md:flex-row md:justify-between text-gray-600 text-sm">
+      <div className="mt-5 border-t p-4 flex flex-col items-center md:flex-row md:justify-between text-gray-600 text-sm">
         <p>©2025 Mashinalar. Barcha huquqlar himoyalangan</p>
-        <div className="flex space-x-6 mt-2 md:mt-0">
+        <div className="flex space-x-5 md:mt-0">
           <a href="#" className="hover:underline">
             Maxfiylik siyosati
           </a>

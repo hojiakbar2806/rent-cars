@@ -36,7 +36,7 @@ const LikeButton: FC<Props> = ({ id }) => {
       onClick={(e) => {
         e.stopPropagation();
         toast.promise(post(`/v1/favorites/${id}`), {
-          loading: "Posting like...",
+          loading: isLiked ? "Removing..." : "Adding...",
           success: (res) => {
             queryClient.invalidateQueries({ queryKey: ["cars-likes"] });
             queryClient.invalidateQueries({ queryKey: ["wishlist"] });

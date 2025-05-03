@@ -12,8 +12,8 @@ const PopularCars: FC<PopularCarsProps> = async ({ data }) => {
 
     return (
         <div className="w-full flex flex-col">
-            <div className="flex justify-between py-5">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold">Mashhur mashinalar</h2>
+            <div className="flex justify-between py-2 md:py-5">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold">Mashhurlar</h2>
                 <Link href="/cars" className="text-blue-500 hover:underline">Hammasini ko'rish</Link>
             </div>
             <CardWrapper scrollable>
