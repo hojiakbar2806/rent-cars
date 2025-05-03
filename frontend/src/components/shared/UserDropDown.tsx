@@ -46,7 +46,7 @@ export function UserDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="size-10 md:size-12 cursor-pointer">
+        <Avatar className="size-12 cursor-pointer">
           <AvatarFallback className="text-lg font-bold">
             {session?.user ? (
               fallbackText
@@ -73,15 +73,15 @@ export function UserDropdown() {
               <span className="text-sm md:text-lg">Shaxsiy kabinet</span>
             </DropdownMenuItem>}
 
-            <DropdownMenuItem onClick={handleLogout} className="md:hidden cursor-pointer">
+            <DropdownMenuItem onClick={()=>handleNavigate("/profile/wishlists")} className="md:hidden cursor-pointer">
               <HeartIcon className="size-4 md:size-5" />
               <span className="text-sm md:text-lg">Sevimlilar</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleLogout} className="md:hidden cursor-pointer">
+            <DropdownMenuItem onClick={()=>handleNavigate("/profile/settings")} className="md:hidden cursor-pointer">
               <Settings className="size-4 md:size-5" />
               <span className="text-sm md:text-lg">Sozlamalar</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleLogout} className="md:hidden cursor-pointer flex items-center justify-between">
+            <DropdownMenuItem onClick={()=>handleNavigate("/profile/notifications")} className="md:hidden cursor-pointer flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Bell className="size-4 md:size-5" />
                 <span className="text-sm md:text-lg">Xabarlar</span>

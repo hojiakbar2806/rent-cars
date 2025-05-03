@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { externalApi } from '@/lib/api';
-import { redis } from "@/app/lib/redis";
+import { redis } from "@/lib/redis";
 
 export async function GET(req: NextRequest) {
   try {

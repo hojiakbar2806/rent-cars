@@ -1,7 +1,7 @@
 from typing import Callable
 from functools import wraps
 from fastapi import HTTPException, Request
-from app.core.database import async_session
+from app.db.session import get_async_session
 from app.core.permissions import BasePermission
 
 

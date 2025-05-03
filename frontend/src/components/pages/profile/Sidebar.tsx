@@ -10,12 +10,11 @@ import {
     Settings,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import LogoutButton from "@/components/shared/LogoutButton";
 
 const Sidebar = () => {
     return (
         <div className="w-80 bg-white hidden md:block">
-            <div className="flex h-full flex-col gap-2 sticky top-24 p-5">
+            <div className="flex flex-col gap-2 sticky top-24 p-5">
                 <h2 className="text-lg font-semibold mb-4">Sizning kabinetingiz</h2>
                 <SidebarItem
                     Icon={LayoutDashboardIcon}
@@ -37,7 +36,6 @@ const Sidebar = () => {
                     path="/profile/notifications"
                     label="Xabarlar"
                 />
-                <LogoutButton />
             </div>
         </div>
     );

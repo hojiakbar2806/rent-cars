@@ -10,7 +10,7 @@ import SearchInput from "./SearchInput";
 
 const Navbar: FC = () => {
   return (
-    <header className="w-full sticky top-0 flex flex-col gap-4 z-50 bg-white p-6 shadow">
+    <header className="w-full sticky top-0 flex flex-col gap-4 z-50 bg-white px-4 py-2 md:py-4 shadow">
       <div className="flex items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2">
           <Image

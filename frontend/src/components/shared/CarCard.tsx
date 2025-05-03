@@ -11,12 +11,8 @@ import { useRouter } from "next/navigation";
 import LikeButton from "./LikeButton";
 import nProgress from "nprogress";
 
-type Props = {
-  car: CarItem;
-  scrollable?: boolean;
-};
 
-const CarsCard: FC<Props> = ({ scrollable = false, car }) => {
+const CarsCard: FC<{ car: CarItem }> = ({ car }) => {
   const router = useRouter();
 
   const handleClick = () => {
@@ -26,14 +22,9 @@ const CarsCard: FC<Props> = ({ scrollable = false, car }) => {
 
   return (
     <div
-      data-scrollable={scrollable}
-      className="flex flex-col min-w-[300px] gap-6 justify-between aspect-[4/3] p-4 rounded-xl bg-white snap-start xxs:aspect-[3/4]
-      data-[scrollable=true]:aspect-[3/4]
-      data-[scrollable=true]:min-w-[250px]
-      md:data-[scrollable=true]:min-w-[300px]
-      "
       onClick={handleClick}
-    >
+      className="w-full h-full flex flex-col gap-2 p-4 justify-between rounded-xl bg-white
+      sm:gap-6">
       <div className="w-full flex items-center justify-between">
         <div>
           <h1 className="font-bold text-lg sm:text-xl">{car.name}</h1>
@@ -43,29 +34,31 @@ const CarsCard: FC<Props> = ({ scrollable = false, car }) => {
       </div>
 
       <div
-        data-scrollable={scrollable}
-        className="w-full flex-1 flex flex-row justify-between items-center xxs:flex-col
-        data-[scrollable=true]:flex-col">
+        className="w-full flex flex-row justify-between items-center
+        sm:flex-col gap-10
+        group-data-[scrollable=true]:flex-col
+        group-data-[scrollable=true]:gap-6
+        ">
         <Image
-          src={`${BASE_URL}/${car.images[0]}`}
+          priority
           width={250}
           height={110}
           alt={car.name}
-          priority
-          className="w-[180px] sm:w-full flex-1 my-auto object-contain"
+          src={`${BASE_URL}/${car.images[0]}`}
+          className="w-[180px] sm:w-auto my-auto object-contain"
         />
 
         <div
-          data-scrollable={scrollable}
-          className="flex flex-col justify-between xxs:flex-row xxs:w-full
-          data-[scrollable=true]:flex-row
-          data-[scrollable=true]:w-full
+          className="flex shrink-0 flex-col gap-3 justify-between sm:flex-row sm:w-full
+          group-data-[scrollable=true]:flex-row
+          group-data-[scrollable=true]:w-full
           ">
-          <InfoLab Icon={Fuel} label={`${car.fuel_capacity} L`} />
-          <InfoLab Icon={Target} label={car.transmission} />
-          <InfoLab Icon={UsersRound} label={`${car.capacity} Yo'lovchi`} />
+          <InfoLabel Icon={Fuel} label={`${car.fuel_capacity} L`} />
+          <InfoLabel Icon={Target} label={car.transmission} />
+          <InfoLabel Icon={UsersRound} label={`${car.capacity} Yo'lovchi`} />
         </div>
       </div>
+      
 
       <div className="flex justify-between items-center">
         <div>
@@ -87,17 +80,15 @@ const CarsCard: FC<Props> = ({ scrollable = false, car }) => {
 
 export default CarsCard;
 
-function InfoLab({
-  Icon,
-  label,
-}: {
+
+const InfoLabel: FC<{
   Icon: LucideIcon;
   label: string | number;
-}) {
+}> = ({ Icon, label }) => {
   return (
     <div className="shrink-0 flex space-y-2 items-center gap-1 text-gray-400 text-xs">
       <Icon size={18} />
       <span className="whitespace-nowrap">{label}</span>
     </div>
   );
-}
+};

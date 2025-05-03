@@ -14,7 +14,7 @@ export default function TransferSelectorBar() {
           <div className="w-4 h-4 bg-blue-500/30 rounded-full grid place-items-center">
             <span className="w-2 h-2 bg-blue-500 rounded-full" />
           </div>
-          <label htmlFor="pick-up" className="font-semibold text-lg">
+          <label htmlFor="pick-up" className="font-semibold text-sm md:text-lg">
             Olib ketish - ko'tarish
           </label>
         </div>
@@ -25,8 +25,8 @@ export default function TransferSelectorBar() {
         </div>
       </div>
 
-      <Button className="scale-150 aspect-square relative">
-        <ArrowUpDown size={15} strokeWidth={1.5} className="absolute" />
+      <Button className="aspect-square relative size-6 scale-150 sm:size-7 md:size-8">
+        <ArrowUpDown strokeWidth={1.5} className="absolute size-3 md:size-4" />
       </Button>
 
       <div className="flex-1 w-full xl:w-auto flex flex-col bg-white rounded-lg px-6 pt-6 pb-4 gap-2">
@@ -34,7 +34,7 @@ export default function TransferSelectorBar() {
           <div className="w-4 h-4 bg-blue-500/30 rounded-full grid place-items-center">
             <span className="w-2 h-2 bg-blue-500 rounded-full" />
           </div>
-          <label htmlFor="pick-up" className="font-semibold text-lg">
+          <label htmlFor="pick-up" className="font-semibold text-sm md:text-lg">
             Olib ketish - ko'tarish
           </label>
         </div>

@@ -23,7 +23,7 @@ const HeroCard: FC<Props> = ({
 }) => {
   const router = useRouter();
   return (
-    <div className="relative overflow-hidden rounded-xl bg-gradient-to-r p-8 text-white md:first:block first:hidden">
+    <div className="relative overflow-hidden rounded-xl bg-gradient-to-r p-5 text-white lg:first:block first:hidden lg:p-8">
       <div className="flex flex-col md:gap-5 items-start relative z-10">
         <h2 className="text-lg sm:text-xl md:text-3xl font-bold mb-2 leading-tight max-w-md">
           {title}
@@ -43,7 +43,7 @@ const HeroCard: FC<Props> = ({
           width={247.5}
           height={110}
           priority
-          className="w-[60%] z-10 ml-auto"
+          className="w-[80%] sm:w-[60%] z-10 ml-auto"
         />
       </div>
       <Image src={bgImg} fill alt="" priority className="z-0" />

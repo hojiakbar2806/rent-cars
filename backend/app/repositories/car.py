@@ -113,7 +113,7 @@ class CarRepository:
         max_price, min_price = price_result.fetchone()
         return [min_price, max_price]
 
-    async def get_cars_capacities(self) -> list:
+    async def get_cars_capacities(self) -> list :
         query = select(Car.capacity).distinct()
         capacities_result = await self.db.execute(query)
         return [row[0] for row in capacities_result.all()]
