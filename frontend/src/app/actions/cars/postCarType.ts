@@ -1,21 +1,20 @@
 "use server";
 
 import { externalApi } from "@/lib/api";
-import { NewCarForm } from "@/lib/validations/dashboard";
+import {  NewCarTypeForm } from "@/lib/validations/dashboard";
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { getToken } from "../auth/getToken";
 
-export async function postCar(data: NewCarForm) {
+export async function postCarType(carData: NewCarTypeForm) {
   try {
     const token = await getToken();
     if (!token) return null;
-    const res = await externalApi.post("/v1/cars", { ...data, car_type_id: Number(data.car_type_id) }, {
+    const res = await externalApi.post("/v1/car-types", carData, {
       headers: {Authorization: `Bearer ${token}`},
     });
 
-    revalidateTag("cars");
-    revalidatePath("/");
-    revalidatePath("/dashboard/cars-list");
+    revalidateTag("filters");
+    revalidatePath("/dashboard/car-type-list");
 
     return res.data
 

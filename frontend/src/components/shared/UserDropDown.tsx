@@ -40,7 +40,7 @@ export function UserDropdown() {
 
   const handleNavigate = (path: string) => {
     nProgress.start();
-    router.push(path);
+    router.replace(path);
   };
 
   return (

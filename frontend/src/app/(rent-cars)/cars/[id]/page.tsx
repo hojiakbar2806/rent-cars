@@ -39,7 +39,7 @@ const CarsPage: FC<CarsPageProps> = async ({ params }) => {
 
 export default CarsPage
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export const metadata: Metadata = {
     title: "Rent-cars page",

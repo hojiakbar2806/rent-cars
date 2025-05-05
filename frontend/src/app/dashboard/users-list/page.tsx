@@ -2,6 +2,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { externalApi } from "@/lib/api";
+import DeleteButton from "@/components/pages/new-user/DeleteButton";
 
 
 type User = {
@@ -34,6 +35,7 @@ const UsersListPage = async () => {
               <TableHead className="text-white">Foydalanuvchi mansabi</TableHead>
               <TableHead className="text-white">Created At</TableHead>
               <TableHead className="text-white">Updated At</TableHead>
+              <TableHead className="text-white text-center">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -46,6 +48,7 @@ const UsersListPage = async () => {
                   <TableCell>{item.is_admin ? "Boshqaruvchi" : "Foydalanuvchi"}</TableCell>
                   <TableCell>{new Date(item.created_at).toLocaleDateString()}</TableCell>
                   <TableCell>{new Date(item.updated_at).toLocaleDateString()}</TableCell>
+                  <TableCell className="text-center"><DeleteButton id={item.id} /></TableCell>
                 </TableRow>
               )
             })}
@@ -58,4 +61,4 @@ const UsersListPage = async () => {
 
 export default UsersListPage
 
-export const revalidate = 360
+export const revalidate = 3600

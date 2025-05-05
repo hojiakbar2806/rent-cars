@@ -23,9 +23,7 @@ const CarsPage: FC<CarsPageProps> = async ({ searchParams }) => {
             <div className='flex-1 flex flex-col gap-5 p-5'>
                 <TransferSelectorBar />
                 <CardWrapper>
-                    {cars.map(car => (
-                        <CarsCard key={car.id} car={car} />
-                    ))}
+                    {cars.map(car => (<CarsCard key={car.id} car={car} />))}
                 </CardWrapper>
             </div>
         </div>

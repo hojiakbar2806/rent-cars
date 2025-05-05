@@ -3,12 +3,12 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import toast from 'react-hot-toast'
-import { externalApi } from '@/lib/api'
 import { CarType } from '@/types/cars'
 import useApi from '@/hooks/useApi'
 import FormInput from '@/components/shared/FormInput'
 import SubmitButton from '@/components/shared/SubmitButton'
 import { NewCarForm, newCarSchema } from '@/lib/validations/dashboard'
+import { postCar } from '@/app/actions/cars/postCars'
 
 
 
@@ -48,9 +48,8 @@ const CarForm: React.FC<Props> = ({ carTypes, fuels, transmissions }) => {
                 },
             }
         )
-
         await toast.promise(
-            externalApi.post("/v1/cars", { ...data, car_type_id: Number(data.car_type_id) }),
+            postCar(data),
             {
                 loading: "Mashina yaratilmoqda...",
                 success: "Car successfully created",

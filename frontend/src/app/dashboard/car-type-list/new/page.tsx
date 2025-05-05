@@ -8,15 +8,14 @@ import SubmitButton from "@/components/pages/auth/SubmitButton";
 import FormInput from "@/components/pages/auth/FormInput";
 import toast from "react-hot-toast";
 import { NewCarTypeForm, newCarTypeSchema } from "@/lib/validations/dashboard";
-import useApi from "@/hooks/useApi";
+import { postCarType } from "@/app/actions/cars/postCarType";
 
 
 const AddNewUserPage = () => {
     const form = useForm<NewCarTypeForm>({ resolver: zodResolver(newCarTypeSchema) });
-    const { post } = useApi(true)
 
     const onSubmit = async (data: NewCarTypeForm) => {
-        toast.promise(post("/v1/car-types", data),
+        toast.promise(postCarType(data),
             {
                 loading: "Yuklanmoqda...",
                 success: "Car type successfully created",
