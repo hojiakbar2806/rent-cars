@@ -28,7 +28,7 @@ const FilterBar: FC<FilterBarProps> = ({ filters }) => {
                 group-data-[open=true]:left-0">
                 <div
                     className="top-0 sticky p-5 lg:flex flex-col gap-5 items-start 
-                    lg:top-24
+                    lg:top-20
                     ">
                     <Suspense>
                         <FilterCarType data={filters.car_types} />

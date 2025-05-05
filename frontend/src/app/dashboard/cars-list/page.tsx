@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { externalApi } from "@/lib/api";
 import { CarItem } from "@/types/cars";
+import DeleteButton from "@/components/pages/new-car/DeleteButton";
 
 
 const CarsListPage = async () => {
@@ -27,9 +28,10 @@ const CarsListPage = async () => {
                 <TableHead className="w-[100px] text-white">ID</TableHead>
                 <TableHead className="text-white">Nom</TableHead>
                 <TableHead className="text-white">Turi</TableHead>
-                <TableHead className="text-white">Tavsif</TableHead>
                 <TableHead className="text-white">Hozirgi narx</TableHead>
                 <TableHead className="text-white">Oldingi narx</TableHead>
+                <TableHead className="text-white">Tavsif</TableHead>
+                <TableHead className="text-white">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -43,6 +45,7 @@ const CarsListPage = async () => {
                       <TableCell>{item.price_per_day}</TableCell>
                       <TableCell>{item.original_price}</TableCell>
                       <TableCell className="max-w-[300px] overflow-auto scrollbar-none">{item.description}</TableCell>
+                      <TableCell className="flex justify-center"><DeleteButton id={item.id} /></TableCell>
                     </TableRow>
                   )
                 })
@@ -57,4 +60,4 @@ const CarsListPage = async () => {
 
 export default CarsListPage
 
-export const revalidate = 360
+export const revalidate = 3600

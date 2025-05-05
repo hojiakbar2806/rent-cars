@@ -10,7 +10,9 @@ class Car(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    car_type_id = Column(Integer, ForeignKey("car_types.id"), nullable=False)
+    car_type_id = Column(Integer, ForeignKey(
+        "car_types.id", ondelete="SET NULL"), nullable=True
+    )
     price_per_day = Column(Float, nullable=False)
     original_price = Column(Float, nullable=False)
     images = Column(JSON, nullable=False, default=list)
@@ -22,6 +24,10 @@ class Car(Base):
     description = Column(String, nullable=False)
     available = Column(Boolean, default=True)
 
-    car_type = relationship("CarType", back_populates="cars")
+    car_type = relationship(
+        "CarType", back_populates="cars", cascade="all, delete"
+    )
     rentals = relationship("Rental", back_populates="car")
-    favorites = relationship("Favorite", back_populates="car")
+    favorites = relationship(
+        "Favorite", back_populates="car", cascade="all, delete"
+    )

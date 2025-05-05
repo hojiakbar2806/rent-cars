@@ -3,6 +3,8 @@ import { CarType } from "@/types/cars";
 import { externalApi } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import DeleteButton from "@/components/pages/new-car-type/DeleteButton";
+
 
 const CarsTypeListPage = async () => {
   const cars = await externalApi.get("/v1/car-types").then((res) => res.data as CarType[]);
@@ -29,6 +31,7 @@ const CarsTypeListPage = async () => {
                 <TableHead className="text-white">Yaratilgan vaqt</TableHead>
                 <TableHead className="text-white">Yanglilangan vaqt</TableHead>
                 <TableHead className="text-white">Tavsif</TableHead>
+                <TableHead className="text-white text-center">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -41,6 +44,9 @@ const CarsTypeListPage = async () => {
                       <TableCell>{new Date(item.created_at).toLocaleString()}</TableCell>
                       <TableCell>{new Date(item.updated_at).toLocaleString()}</TableCell>
                       <TableCell className="max-w-[300px] overflow-auto scrollbar-none">{item.description}</TableCell>
+                      <TableCell className="flex justify-center">
+                        <DeleteButton id={item.id} />
+                      </TableCell>
                     </TableRow>
                   )
                 })
@@ -56,4 +62,4 @@ const CarsTypeListPage = async () => {
 
 export default CarsTypeListPage
 
-export const revalidate = 360
+export const revalidate = 3600

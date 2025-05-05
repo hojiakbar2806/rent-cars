@@ -8,8 +8,6 @@ import CarForm from "@/components/pages/new-car/CarForm";
 const AddNewCarPage = async () => {
     const carTypes = await externalApi.get("/v1/car-types").then((res) => res.data as CarType[]);
 
-
-
     const fuels = [
         { value: "Petrol", label: "Benzin" },
         { value: "Diesel", label: "Dizel" },
