@@ -24,7 +24,7 @@ class Rental(Base):
     )
 
     car = relationship("Car", back_populates="rentals")
-    user = relationship("User", back_populates="rentals")
+    user = relationship("User", back_populates="rentals", cascade="all, delete")
     pickup_location = relationship(
         "Location", foreign_keys=[pickup_location_id], back_populates="pickup_rentals"
     )

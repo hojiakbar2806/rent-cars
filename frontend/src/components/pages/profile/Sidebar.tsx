@@ -51,7 +51,7 @@ type Props = {
 
 const SidebarItem: FC<Props> = ({ path, Icon, label }) => {
     const pathname = usePathname();
-    const isActive = pathname.split("/")[3] === path.split("/")[2];
+    const isActive = pathname.split("/")[2] === path.split("/")[2];
     return (
         <Link
             href={path}
