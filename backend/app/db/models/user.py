@@ -15,5 +15,5 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     is_admin = Column(Boolean, default=False)
 
-    rentals = relationship("Rental", back_populates="user")
+    rentals = relationship("Rental", back_populates="user", cascade="all, delete")
     favorites = relationship("Favorite", back_populates="user")
