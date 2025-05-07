@@ -1,5 +1,5 @@
 from app.repositories.location import LocationRepository
-from app.schemas.rent_car import LocationCreate, LocationResponse, LocationUpdate
+from app.schemas.location import LocationCreate, LocationResponse, LocationUpdate
 
 
 class LocationService:

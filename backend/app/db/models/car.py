@@ -25,9 +25,11 @@ class Car(Base):
     available = Column(Boolean, default=True)
 
     car_type = relationship(
-        "CarType", back_populates="cars", cascade="all, delete"
+        "CarType", back_populates="cars"
     )
-    rentals = relationship("Rental", back_populates="car")
+    rentals = relationship(
+        "Rental", back_populates="car", cascade="all, delete"
+    )
     favorites = relationship(
         "Favorite", back_populates="car", cascade="all, delete"
     )

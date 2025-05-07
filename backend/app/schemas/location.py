@@ -28,7 +28,7 @@ class LocationUpdate(BaseModel):
     longitude: Optional[float]
 
 
-class LocationOut(LocationBase):
+class LocationResponse(LocationBase):
     id: str
 
     class Config:

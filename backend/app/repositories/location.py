@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from app.models import Location
-from app.schemas.rent_car import LocationCreate, LocationUpdate
+from app.db.models import Location
+from app.schemas.location import LocationCreate, LocationUpdate
 
 
 class LocationRepository:
@@ -9,7 +9,7 @@ class LocationRepository:
         self.db = session
 
     async def create_location(self, location: LocationCreate) -> Location:
-        new_location = Location(**location.dict())
+        new_location = Location(**location.model_dump())
         self.db.add(new_location)
         await self.db.commit()
         await self.db.refresh(new_location)

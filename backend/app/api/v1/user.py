@@ -34,7 +34,6 @@ async def create_user(
     return user
 
 
-@router.delete("/{user_id}", response_model=dict)
+@router.delete("/{user_id}")
 async def delete_user(user_id: int, user_service: UserService = Depends(get_user_service)):
     await user_service.delete_user(user_id)
-    return {"message": "User deleted successfully"}

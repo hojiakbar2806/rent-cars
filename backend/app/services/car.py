@@ -65,7 +65,7 @@ class CarService:
     async def delete_car(self, car_id: int) -> bool:
         try:
             await self.car_repo.delete_car(car_id)
-            return JSONResponse(content={"message": "Car deleted successfully"}, status_code=204)
+            return JSONResponse(content={"message": "Car deleted successfully"})
         except ResourceNotFoundException as e:
             raise HTTPException(status_code=404, detail=str(e))
         except Exception as e:
