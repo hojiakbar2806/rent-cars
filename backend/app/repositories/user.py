@@ -1,37 +1,47 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from app.db.models import User
-from app.schemas.auth import RegisterUser
-from app.schemas.user import UserCreate
+from app.core.exceptions import ResourceNotFoundException, ResourceAlreadyExistException
 
 
 class UserRepository:
     def __init__(self, session: AsyncSession):
-        self.session = session
+        self.db = session
 
     async def get_user_by_id(self, user_id: int) -> User:
-        result = await self.session.execute(select(User).where(User.id == user_id))
-        return result.scalar_one_or_none()
+        stmt = select(User).where(User.id == user_id)
+        db_user = (await self.db.execute(stmt)).scalar_one_or_none()
+        if not db_user:
+            raise ResourceNotFoundException("User", user_id)
+        return db_user
 
     async def get_users(self) -> list[User]:
-        result = await self.session.execute(select(User))
-        return result.scalars().all()
+        stmt = select(User)
+        db_users = (await self.db.execute(stmt)).scalars().all()
+        return db_users
 
-    async def get_user_by_email(self, email: str) -> User:
-        result = await self.session.execute(select(User).where(User.email == email))
-        return result.scalar_one_or_none()
+    async def get_user_by_email(self, user_email: str) -> User:
+        stmt = select(User).where(User.email == user_email)
+        db_user = (await self.db.execute(stmt)).scalar_one_or_none()
+        return db_user
 
-    async def create_user(self, user: UserCreate) -> User:
-        new_user = User(**user.model_dump())
-        self.session.add(new_user)
-        await self.session.commit()
-        await self.session.refresh(new_user)
+    async def create_user(self, user_in: dict, refresh=True):
+        stmt = select(User).where(User.email == user_in["email"])
+        db_user = (await self.db.execute(stmt)).scalar_one_or_none()
+        if db_user:
+            raise ResourceAlreadyExistException("User", user_in["email"])
+        new_user = User(**user_in)
+        self.db.add(new_user)
+        await self.db.commit()
+        if refresh:
+            await self.db.refresh(new_user)
         return new_user
 
     async def delete_user(self, user_id: int) -> bool:
-        user = await self.get_user_by_id(user_id)
-        if user:
-            await self.session.delete(user)
-            await self.session.commit()
-            return True
-        return False
+        stmt = select(User).where(User.id==user_id)
+        db_user = (await self.db.execute(stmt)).scalar_one_or_none()
+        if db_user:
+            await self.db.delete(db_user)
+            await self.db.commit()
+        else:
+            raise ResourceNotFoundException("User", user_id)

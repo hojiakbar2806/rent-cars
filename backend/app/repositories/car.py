@@ -85,12 +85,13 @@ class CarRepository:
         return car
 
     async def delete_car(self, car_id: str) -> bool:
-        car = await self.get_car(car_id)
-        if car:
-            await self.db.delete(car)
+        stmt = select(Car).where(Car.id == car_id)
+        db_car = (await self.db.execute(stmt)).scalar_one_or_none()
+        if db_car:
+            await self.db.delete(db_car)
             await self.db.commit()
-            return True
-        raise ResourceNotFoundException("Car", car_id)
+        else:
+            raise ResourceNotFoundException("Car", car_id)
 
     async def get_filter_data(self) -> CarFilterDataResponse:
         car_types = await self.car_type_repo.fetch_car_type_stats()
