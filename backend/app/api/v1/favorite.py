@@ -29,11 +29,10 @@ async def get_my_favorites(request: Request, service: FavoriteService = Depends(
 
 
 @router.post("/{car_id}", response_model=FavoriteResponse)
+@permission_classes(IsAuthenticated)
 async def create_favorite(request: Request, car_id: int, service: FavoriteService = Depends(get_favorite_service)):
-    user = getattr(request.state, "user", None)
-    if user is None:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-    return await service.create_favorite(car_id, user.id)
+    user_id = getattr(request.state.user, "id", None)
+    return await service.create_favorite(car_id, user_id)
 
 
 @router.get("/{favorite_id}", response_model=FavoriteResponse)

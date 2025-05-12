@@ -24,7 +24,7 @@ class UserService:
     async def create_user(self, user_in: UserCreate):
         try:
             user_in.hashed_password = hash_password(user_in.hashed_password)
-            await self.repo.create_user(user_in.model_dump())
+            await self.repo.create_user(user_in)
             return JSONResponse(content={"message": "User created successfully"}, status_code=201)
         except ResourceAlreadyExistException as e:
             raise HTTPException(status_code=400, detail=str(e))

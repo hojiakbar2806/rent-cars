@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from app.db.models import User
 from app.core.exceptions import ResourceNotFoundException, ResourceAlreadyExistException
+from app.schemas.user import UserCreate
 
 
 class UserRepository:
@@ -25,12 +26,12 @@ class UserRepository:
         db_user = (await self.db.execute(stmt)).scalar_one_or_none()
         return db_user
 
-    async def create_user(self, user_in: dict, refresh=True):
-        stmt = select(User).where(User.email == user_in["email"])
+    async def create_user(self, user_in: UserCreate, refresh=True):
+        stmt = select(User).where(User.email == user_in.email)
         db_user = (await self.db.execute(stmt)).scalar_one_or_none()
         if db_user:
-            raise ResourceAlreadyExistException("User", user_in["email"])
-        new_user = User(**user_in)
+            raise ResourceAlreadyExistException("User", user_in.email)
+        new_user = User(**user_in.model_dump())
         self.db.add(new_user)
         await self.db.commit()
         if refresh:

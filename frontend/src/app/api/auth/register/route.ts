@@ -6,8 +6,9 @@ import { isAxiosError } from "axios";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json(); 
-    const res = await externalApi.post('/v1/auth/login', { email, password });
+    const data = await req.json(); 
+    const res = await externalApi.post('/v1/auth/register', data);
+    console.log(res.data)
 
         const session_id = uuidv4()
         const sessionData = {
@@ -16,11 +17,12 @@ export async function POST(req: NextRequest) {
             refresh_token: res.data.refresh_token,
             expire: res.data.expire_minutes
         }
+        console.log(sessionData)
         await redis.set(session_id, JSON.stringify(sessionData), "EX", sessionData.expire);
 
         const response = NextResponse.json(
           { 
-            message: "Login successful", 
+            message: "Register successful", 
             session:{user:sessionData.user, access_token:sessionData.access_token} 
           }
         );
