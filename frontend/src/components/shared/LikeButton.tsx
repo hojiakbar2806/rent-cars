@@ -20,7 +20,7 @@ const LikeButton: FC<Props> = ({ id }) => {
   const router = useRouter();
   const { data } = useQuery({
     queryKey: ["cars-likes"],
-    queryFn: () => get<number[]>("/v1/favorites/id"),
+    queryFn: () => get<number[]>("/v1/favorites"),
   });
 
 
