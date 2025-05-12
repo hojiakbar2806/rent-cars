@@ -22,24 +22,9 @@ async def get_my_favorite_cars(request: Request, service: FavoriteService = Depe
     return await service.get_my_favorite_cars(user_id)
 
 
-@router.get("/id", response_model=list[int])
-async def get_my_favorites(request: Request, service: FavoriteService = Depends(get_favorite_service)):
-    user_id = getattr(request.state.user, "id", None)
-    return await service.get_my_favorite_cars_id(user_id)
-
 
 @router.post("/{car_id}", response_model=FavoriteResponse)
 @permission_classes(IsAuthenticated)
 async def create_favorite(request: Request, car_id: int, service: FavoriteService = Depends(get_favorite_service)):
     user_id = getattr(request.state.user, "id", None)
     return await service.create_favorite(car_id, user_id)
-
-
-@router.get("/{favorite_id}", response_model=FavoriteResponse)
-async def get_favorite(favorite_id: int, service: FavoriteService = Depends(get_favorite_service)):
-    return await service.get_favorite(favorite_id)
-
-
-@router.delete("/{favorite_id}")
-async def delete_favorite(favorite_id: int, service: FavoriteService = Depends(get_favorite_service)):
-    return await service.delete_favorite(favorite_id)

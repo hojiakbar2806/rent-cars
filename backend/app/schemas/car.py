@@ -45,7 +45,7 @@ class CarUpdatePartial(BaseModel):
 class CarResponse(BaseModel):
     id: int
     name: str
-    car_type: CarTypeResponse
+    car_type: Optional[CarTypeResponse]
     images: List[str]
     price_per_day: float
     original_price: float

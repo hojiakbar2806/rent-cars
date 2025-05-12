@@ -30,6 +30,8 @@ export default function SignUp() {
       loading: "Loading...",
       success: (res) => {
         setSession(res.data.session)
+        nProgress.start();
+        router.push("/");
         return "Register Success"
       },
       error: (error) => {
@@ -37,8 +39,7 @@ export default function SignUp() {
         return "Something went wrong";
       },
     });
-    nProgress.start();
-    router.replace("/");
+
   };
 
   return (
