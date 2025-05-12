@@ -1,22 +1,19 @@
-from datetime import timedelta
-from typing import List, Any, Coroutine, Optional
-from fastapi import HTTPException
-from fastapi.responses import JSONResponse, RedirectResponse
 from jwt import PyJWTError
+from fastapi import HTTPException
+from typing import List, Any, Coroutine, Optional
+from fastapi.responses import JSONResponse, RedirectResponse
 
-from app.core.enums import TokenType
-from app.core.security.utils import create_access_token, create_refresh_token
-from app.core.security.jwt import decode_jwt
 from app.db.models import User
-from app.schemas.auth import LoginResponse, RegisterUser, LoginUser, TokenResponse
-from app.services.user import UserService
-from app.repositories.user import UserRepository
 from app.config import settings
-
-
-from fastapi import HTTPException, Depends
-from fastapi.responses import JSONResponse
+from app.core.enums import TokenType
+from app.services.user import UserService
 from app.services.oauth import OAuthService
+from app.core.security.jwt import decode_jwt
+from app.repositories.user import UserRepository
+from app.schemas.auth import  RegisterUser, LoginUser, TokenResponse
+from app.core.security.utils import create_access_token, create_refresh_token
+
+
 
 
 class AuthService(UserService):
@@ -30,11 +27,11 @@ class AuthService(UserService):
             raise HTTPException(status_code=404, detail="User not found")
         access_token = create_access_token(db_user.id)
         refresh_token = create_refresh_token(db_user.id)
-        return LoginResponse(
+        return TokenResponse(
+            user_info=db_user,
             access_token=access_token,
             refresh_token=refresh_token,
             expire_minutes=settings.jwt_refresh_token_expire_minutes,
-            user_info=db_user
         )
 
     async def login_via_google(self):
@@ -62,10 +59,11 @@ class AuthService(UserService):
         db_user = await self.repo.get_user_by_email(user.email)
         if db_user:
             raise HTTPException(status_code=400, detail="User already exists")
-        new_user = await self.repo.create_user(user)
+        new_user = await self.repo.create_user(user,refresh=True)
         access_token = create_access_token(new_user.id)
         refresh_token = create_refresh_token(new_user.id)
         return TokenResponse(
+            user_info=new_user,
             access_token=access_token,
             refresh_token=refresh_token,
             expire_minutes=settings.jwt_refresh_token_expire_minutes
@@ -78,10 +76,10 @@ class AuthService(UserService):
                 raise HTTPException(status_code=400, detail="Invalid token")
             db_user = self.repo.get_user_by_id(sub)
             if db_user is None:
-                raise HTTPException(status_code=404, detail="Invalid token")
+                raise HTTPException(status_code=400, detail="Invalid token")
             return db_user
         except PyJWTError:
-            raise HTTPException(status_code=404, detail="Invalid token")
+            raise HTTPException(status_code=400, detail="Invalid token")
 
     async def get_current_session(self, token: str) -> Optional[User]:
         return await self.verify_user_token(token, [TokenType.ACCESS])

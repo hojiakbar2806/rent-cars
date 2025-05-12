@@ -6,7 +6,7 @@ export async function authMiddleware(req: NextRequest): Promise<NextResponse | v
   const pathname = req.nextUrl.pathname
 
     if (pathname.includes('profile')&& !session_id) {
-      return NextResponse.redirect(new URL(`/login`, req.url))
+      return NextResponse.redirect(new URL(`/login?redirect=${pathname}`, req.url))
     }
 
 

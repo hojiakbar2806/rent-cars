@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/pages/auth/FormInput";
 import SubmitButton from "@/components/pages/auth/SubmitButton";
@@ -11,24 +11,29 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { internalApi } from "@/lib/api";
 import { useSession } from "@/hooks/useSession";
+import { isAxiosError } from "axios";
 
 export default function SignIn() {
   const form = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
 
   const router = useRouter();
   const { setSession } = useSession()
+  const params = useSearchParams()
 
   const onSubmit = async (data: LoginFormData) => {
     await toast.promise(internalApi.post("/api/auth/login", data), {
-      loading: "Aniqlanmoqda...",
+      loading: "Loading...",
       success: (res) => {
         setSession(res.data.session)
         return "Login Success"
       },
-      error: (error) => error.message,
+      error: (error) => {
+        if (isAxiosError(error)) return error.response?.data.error;
+        return "Something went wrong";
+      },
     });
     nProgress.start();
-    router.replace("/");
+    router.replace(params.get("redirect") || "/");
   };
 
   return (

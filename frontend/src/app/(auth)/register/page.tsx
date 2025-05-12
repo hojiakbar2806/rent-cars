@@ -6,6 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/pages/auth/FormInput";
 import SubmitButton from "@/components/pages/auth/SubmitButton";
 import { RegisterFormData, registerSchema } from "@/lib/validations/auth";
+import toast from "react-hot-toast";
+import { internalApi } from "@/lib/api";
+import { useSession } from "@/hooks/useSession";
+import { useRouter } from "next/navigation";
+import { isAxiosError } from "axios";
+import nProgress from "nprogress";
 
 
 export default function SignUp() {
@@ -15,19 +21,24 @@ export default function SignUp() {
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({ resolver: zodResolver(registerSchema) });
 
+  const router = useRouter();
+  const { setSession } = useSession()
+
 
   const onSubmit = async (data: RegisterFormData) => {
-    // await toast.promise(register(data), {
-    //   loading: "Aniqlanmoqda...",
-    //   success: (res) => {
-    //     queryClient.invalidateQueries();
-    //     return res.message
-    //   },
-    //   error: (error) => error.message,
-    // });
-
-    console.log(data)
-
+    await toast.promise(internalApi.post("/api/auth/register", data), {
+      loading: "Loading...",
+      success: (res) => {
+        setSession(res.data.session)
+        return "Register Success"
+      },
+      error: (error) => {
+        if (isAxiosError(error)) return error.response?.data.error;
+        return "Something went wrong";
+      },
+    });
+    nProgress.start();
+    router.replace("/");
   };
 
   return (
