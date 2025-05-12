@@ -25,6 +25,8 @@ export default function SignIn() {
       loading: "Loading...",
       success: (res) => {
         setSession(res.data.session)
+        nProgress.start();
+        router.push(params.get("redirect") || "/");
         return "Login Success"
       },
       error: (error) => {
@@ -32,8 +34,7 @@ export default function SignIn() {
         return "Something went wrong";
       },
     });
-    nProgress.start();
-    router.replace(params.get("redirect") || "/");
+
   };
 
   return (

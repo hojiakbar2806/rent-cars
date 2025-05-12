@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { internalApi } from '../api'
+import { internalApi } from '@/lib/api'
 
 export async function authMiddleware(req: NextRequest): Promise<NextResponse | void> {
   const session_id = req.cookies.get('session_id')?.value
