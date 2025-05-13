@@ -28,7 +28,7 @@ const CarsCard: FC<{ car: CarItem }> = ({ car }) => {
       <div className="w-full flex items-center justify-between">
         <div>
           <h1 className="font-bold text-lg sm:text-xl">{car.name}</h1>
-          <p className="text-slate-400 font-semibold text-sm sm:text-lg">{car.car_type.name}</p>
+          <p className="text-slate-400 font-semibold text-sm sm:text-lg">{car.car_type?.name}</p>
         </div>
         <LikeButton id={car.id} />
       </div>
