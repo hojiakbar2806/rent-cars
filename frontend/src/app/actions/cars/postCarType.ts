@@ -15,6 +15,7 @@ export async function postCarType(carData: NewCarTypeForm) {
 
     revalidateTag("filters");
     revalidatePath("/dashboard/car-type-list");
+    revalidatePath("/dashboard/cars-list/new");
 
     return res.data
 
